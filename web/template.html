@@ -1,0 +1,543 @@
+<title>Tshwane Ward Tracker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one-screen app. Map fills the right; a control/report column on the left (stacks under the map on phones). */
+:root {
+  --ground: #f4f3f6;      /* page */
+  --panel: #fbfafc;       /* control column */
+  --ink: #1d1b22;         /* text */
+  --ink-2: #5e5a68;       /* secondary text */
+  --rule: #dddae3;        /* hairlines */
+  --accent: #6b4fa8;      /* jacaranda: UI accent only, never a party */
+  --accent-soft: #ece6f6;
+  --map-bg: #e9e7ee;      /* behind the 3D wards */
+  --map-base: #d8d4df;    /* zero-support colour */
+  --map-edge: #ffffff;
+  --loss: #5b7fa6;        /* negative change */
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.75rem; --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #131118; --panel: #18161e; --ink: #ece9f2; --ink-2: #a39eae; --rule: #2d2a35;
+  --accent: #b39ae6; --accent-soft: #2a2238; --map-bg: #0f0d13; --map-base: #34303d; --map-edge: #0f0d13;
+  --loss: #7fa3cc; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --ground: #131118; --panel: #18161e; --ink: #ece9f2; --ink-2: #a39eae; --rule: #2d2a35;
+  --accent: #b39ae6; --accent-soft: #2a2238; --map-bg: #0f0d13; --map-base: #34303d; --map-edge: #0f0d13;
+  --loss: #7fa3cc; color-scheme: dark; }
+
+html, body { height: 100%; }
+body { background: var(--ground); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.45; }
+.app { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; height: 100%; }
+.panel { background: var(--panel); border-right: 1px solid var(--rule); overflow-y: auto; min-width: 0;
+  padding-block: 18px 28px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px;
+  display: flex; flex-direction: column; gap: 18px; }
+.mapwrap { position: relative; background: var(--map-bg); min-width: 0; overflow: hidden; }
+#map { position: absolute; inset: 0; }
+
+h1 { font-family: var(--font-display); font-stretch: 80%; font-weight: 800; font-size: var(--step-3); line-height: 1.05;
+  letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.sub { color: var(--ink-2); margin: 4px 0 0; }
+h2 { font-family: var(--font-display); font-stretch: 85%; font-weight: 700; font-size: var(--step-1); margin: 0; }
+.label { font-family: var(--font-display); font-stretch: 85%; font-weight: 600; font-size: var(--step--1); text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--ink-2); margin: 0 0 6px; }
+.group { display: flex; flex-direction: column; gap: 6px; }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+select, input[type="search"] { font: inherit; color: var(--ink); background: var(--ground); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 7px 9px; width: 100%; }
+select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg button, .chip { font: inherit; font-size: var(--step--1); font-weight: 600; color: var(--ink); background: transparent;
+  border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); }
+.seg button:disabled { opacity: .45; cursor: not-allowed; }
+.party-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.slider { display: flex; align-items: center; gap: 8px; }
+.slider input { flex: 1; accent-color: var(--accent); }
+.note { color: var(--ink-2); font-size: var(--step--1); margin: 0; }
+
+.headline { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+.stat { border-top: 2px solid var(--ink); padding-top: 6px; }
+.stat b { display: block; font-family: var(--font-data); font-size: var(--step-2); font-weight: 500; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--ink-2); font-size: var(--step--1); }
+
+.tiers { display: flex; height: 10px; border-radius: 3px; overflow: hidden; background: var(--rule); }
+.tiers i { display: block; height: 100%; }
+.tierkey { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--step--1); color: var(--ink-2); }
+.tierkey span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; background: var(--c); }
+
+.list { display: flex; flex-direction: column; border-top: 1px solid var(--rule); max-height: 340px; overflow-y: auto; }
+.item { display: grid; grid-template-columns: 3.4em 1fr 4.2em; align-items: center; gap: 8px; padding: 5px 2px; border: 0;
+  border-bottom: 1px solid var(--rule); background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.item:hover, .item[aria-current="true"] { background: var(--accent-soft); }
+.item .bar { height: 8px; border-radius: 2px; background: var(--rule); position: relative; overflow: hidden; }
+.item .bar i { position: absolute; inset: 0 auto 0 0; border-radius: 2px; }
+.item .v { text-align: right; }
+.item .n { font-weight: 600; }
+
+.detail { border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--ground); }
+.detail[hidden] { display: none !important; }
+.detail .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.close { font: inherit; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; font-size: var(--step-1); }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: var(--step--1); }
+.kv dt { color: var(--ink-2); } .kv dd { margin: 0; text-align: right; }
+.bars { display: flex; flex-direction: column; gap: 3px; }
+.bars div { display: grid; grid-template-columns: 6.2em 1fr 3.6em; gap: 6px; align-items: center; font-size: var(--step--1); }
+.bars .t { height: 9px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.bars .t i { display: block; height: 100%; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 2px solid var(--c, var(--rule)); color: var(--ink); }
+
+.legend { position: absolute; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--panel); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 8px 10px; font-size: var(--step--1); max-width: min(320px, calc(100% - 24px)); }
+.legend .ramp { height: 10px; border-radius: 2px; margin: 4px 0 2px; }
+.legend .ends { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); }
+.legend .sw { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.mapnote { position: absolute; right: max(12px, env(safe-area-inset-right, 0px)); top: 12px; background: var(--panel); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 6px 10px; font-size: var(--step--1); color: var(--ink-2); max-width: 260px; }
+.mapnote[hidden] { display: none !important; }
+.tip { font-family: var(--font-body); font-size: 12px; line-height: 1.4; }
+.tip b { font-family: var(--font-display); font-size: 13px; }
+details summary { cursor: pointer; font-weight: 600; }
+details p, details li { color: var(--ink-2); font-size: var(--step--1); }
+details ul { padding-left: 18px; margin: 6px 0; }
+.err { padding: 24px; color: var(--ink); }
+
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: 58vh auto; height: auto; }
+  .mapwrap { order: 1; height: 58vh; }
+  .panel { order: 2; border-right: 0; border-top: 1px solid var(--rule); overflow: visible; padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  html, body { height: auto; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="app">
+  <aside class="panel" aria-label="Controls and results">
+    <header>
+      <h1>Tshwane Ward Tracker</h1>
+      <p class="sub">Party support by ward, City of Tshwane local elections. Height and colour show the selected party's share of the vote.</p>
+    </header>
+
+    <div class="group">
+      <p class="label" id="lbl-view">Election and boundaries</p>
+      <select id="view" aria-labelledby="lbl-view"></select>
+      <p class="note" id="viewnote"></p>
+    </div>
+
+    <div class="group">
+      <p class="label">Party</p>
+      <div class="seg" id="parties" role="group" aria-label="Party"></div>
+    </div>
+
+    <div class="row2">
+      <div class="group">
+        <p class="label">Ballot</p>
+        <div class="seg" id="ballot" role="group" aria-label="Ballot">
+          <button type="button" data-v="p" aria-pressed="true" title="Party list ballot: same parties in every ward">PR list</button>
+          <button type="button" data-v="w" aria-pressed="false" title="Ward councillor ballot">Ward</button>
+        </div>
+      </div>
+      <div class="group">
+        <p class="label" id="lbl-colour">Colour by</p>
+        <select id="colour" aria-labelledby="lbl-colour">
+          <option value="share">Party share</option>
+          <option value="tier">Support tier</option>
+          <option value="winner">Winning party</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="label" id="lbl-h">Column height</p>
+      <div class="slider"><input type="range" id="height" min="0" max="3" step="0.1" value="1" aria-labelledby="lbl-h"><span class="num" id="heightv">1.0×</span></div>
+      <div class="slider"><label class="note" style="flex:1"><input type="checkbox" id="labels" checked> Ward numbers</label>
+        <button type="button" class="chip" id="reset">Reset view</button></div>
+    </div>
+
+    <section class="group" aria-live="polite">
+      <h2 id="sumtitle"></h2>
+      <div class="headline" id="headline"></div>
+      <div class="tiers" id="tierbar"></div>
+      <div class="tierkey" id="tierkey"></div>
+    </section>
+
+    <section class="detail" id="detail" hidden aria-live="polite"></section>
+
+    <section class="group">
+      <div class="top" style="display:flex;justify-content:space-between;align-items:baseline">
+        <h2 id="listtitle">Ranking</h2><span class="note" id="listcount"></span>
+      </div>
+      <input type="search" id="search" placeholder="Find ward or voting district number" aria-label="Find ward or voting district number">
+      <div class="list" id="list"></div>
+    </section>
+
+    <details>
+      <summary>About the data</summary>
+      <ul>
+        <li>Results: IEC detailed results files for the 2016 and 2021 local government elections, per voting district. 2026 results appear here once loaded with <code>pipeline/ingest_2026.py</code>.</li>
+        <li>Boundaries: Municipal Demarcation Board wards (2016, 2020 and 2026 sets) and IEC voting districts.</li>
+        <li>"On 2026 wards" views are estimates: older voting-district results are split across the redrawn 2026 wards by area. <span id="cwnote"></span></li>
+        <li>Support tiers use the PR list share: Stronghold ≥ 15%, Solid 5–15%, Marginal 1–5%, Negligible under 1%.</li>
+        <li>A party with no ward candidate gets zero ward-ballot votes. FF+ stood in all 107 wards in 2021 and in 105 in 2016 (not in wards 12 and 21).</li>
+      </ul>
+    </details>
+  </aside>
+
+  <main class="mapwrap">
+    <div id="map" role="img" aria-label="3D map of Tshwane wards"></div>
+    <div class="mapnote" id="mapnote" hidden></div>
+    <div class="legend" id="legend"></div>
+  </main>
+</div>
+
+<script src="https://unpkg.com/deck.gl@9.4.0/dist.min.js"></script>
+<script id="tshwane-data" type="application/json">/*__DATA__*/</script>
+<script>
+(function () {
+"use strict";
+const DATA = JSON.parse(document.getElementById("tshwane-data").textContent);
+const FF = "FF+";
+const PARTY_COLORS = {
+  "FF+": "#f07d00", "DA": "#1f6fc4", "ANC": "#1b8a4b", "EFF": "#c8102e", "ActionSA": "#7cbf3a", "ACDP": "#8d2a6b",
+  "MK": "#a07a1e", "PA": "#e2b600", "COPE": "#c071a8", "BOSA": "#1aa6c9", "Rise Mzansi": "#e05a8a", "Independent": "#6f6a7a"
+};
+const FALLBACK = ["#8c7b6b", "#5f8a8b", "#9a6f9e", "#7a8f4e", "#a3685a", "#5c6fa0"];
+const TIER_COLORS = { Stronghold: "#b84f00", Solid: "#f07d00", Marginal: "#f6b46a", Negligible: null };
+const NARROW = window.matchMedia("(max-width: 760px)").matches;
+const INITIAL = { longitude: 28.24, latitude: -25.66, zoom: NARROW ? 8.3 : 9.2, pitch: NARROW ? 45 : 52, bearing: -12, maxPitch: 75 };
+const MAX_HEIGHT_M = 9000;
+
+const $ = (id) => document.getElementById(id);
+const fmt = (v, d = 1) => (v == null || isNaN(v) ? "–" : v.toFixed(d));
+const fmtInt = (v) => (v == null || isNaN(v) ? "–" : Math.round(v).toLocaleString("en-ZA"));
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+function hexRgb(h) { h = h.replace("#", ""); if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+  const n = parseInt(h, 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+const lerp = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+function partyColor(p) {
+  if (PARTY_COLORS[p]) return PARTY_COLORS[p];
+  const i = DATA.parties.indexOf(p); return FALLBACK[(i < 0 ? 0 : i) % FALLBACK.length];
+}
+
+// ---------- views
+const DS = Object.fromEntries(DATA.datasets.map((d) => [d.key, d]));
+const VIEWS = [];
+for (const d of DATA.datasets) VIEWS.push({ key: d.key, label: d.label, geo: d.geo, cur: d.key, notional: d.notional, group: "Single election" });
+const CHANGES = [
+  { key: "chg_16_21", label: "Change 2016 → 2021 · on 2026 wards", from: "2016_on2026", to: "2021_on2026", geo: "wards_2026", notional: true },
+  { key: "chg_21_26", label: "Change 2021 → 2026 · 2026 wards", from: "2021_on2026", to: "2026_own", geo: "wards_2026", notional: true, needs2026: true },
+  { key: "chg_21_26_vd", label: "Change 2021 → 2026 · same voting districts", from: "2021_vd", to: "2026_vd", geo: "vd_2026", notional: false, needs2026: true },
+];
+for (const c of CHANGES) VIEWS.push({ ...c, cur: c.to, group: "Change", change: true });
+if (!DATA.has2026) {
+  VIEWS.push({ key: "pending_2026", label: "2026 · 2026 wards (after 4 Nov)", disabled: true, group: "Single election" });
+  for (const c of CHANGES.filter((c) => c.needs2026)) VIEWS.find((v) => v.key === c.key).disabled = true;
+}
+const VIEW = Object.fromEntries(VIEWS.map((v) => [v.key, v]));
+
+const state = { view: DS["2021_own"] ? "2021_own" : DATA.datasets[0].key, party: FF, ballot: "p", colour: "share",
+  height: 1, labels: true, selected: null, query: "" };
+try { const s = JSON.parse(localStorage.getItem("tsh-tracker") || "{}");
+  if (s.view && VIEW[s.view] && !VIEW[s.view].disabled) state.view = s.view;
+  if (s.party && DATA.parties.includes(s.party)) state.party = s.party;
+  if (s.ballot === "p" || s.ballot === "w") state.ballot = s.ballot;
+  if (["share", "tier", "winner"].includes(s.colour)) state.colour = s.colour; } catch (e) {}
+function save() { try { localStorage.setItem("tsh-tracker", JSON.stringify({ view: state.view, party: state.party, ballot: state.ballot, colour: state.colour })); } catch (e) {} }
+
+// ---------- geometry helpers
+function ringArea(r) { let a = 0; for (let i = 0, j = r.length - 1; i < r.length; j = i++) a += (r[j][0] + r[i][0]) * (r[j][1] - r[i][1]); return a / 2; }
+function ringCentroid(r) { let x = 0, y = 0, a = 0;
+  for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const f = r[j][0] * r[i][1] - r[i][0] * r[j][1]; x += (r[j][0] + r[i][0]) * f; y += (r[j][1] + r[i][1]) * f; a += f; }
+  return a ? [x / (3 * a), y / (3 * a)] : r[0]; }
+function featureCentroid(g) {
+  const polys = g.type === "Polygon" ? [g.coordinates] : g.type === "MultiPolygon" ? g.coordinates : [];
+  let best = null, ba = -1;
+  for (const p of polys) { const a = Math.abs(ringArea(p[0])); if (a > ba) { ba = a; best = p[0]; } }
+  return best ? ringCentroid(best) : [INITIAL.longitude, INITIAL.latitude];
+}
+for (const [k, fc] of Object.entries(DATA.geos)) for (const f of fc.features) f.properties._c = featureCentroid(f.geometry);
+
+// ---------- numbers
+function votesOf(dsKey, id, ballot) { const u = DS[dsKey] && DS[dsKey].units[id]; return u ? u[ballot] || null : null; }
+function share(v, party) { if (!v) return null; let t = 0; for (const k in v) t += v[k]; return t > 0 ? ((v[party] || 0) / t) * 100 : null; }
+function total(v) { let t = 0; for (const k in v || {}) t += v[k]; return t; }
+function winner(v) { let b = null, bv = -1; for (const k in v || {}) if (v[k] > bv && k !== "Other") { bv = v[k]; b = k; } return b; }
+function tierOf(s) { if (s == null) return null; for (const t of DATA.tiers) if (s >= t.min) return t.label; return DATA.tiers[DATA.tiers.length - 1].label; }
+const isWardGeo = (g) => g.startsWith("wards_");
+const unitName = (v, id, props) => isWardGeo(v.geo) ? `Ward ${id % 1000}` : `VD ${id}`;
+
+function metric(v, id) {
+  const cur = share(votesOf(v.cur, id, state.ballot), state.party);
+  if (!v.change) return { value: cur, cur };
+  const prev = share(votesOf(v.from, id, state.ballot), state.party);
+  return { value: cur != null && prev != null ? cur - prev : null, cur, prev };
+}
+
+function computeRows() {
+  const v = VIEW[state.view];
+  const fc = DATA.geos[v.geo];
+  return fc.features.map((f) => { const id = f.properties.id; const m = metric(v, id);
+    return { id, f, ...m, win: winner(votesOf(v.cur, id, state.ballot)) }; });
+}
+
+// ---------- colours
+let theme = {};
+function readTheme() { theme = { base: hexRgb(css("--map-base")), edge: hexRgb(css("--map-edge")), loss: hexRgb(css("--loss")),
+  dark: getComputedStyle(document.documentElement).colorScheme.includes("dark") }; }
+function colourFor(row, maxAbs) {
+  const v = VIEW[state.view];
+  if (row.value == null) return [...theme.base, 90];
+  if (v.change) {
+    const t = Math.min(1, Math.abs(row.value) / (maxAbs || 1)) ** 0.75;
+    return [...lerp(theme.base, row.value >= 0 ? hexRgb(partyColor(state.party)) : theme.loss, t), 235];
+  }
+  if (state.colour === "winner") return [...hexRgb(partyColor(row.win || "Other")), 235];
+  if (state.colour === "tier") { const t = tierOf(row.value); const c = TIER_COLORS[t]; return c ? [...hexRgb(c), 235] : [...theme.base, 235]; }
+  const t = Math.min(1, row.value / (maxAbs || 1)) ** 0.8;
+  return [...lerp(theme.base, hexRgb(partyColor(state.party)), t), 235];
+}
+
+// ---------- deck
+let deckgl = null, rows = [], maxAbs = 1;
+function heightFor(row) {
+  const v = VIEW[state.view];
+  if (row.value == null) return 0;
+  const val = v.change ? Math.max(0, row.value) : row.value;
+  return (val / (maxAbs || 1)) * MAX_HEIGHT_M * state.height;
+}
+function layers() {
+  const v = VIEW[state.view];
+  const byId = new Map(rows.map((r) => [r.f, r]));
+  const trig = [state.view, state.party, state.ballot, state.colour, state.height, theme.dark, maxAbs];
+  const L = [
+    new deck.GeoJsonLayer({ id: "units", data: DATA.geos[v.geo], extruded: true, wireframe: true, filled: true, pickable: true,
+      autoHighlight: true, highlightColor: [255, 255, 255, 70],
+      getFillColor: (f) => colourFor(byId.get(f), maxAbs), getElevation: (f) => heightFor(byId.get(f)),
+      getLineColor: [...theme.edge, 160], material: { ambient: 0.55, diffuse: 0.55, shininess: 12, specularColor: [40, 40, 40] },
+      updateTriggers: { getFillColor: trig, getElevation: trig }, transitions: { getElevation: 450 } }),
+  ];
+  if (state.selected != null) {
+    const sel = DATA.geos[v.geo].features.filter((f) => f.properties.id === state.selected);
+    L.push(new deck.GeoJsonLayer({ id: "sel", data: sel, filled: false, stroked: true, lineWidthMinPixels: 3,
+      getLineColor: hexRgb(css("--accent")), updateTriggers: { getLineColor: [theme.dark] } }));
+  }
+  if (state.labels && isWardGeo(v.geo)) {
+    L.push(new deck.TextLayer({ id: "labels", data: rows, getText: (r) => String(r.id % 1000),
+      getPosition: (r) => [...r.f.properties._c, heightFor(r) + 120], getSize: 11, sizeUnits: "pixels",
+      getColor: theme.dark ? [236, 233, 242, 230] : [29, 27, 34, 230], fontFamily: "IBM Plex Mono, monospace",
+      outlineWidth: 2, outlineColor: theme.dark ? [15, 13, 19, 200] : [255, 255, 255, 220], fontSettings: { sdf: true },
+      updateTriggers: { getPosition: trig, getColor: [theme.dark], outlineColor: [theme.dark] } }));
+  }
+  return L;
+}
+function tooltip(info) {
+  if (!info.object || !info.object.properties) return null;
+  const v = VIEW[state.view], id = info.object.properties.id, r = rows.find((x) => x.id === id);
+  if (!r) return null;
+  const name = unitName(v, id, info.object.properties);
+  const ext = info.object.properties.name ? `<br><span>${escapeHtml(info.object.properties.name)}</span>` : "";
+  let body;
+  if (v.change) body = `${state.party}: ${fmt(r.prev)}% → ${fmt(r.cur)}% <b>(${r.value == null ? "–" : (r.value >= 0 ? "+" : "") + fmt(r.value)} pts)</b>`;
+  else body = `${state.party}: <b>${fmt(r.value)}%</b> · winner ${r.win || "–"}`;
+  return { html: `<div class="tip"><b>${name}</b>${ext}<br>${body}</div>`,
+    style: { background: css("--panel"), color: css("--ink"), border: `1px solid ${css("--rule")}`, borderRadius: "6px", padding: "6px 8px" } };
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+function initDeck() {
+  const lighting = new deck.LightingEffect({
+    ambient: new deck.AmbientLight({ color: [255, 255, 255], intensity: 1.0 }),
+    sun: new deck.DirectionalLight({ color: [255, 255, 255], intensity: 1.6, direction: [-3, -9, -4] }) });
+  deckgl = new deck.Deck({ parent: $("map"), initialViewState: INITIAL, controller: { touchRotate: true, inertia: true },
+    effects: [lighting], layers: [], getTooltip: tooltip,
+    onClick: (info) => { if (info.object && info.object.properties) select(info.object.properties.id, false); },
+    getCursor: ({ isHovering, isDragging }) => (isDragging ? "grabbing" : isHovering ? "pointer" : "grab") });
+}
+function flyTo(id) {
+  const f = DATA.geos[VIEW[state.view].geo].features.find((x) => x.properties.id === id); if (!f) return;
+  const [lng, lat] = f.properties._c;
+  deckgl.setProps({ initialViewState: { ...INITIAL, longitude: lng, latitude: lat, zoom: isWardGeo(VIEW[state.view].geo) ? 11.6 : 12.6,
+    pitch: 50, transitionDuration: 900, transitionInterpolator: new deck.FlyToInterpolator() } });
+}
+
+// ---------- panel
+function buildControls() {
+  const sel = $("view"); sel.innerHTML = "";
+  for (const group of ["Single election", "Change"]) {
+    const og = document.createElement("optgroup"); og.label = group;
+    for (const v of VIEWS.filter((x) => x.group === group)) {
+      const o = document.createElement("option"); o.value = v.key; o.textContent = v.label; o.disabled = !!v.disabled; og.appendChild(o);
+    }
+    sel.appendChild(og);
+  }
+  sel.value = state.view;
+  sel.onchange = () => { state.view = sel.value; state.selected = null; update(); };
+  const ps = $("parties"); ps.innerHTML = "";
+  for (const p of DATA.parties.filter((p) => p !== "Other").slice(0, 12)) {
+    const b = document.createElement("button"); b.type = "button"; b.dataset.v = p;
+    b.innerHTML = `<span class="party-dot" style="background:${partyColor(p)}"></span>${escapeHtml(p)}`;
+    b.onclick = () => { state.party = p; update(); }; ps.appendChild(b);
+  }
+  for (const b of $("ballot").querySelectorAll("button")) b.onclick = () => { state.ballot = b.dataset.v; update(); };
+  $("colour").onchange = (e) => { state.colour = e.target.value; update(); };
+  $("height").oninput = (e) => { state.height = +e.target.value; $("heightv").textContent = state.height.toFixed(1) + "×"; render(); };
+  $("labels").onchange = (e) => { state.labels = e.target.checked; render(); };
+  $("reset").onclick = () => deckgl.setProps({ initialViewState: { ...INITIAL, transitionDuration: 700, transitionInterpolator: new deck.FlyToInterpolator() } });
+  $("search").oninput = (e) => { state.query = e.target.value.trim(); renderList(); };
+  const cw = DATA.notes && DATA.notes.crosswalk_clean_pct;
+  if (cw && cw["2021"] != null) $("cwnote").textContent = `${cw["2021"]}% of 2021 votes come from voting districts that sit almost entirely (95%+) inside one 2026 ward.`;
+}
+
+function aggregateShare(dsKey, ballot, party) {
+  const ds = DS[dsKey]; if (!ds) return null; let p = 0, t = 0;
+  for (const id in ds.units) { const v = ds.units[id][ballot]; if (!v) continue; t += total(v); p += v[party] || 0; }
+  return t ? { share: (p / t) * 100, votes: p, total: t } : null;
+}
+
+function renderSummary() {
+  const v = VIEW[state.view];
+  const noun = isWardGeo(v.geo) ? "wards" : "voting districts";
+  $("sumtitle").textContent = `${state.party} · ${v.label}`;
+  const cur = aggregateShare(v.cur, state.ballot, state.party);
+  let h = "";
+  if (v.change) {
+    const prev = aggregateShare(v.from, state.ballot, state.party);
+    const up = rows.filter((r) => r.value != null && r.value > 0).length, n = rows.filter((r) => r.value != null).length;
+    h += `<div class="stat"><b>${prev && cur ? (cur.share - prev.share >= 0 ? "+" : "") + fmt(cur.share - prev.share) : "–"}</b><span>points city-wide (${fmt(prev && prev.share)}% → ${fmt(cur && cur.share)}%)</span></div>`;
+    h += `<div class="stat"><b>${up} / ${n}</b><span>${noun} where ${state.party} grew</span></div>`;
+  } else {
+    h += `<div class="stat"><b>${fmt(cur && cur.share, 2)}%</b><span>city-wide share, ${state.ballot === "p" ? "PR list" : "ward ballot"}</span></div>`;
+    h += `<div class="stat"><b>${fmtInt(cur && cur.votes)}</b><span>${v.notional ? "votes (estimated split)" : "votes"}</span></div>`;
+  }
+  $("headline").innerHTML = h;
+  // tiers (on current election share)
+  const counts = {}; for (const t of DATA.tiers) counts[t.label] = 0;
+  for (const r of rows) { const t = tierOf(r.cur); if (t) counts[t]++; }
+  const n = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+  $("tierbar").innerHTML = DATA.tiers.map((t) => `<i style="width:${(counts[t.label] / n) * 100}%;background:${TIER_COLORS[t.label] || css("--map-base")}" title="${t.label}: ${counts[t.label]}"></i>`).join("");
+  $("tierkey").innerHTML = DATA.tiers.map((t, i) => {
+    const range = i === 0 ? `≥${t.min}%` : i === DATA.tiers.length - 1 ? `<${DATA.tiers[i - 1].min}%` : `${t.min}–${DATA.tiers[i - 1].min}%`;
+    return `<span style="--c:${TIER_COLORS[t.label] || css("--map-base")}">${t.label} ${range}: <b class="num">${counts[t.label]}</b></span>`; }).join("");
+}
+
+function renderList() {
+  const v = VIEW[state.view];
+  $("listtitle").textContent = v.change ? `Biggest change, ${state.party}` : `${state.party} share by ${isWardGeo(v.geo) ? "ward" : "voting district"}`;
+  let list = rows.filter((r) => r.value != null).sort((a, b) => b.value - a.value);
+  const q = state.query;
+  if (q) list = list.filter((r) => String(r.id % 1000) === q || String(r.id).includes(q));
+  $("listcount").textContent = `${list.length} shown`;
+  const max = Math.max(...list.map((r) => Math.abs(r.value)), 0.0001);
+  const col = partyColor(state.party), loss = css("--loss");
+  $("list").innerHTML = list.slice(0, 400).map((r) => {
+    const w = (Math.abs(r.value) / max) * 100;
+    const val = v.change ? (r.value >= 0 ? "+" : "") + fmt(r.value) : fmt(r.value) + "%";
+    const nm = isWardGeo(v.geo) ? `W${r.id % 1000}` : String(r.id);
+    return `<button type="button" class="item" data-id="${r.id}" aria-current="${r.id === state.selected}">
+      <span class="n num">${nm}</span><span class="bar"><i style="width:${w}%;background:${r.value < 0 ? loss : col}"></i></span><span class="v num">${val}</span></button>`;
+  }).join("") || `<p class="note" style="padding:8px 2px">No match. Type a ward number (1–107) or a voting district number.</p>`;
+  for (const b of $("list").querySelectorAll(".item")) b.onclick = () => select(+b.dataset.id, true);
+}
+
+function partyBars(v) {
+  if (!v) return `<p class="note">No results.</p>`;
+  const t = total(v); const items = Object.entries(v).sort((a, b) => b[1] - a[1]);
+  const top = items.filter(([p]) => p !== "Other").slice(0, 7);
+  const rest = t - top.reduce((a, [, x]) => a + x, 0);
+  if (rest > 0.5) top.push(["Other", rest]);
+  return `<div class="bars">${top.map(([p, x]) => `<div><span>${escapeHtml(p)}</span><span class="t"><i style="width:${(x / t) * 100}%;background:${partyColor(p)}"></i></span><span class="num" style="text-align:right">${fmt((x / t) * 100)}%</span></div>`).join("")}</div>`;
+}
+
+function renderDetail() {
+  const el = $("detail");
+  if (state.selected == null) { el.hidden = true; return; }
+  const v = VIEW[state.view], id = state.selected;
+  const u = DS[v.cur] && DS[v.cur].units[id];
+  const f = DATA.geos[v.geo].features.find((x) => x.properties.id === id);
+  const sub = f && f.properties.name ? `<p class="note">${escapeHtml(f.properties.name)} · ward ${f.properties.ward_id % 1000}</p>` : "";
+  const r = rows.find((x) => x.id === id) || {};
+  const tier = tierOf(r.cur);
+  let h = `<div class="top"><h2>${unitName(v, id, f && f.properties)}</h2><button type="button" class="close" id="closedet" aria-label="Close">×</button></div>${sub}`;
+  h += `<dl class="kv">`;
+  h += `<dt>${state.party} share (${state.ballot === "p" ? "PR list" : "ward ballot"})</dt><dd class="num">${fmt(r.cur)}%</dd>`;
+  if (v.change) h += `<dt>Before</dt><dd class="num">${fmt(r.prev)}%</dd><dt>Change</dt><dd class="num">${r.value == null ? "–" : (r.value >= 0 ? "+" : "") + fmt(r.value)} pts</dd>`;
+  if (tier) h += `<dt>Support tier</dt><dd><span class="pill" style="--c:${TIER_COLORS[tier] || "var(--rule)"}">${tier}</span></dd>`;
+  if (u) {
+    h += `<dt>Registered voters</dt><dd class="num">${fmtInt(u.reg)}${DS[v.cur].notional ? " (est.)" : ""}</dd>`;
+    h += `<dt>Turnout</dt><dd class="num">${fmt(u.to)}%</dd>`;
+    if (!DS[v.cur].notional && u.st != null) h += `<dt>FF+ ward candidate</dt><dd>${u.st ? "Yes" : "No"}</dd>`;
+  }
+  h += `</dl>`;
+  if (v.geo === "wards_2026") {
+    const hist = [["2016 (est.)", "2016_on2026"], ["2021 (est.)", "2021_on2026"], ["2026", "2026_own"]].filter(([, k]) => DS[k]);
+    h += `<p class="label">${state.party} on this 2026 ward</p><div class="bars">${hist.map(([lab, k]) => { const s = share(votesOf(k, id, state.ballot), state.party);
+      return `<div><span>${lab}</span><span class="t"><i style="width:${Math.min(100, s || 0)}%;background:${partyColor(state.party)}"></i></span><span class="num" style="text-align:right">${fmt(s)}%</span></div>`; }).join("")}</div>`;
+  }
+  h += `<p class="label">PR list ballot</p>${partyBars(u && u.p)}`;
+  h += `<p class="label">Ward ballot</p>${partyBars(u && u.w)}`;
+  el.innerHTML = h; el.hidden = false;
+  $("closedet").onclick = () => { state.selected = null; render(); renderList(); renderDetail(); };
+}
+
+function renderLegend() {
+  const v = VIEW[state.view], el = $("legend");
+  const base = css("--map-base"), col = partyColor(state.party);
+  if (v.change) {
+    el.innerHTML = `<b>${state.party}: change in share</b><div class="ramp" style="background:linear-gradient(90deg, ${css("--loss")}, ${base}, ${col})"></div>
+      <div class="ends num"><span>−${fmt(maxAbs)} pts</span><span>0</span><span>+${fmt(maxAbs)} pts</span></div><span class="note">Height shows gains only.</span>`;
+  } else if (state.colour === "winner") {
+    const wins = {}; for (const r of rows) if (r.win) wins[r.win] = (wins[r.win] || 0) + 1;
+    el.innerHTML = `<b>Winning party</b> <span class="note">· height: ${state.party} share</span><div class="sw" style="margin-top:4px">${Object.entries(wins).sort((a, b) => b[1] - a[1]).map(([p, n]) => `<span><span class="party-dot" style="background:${partyColor(p)}"></span>${escapeHtml(p)} <span class="num">${n}</span></span>`).join("")}</div>`;
+  } else if (state.colour === "tier") {
+    el.innerHTML = `<b>${state.party} support tier</b><div class="sw" style="margin-top:4px">${DATA.tiers.map((t) => `<span><span class="party-dot" style="background:${TIER_COLORS[t.label] || base}"></span>${t.label}</span>`).join("")}</div>`;
+  } else {
+    el.innerHTML = `<b>${state.party} share of the vote</b><div class="ramp" style="background:linear-gradient(90deg, ${base}, ${col})"></div>
+      <div class="ends num"><span>0%</span><span>${fmt(maxAbs)}%</span></div><span class="note">Tallest column = ${fmt(maxAbs)}%</span>`;
+  }
+  const mn = $("mapnote");
+  if (v.notional) { mn.hidden = false; mn.textContent = "Estimated: older results split across the redrawn 2026 wards by area."; }
+  else mn.hidden = true;
+}
+
+function render() {
+  if (!deckgl) return;
+  deckgl.setProps({ layers: layers() });
+}
+function update() {
+  save();
+  const v = VIEW[state.view];
+  rows = computeRows();
+  const vals = rows.map((r) => r.value).filter((x) => x != null);
+  maxAbs = v.change ? Math.max(0.5, ...vals.map(Math.abs)) : Math.max(0.5, ...vals);
+  $("view").value = state.view;
+  for (const b of $("parties").querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.party));
+  for (const b of $("ballot").querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.ballot));
+  $("colour").value = state.colour; $("colour").disabled = !!v.change;
+  $("viewnote").textContent = v.change ? "Height shows growth. Colour shows gain or loss in percentage points." :
+    v.notional ? "Estimate on the new 2026 boundaries, for comparing with 2026 results." :
+    v.geo.startsWith("vd_") ? "Voting districts: the smallest unit the IEC reports." : "Official results on the boundaries used in that election.";
+  render(); renderSummary(); renderList(); renderDetail(); renderLegend();
+}
+function select(id, fly) { state.selected = id; render(); renderList(); renderDetail(); if (fly) flyTo(id);
+  const it = $("list").querySelector(`[data-id="${id}"]`); if (it && !fly) it.scrollIntoView({ block: "nearest" }); }
+
+function start() {
+  if (!window.deck) { document.querySelector(".mapwrap").innerHTML = `<p class="err">The 3D map library did not load. Check the internet connection and reload.</p>`; }
+  readTheme(); buildControls();
+  if (window.deck) initDeck();
+  update();
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const re = () => { readTheme(); update(); };
+  mq.addEventListener && mq.addEventListener("change", re);
+  new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+}
+start();
+})();
+</script>
