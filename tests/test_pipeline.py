@@ -67,6 +67,19 @@ def test_ward_vote_table_groups(baseline):
     assert (t[party_cols].sum(axis=1) == t["valid_votes"]).all()
 
 
+def test_ffplus_candidates_2026(baseline):
+    c = pd.read_csv(REPO / "data/tshwane/candidates_2026.csv")
+    assert "_id" not in c.columns and not c.astype(str).apply(lambda s: s.str.contains(r"\*{4}")).any().any()
+    w, pr = c[c["list"] == "Ward"], c[c["list"] == "PR"]
+    assert sorted(w["ward_no"]) == list(range(1, 108))
+    assert sorted(pr["pr_position"]) == list(range(1, 84))
+    assert w["person"].nunique() == 70
+    by_ward = pd.read_csv(baseline / "outputs/ffplus_candidates_2026_by_ward.csv")
+    assert by_ward.set_index("ward_no").loc[46, "ffp_candidate"] == "Willie Durand Spies"
+    assert by_ward.set_index("ward_no").loc[46, "candidate_pr_position"] == 1
+    assert set(by_ward[by_ward["candidate_pr_position"].isna()]["ffp_candidate"]) == {"Jacob Johannes Jacobus Trollip", "Johanna Taylor"}
+
+
 def test_2016_no_candidate_wards(baseline):
     nc = pd.read_csv(baseline / "outputs/ffplus_no_ward_candidate.csv")
     assert set(nc.query("year==2016")["ward_no"]) == {12, 21}

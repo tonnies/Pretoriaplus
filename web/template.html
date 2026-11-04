@@ -142,9 +142,10 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
     <nav class="tabs" aria-label="Pages">
       <a href="#map" id="tab-map">Map</a>
       <a href="#wards" id="tab-wards">Ward table</a>
+      <a href="#candidates" id="tab-candidates">Candidates</a>
     </nav>
     <div class="controls">
-      <label class="ctl"><span class="label">Election</span><select id="view"></select></label>
+      <label class="ctl" id="viewctl"><span class="label">Election</span><select id="view"></select></label>
       <div class="ctl" id="partyctl"><span class="label">Party</span><div class="seg" id="parties" role="group" aria-label="Party"></div></div>
     </div>
   </header>
@@ -166,7 +167,7 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
     </div>
     <div class="tiersum" id="tiersum"></div>
     <div class="tablebar">
-      <input type="search" id="tsearch" placeholder="Filter by ward number or area" aria-label="Filter by ward number or area">
+      <input type="search" id="tsearch" placeholder="Filter by ward, area or candidate" aria-label="Filter by ward number, area or candidate">
       <span class="note">Party-list (PR) votes. Click a column to sort, a row to see the ward on the map.</span>
     </div>
     <div class="scroll"><table class="wards" id="wtable"></table></div>
@@ -181,6 +182,8 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
       </ul>
     </details>
   </section>
+
+  <section class="page tablepage" id="page-candidates" aria-label="FF+ candidates 2026" hidden></section>
 </div>
 
 <script id="tshwane-data" type="application/json">/*__DATA__*/</script>
@@ -214,8 +217,12 @@ const VIEWS = DATA.datasets.map((d) => ({ key: d.key, label: d.label, cur: d.key
 if (DATA.has2026) VIEWS.push({ key: "chg", label: "Change 2021 → 2026", cur: "2026_own", prev: "2021_on2026", geo: "wards_2026", change: true });
 else VIEWS.push({ key: "pending", label: "2026 election (once results are loaded)", disabled: true });
 const VIEW = Object.fromEntries(VIEWS.map((v) => [v.key, v]));
+// FF+ 2026 candidates belong to the 2026 ward map
+const CAND = DATA.candidates || null;
+const candFor = (v, id) => (CAND && v.geo === "wards_2026" ? CAND.ward[id] || null : null);
+const candText = (c) => c ? `${c.n}${c.pr ? ` (list #${c.pr})` : ""}` : "";
 
-const state = { page: "map", view: DATA.has2026 ? "2026_own" : "2021_own", party: FF, colour: "tier", selected: null,
+const state = { page: "map", view: DATA.has2026 ? "2026_own" : "2021_on2026", party: FF, colour: "tier", selected: null,
   sort: { key: "ff", dir: -1 }, filter: "" };
 try { const s = JSON.parse(localStorage.getItem("tsh-tracker-2") || "{}");
   if (s.view && VIEW[s.view] && !VIEW[s.view].disabled) state.view = s.view;
@@ -333,7 +340,8 @@ function hover(e) {
   const p = state.party, n = votes(v.cur, id, p), s = share(v.cur, id, p);
   let line = `${esc(p)}: <span class="num">${fmtInt(n)}</span> votes (${fmt(s)}%)`;
   if (v.change) line = `${esc(p)}: ${fmtInt(votes(v.prev, id, p))} → ${fmtInt(n)} votes (${signed(s - share(v.prev, id, p))} pts)`;
-  tip.innerHTML = `<b>Ward ${wardNo(id)}</b><br>${esc(f.properties.name)}<br>${line}`;
+  const c = candFor(v, id);
+  tip.innerHTML = `<b>Ward ${wardNo(id)}</b><br>${esc(f.properties.name)}<br>${line}${c ? `<br>FF+ candidate: ${esc(c.n)}` : ""}`;
   const r = $("mapwrap").getBoundingClientRect();
   tip.hidden = false;
   const x = Math.min(e.clientX - r.left + 14, r.width - tip.offsetWidth - 6), y = Math.min(e.clientY - r.top + 14, r.height - tip.offsetHeight - 6);
@@ -390,6 +398,10 @@ function renderSide() {
   h += `<div class="stats"><div class="stat"><b>${fmtInt(n)}</b><span>FF+ votes${v.est ? " (estimate)" : ""}</span></div><div class="stat"><b>${fmt(s)}%</b><span>FF+ share</span></div></div>`;
   h += `<dl class="kv">`;
   if (t) h += `<dt>FF+ support group (${tierBasis(v)})</dt><dd><span class="pill" style="--c:${tierColor(t)}">${t}</span></dd>`;
+  const c = candFor(v, id);
+  if (c) h += `<dt>FF+ ward candidate 2026</dt><dd><b>${esc(c.n)}</b></dd><dt>On the FF+ party list</dt><dd>${c.pr ? "#" + c.pr : "No"}</dd>` +
+    (c.k > 1 ? `<dt>Also stands in</dt><dd>wards ${esc(c.o)}</dd>` : "");
+  else if (CAND && v.geo !== "wards_2026") h += `<dt>FF+ candidates 2026</dt><dd>see the 2026 ward map</dd>`;
   if (v.change) h += `<dt>FF+ 2021 (estimate)</dt><dd class="num">${fmtInt(votes(v.prev, id, FF))} · ${fmt(share(v.prev, id, FF))}%</dd><dt>Change</dt><dd class="num">${signedInt(n - votes(v.prev, id, FF))} votes · ${signed(s - share(v.prev, id, FF))} pts</dd>`;
   if (u) { h += `<dt>Registered voters</dt><dd class="num">${fmtInt(u.reg)}</dd><dt>Turnout</dt><dd class="num">${fmt(u.to)}%</dd><dt>Winner (PR)</dt><dd>${esc(winner(u.p) || "–")}</dd>`;
     if (!v.est && u.st != null) h += `<dt>FF+ ward candidate</dt><dd>${u.st ? "Yes" : "No"}</dd>`; }
@@ -408,7 +420,8 @@ function tableData() {
   const cols = TABLE_PARTIES.filter((p) => ct.p[p] && ct.p[p] / ct.t >= 0.003);
   const rows = features(v).map((f) => {
     const id = f.properties.id, u = unit(cur, id) || {}, pv = u.p || {}, t = total(pv);
-    const r = { id, ward: wardNo(id), area: f.properties.name, tier: tierFor(state.view, id), reg: u.reg, to: u.to, valid: t,
+    const c = candFor(v, id);
+    const r = { id, ward: wardNo(id), area: f.properties.name, cand: c ? candText(c) : "", tier: tierFor(state.view, id), reg: u.reg, to: u.to, valid: t,
       ff: pv[FF] || 0, ffs: t ? ((pv[FF] || 0) / t) * 100 : null, win: winner(pv) };
     for (const p of cols) r["p:" + p] = pv[p] || 0;
     r.other = t - cols.reduce((a, p) => a + (pv[p] || 0), 0);
@@ -422,11 +435,12 @@ function renderTable() {
   $("tnote").textContent = (v.est ? "Estimate on the 2026 ward map. " : "") +
     `Groups use the FF+ share in ${tierBasis(v)}${v.cur === "2026_own" ? " (estimated on the 2026 wards)" : ""}.`;
   const q = state.filter.toLowerCase();
-  const shown = rows.filter((r) => !q || String(r.ward) === q || (r.area || "").toLowerCase().includes(q));
+  const shown = rows.filter((r) => !q || String(r.ward) === q || (r.area || "").toLowerCase().includes(q) || (r.cand || "").toLowerCase().includes(q));
   const { key, dir } = state.sort;
-  const val = (r) => (key === "area" ? (r.area || "") : r[key] ?? -Infinity);
+  const val = (r) => (key === "area" || key === "cand" || key === "win" ? (r[key] || "") : r[key] ?? -Infinity);
   shown.sort((a, b) => { const x = val(a), y = val(b); return (typeof x === "string" ? x.localeCompare(y) : x - y) * dir || a.ward - b.ward; });
-  const head = [["ward", "Ward", "l"], ["area", "Area", "l"], ["reg", "Registered"], ["to", "Turnout %"], ["valid", "Valid votes"],
+  const withCand = CAND && v.geo === "wards_2026";
+  const head = [["ward", "Ward", "l"], ["area", "Area", "l"], ...(withCand ? [["cand", "FF+ candidate 2026", "l"]] : []), ["reg", "Registered"], ["to", "Turnout %"], ["valid", "Valid votes"],
     ...(prev ? [["ff0", "FF+ 2021 est."]] : []), ["ff", prev ? "FF+ 2026" : "FF+", "ff"], ...(prev ? [["dff", "FF+ change"]] : []), ["ffs", "FF+ %", "ff"],
     ...cols.filter((p) => p !== FF).map((p) => ["p:" + p, p]), ["other", "Other"], ["win", "Winner", "l"]];
   const sumRow = (list) => { const s = { reg: 0, valid: 0, ff: 0, other: 0, ff0: 0, dff: 0, cast: 0 };
@@ -436,6 +450,7 @@ function renderTable() {
   const cell = (k, r, isSum) => {
     if (k === "ward") return `<td class="l num">${isSum ? "" : r.ward}</td>`;
     if (k === "area") return `<td class="l area">${isSum ? esc(isSum) : esc(r.area)}</td>`;
+    if (k === "cand") return `<td class="l">${isSum ? "" : esc(r.cand)}</td>`;
     if (k === "win") return `<td class="l">${isSum ? "" : `<span class="dot" style="background:${partyColor(r.win)}"></span>${esc(r.win || "–")}`}</td>`;
     if (k === "to") return `<td class="num">${fmt(r.to)}</td>`;
     if (k === "ffs") return `<td class="num ff">${fmt(r.ffs)}</td>`;
@@ -453,12 +468,46 @@ function renderTable() {
   else body = `<tr><td colspan="${head.length}" class="l">No ward matches “${esc(state.filter)}”.</td></tr>`;
   $("wtable").innerHTML = `<thead><tr>${head.map(([k, lab, c]) => `<th class="${c || ""}" data-k="${k}" aria-sort="${state.sort.key === k ? (state.sort.dir < 0 ? "descending" : "ascending") : "none"}">${esc(lab)}</th>`).join("")}</tr></thead><tbody>${body}</tbody>`;
   for (const th of $("wtable").querySelectorAll("th")) th.onclick = () => { const k = th.dataset.k;
-    state.sort = { key: k, dir: state.sort.key === k ? -state.sort.dir : (["ward", "area", "win"].includes(k) ? 1 : -1) }; renderTable(); };
+    state.sort = { key: k, dir: state.sort.key === k ? -state.sort.dir : (["ward", "area", "win", "cand"].includes(k) ? 1 : -1) }; renderTable(); };
   for (const tr of $("wtable").querySelectorAll("tr.w")) { const go = () => { state.selected = +tr.dataset.id; location.hash = "map"; };
     tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
   // tier summary cards
   $("tiersum").innerHTML = DATA.tiers.map((t) => { const list = rows.filter((r) => r.tier === t.label); const s = sumRow(list);
     return `<div style="--c:${tierColor(t.label)}"><b>${t.label}</b><span class="big">${fmtInt(s.ff)}</span><span>FF+ votes in ${list.length} wards (${fmt(s.ffs)}%)</span><span>${fmtInt(s.reg)} registered voters</span></div>`; }).join("");
+}
+
+// ---------- candidates page
+function renderCandidates() {
+  const el = $("page-candidates");
+  if (!CAND) { el.innerHTML = `<h2>FF+ candidates 2026</h2><p class="note">No candidate list loaded. Run <code>pipeline/candidates.py</code> on the IEC list.</p>`; return; }
+  const v = { geo: "wards_2026" }, base = "2021_on2026";
+  const rows = DATA.geos.wards_2026.features.map((f) => { const id = f.properties.id, c = CAND.ward[id];
+    return { id, ward: wardNo(id), area: f.properties.name, c, tier: tierOf(share(base, id, FF)), ff: votes(base, id, FF), ffs: share(base, id, FF) }; });
+  const q = (state.cfilter || "").toLowerCase();
+  const match = (r) => !q || String(r.ward) === q || (r.area || "").toLowerCase().includes(q) || (r.c && r.c.n.toLowerCase().includes(q));
+  let h = `<div><h2>FF+ candidates, 2026 election</h2><p class="note">Ward candidates on the 2026 wards, grouped by FF+ support in 2021 (estimated on the 2026 wards). Source: IEC certified candidate list, 23 Oct 2026.</p></div>`;
+  h += `<div class="tiersum">${DATA.tiers.map((t) => { const list = rows.filter((r) => r.tier === t.label);
+    const people = new Set(list.filter((r) => r.c).map((r) => r.c.n)).size, multi = list.filter((r) => r.c && r.c.k > 1).length;
+    return `<div style="--c:${tierColor(t.label)}"><b>${t.label}</b><span class="big">${list.length} wards</span><span>${people} different candidates</span><span>${multi} ${multi === 1 ? "ward shares its" : "wards share their"} candidate with other wards</span></div>`; }).join("")}</div>`;
+  h += `<div class="tablebar"><input type="search" id="csearch" placeholder="Filter by ward, area or name" aria-label="Filter candidates" value="${esc(state.cfilter || "")}"><span class="note">Tap a row to see the ward on the map.</span></div>`;
+  let body = "";
+  for (const t of DATA.tiers) {
+    const list = rows.filter((r) => r.tier === t.label && match(r)).sort((a, b) => a.ward - b.ward); if (!list.length) continue;
+    body += `<tr class="grp" style="--c:${tierColor(t.label)}"><td colspan="7">${t.label} <span class="num">${list.length} wards</span></td></tr>`;
+    body += list.map((r) => `<tr class="w" data-id="${r.id}" tabindex="0"><td class="l num">${r.ward}</td><td class="l area">${esc(r.area)}</td><td class="l"><b>${esc(r.c ? r.c.n : "–")}</b></td>
+      <td class="num">${r.c && r.c.pr ? "#" + r.c.pr : "–"}</td><td class="l">${r.c && r.c.k > 1 ? "wards " + esc(r.c.o) : ""}</td><td class="num ff">${fmtInt(r.ff)}</td><td class="num ff">${fmt(r.ffs)}</td></tr>`).join("");
+  }
+  h += `<h2>Ward candidates</h2><div class="scroll"><table class="wards"><thead><tr><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th><th>List #</th><th class="l">Also stands in</th><th class="ff">FF+ votes 2021 (est.)</th><th class="ff">FF+ % 2021</th></tr></thead><tbody>${body || `<tr><td colspan="7" class="l">No match.</td></tr>`}</tbody></table></div>`;
+  const pr = CAND.pr.filter(([pos, n, w]) => !q || n.toLowerCase().includes(q) || String(pos) === q || (w || "").split(", ").includes(q));
+  h += `<h2>Party list (PR)</h2><p class="note">The order in which FF+ fills its proportional seats on council.</p>`;
+  h += `<div class="scroll"><table class="wards"><thead><tr><th>#</th><th class="l">Name</th><th class="l">Ward candidate in</th><th class="l">Ward support group (2021)</th></tr></thead><tbody>${pr.map(([pos, n, w]) => {
+    const ws = (w || "").split(", ").filter(Boolean).map(Number);
+    const tiers = [...new Set(ws.map((x) => tierOf(share(base, 79900000 + x, FF))))];
+    return `<tr><td class="num">${pos}</td><td class="l">${esc(n)}</td><td class="l">${ws.length ? "ward " + ws.join(", ") : "–"}</td><td class="l">${tiers.map((t) => `<span class="pill" style="--c:${tierColor(t)}">${t}</span>`).join(" ")}</td></tr>`; }).join("")}</tbody></table></div>`;
+  el.innerHTML = h;
+  const inp = $("csearch"); inp.oninput = (e) => { state.cfilter = e.target.value.trim(); renderCandidates(); const i = $("csearch"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); };
+  for (const tr of el.querySelectorAll("tr.w")) { const go = () => { state.view = DATA.has2026 ? "2026_own" : "2021_on2026"; state.selected = +tr.dataset.id; location.hash = "map"; };
+    tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
 }
 
 // ---------- controls + routing
@@ -475,18 +524,19 @@ function buildControls() {
   if (cw && cw["2021"] != null) $("cwnote").textContent = `${cw["2021"]}% of 2021 votes come from voting districts that lie almost entirely inside one 2026 ward, so most of the estimate is exact.`;
 }
 function route() {
-  state.page = location.hash === "#wards" ? "wards" : "map";
-  $("page-map").hidden = state.page !== "map"; $("page-wards").hidden = state.page !== "wards";
-  $("tab-map").setAttribute("aria-current", state.page === "map" ? "page" : "false");
-  $("tab-wards").setAttribute("aria-current", state.page === "wards" ? "page" : "false");
+  state.page = location.hash === "#wards" ? "wards" : location.hash === "#candidates" ? "candidates" : "map";
+  for (const pg of ["map", "wards", "candidates"]) {
+    $("page-" + pg).hidden = state.page !== pg;
+    $("tab-" + pg).setAttribute("aria-current", state.page === pg ? "page" : "false"); }
   $("partyctl").hidden = state.page !== "map";
+  $("viewctl").hidden = state.page === "candidates";
   update();
 }
 function update() {
   save();
   $("view").value = state.view;
   for (const b of $("parties").querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.party));
-  if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else renderTable();
+  if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else if (state.page === "wards") renderTable(); else renderCandidates();
 }
 function select(id, zoom) {
   state.selected = id; drawShapes(); renderSide();
@@ -494,7 +544,7 @@ function select(id, zoom) {
     if (it) { const w = Math.max(it.size * 3, home.w / 12); const r = svg.getBoundingClientRect(); const h = w * (r.height / r.width);
       vb = { x: it.c[0] - w / 2, y: it.c[1] - h / 2, w, h }; applyVB(); } }
 }
-function rethemed() { if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else renderTable(); }
+function rethemed() { update(); }
 
 buildControls();
 window.addEventListener("hashchange", route);

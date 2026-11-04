@@ -9,6 +9,7 @@ focus on the Freedom Front Plus (FF+ / Vryheidsfront Plus).
   votes per party for every ward, grouped Stronghold / Solid / Marginal / Negligible.
 - `outputs/REPORT.md`: the baseline findings (support groups, growth, pockets, no-candidate wards)
 - `outputs/ward_votes_<election>.csv`: the ward table as a spreadsheet
+- `outputs/ffplus_candidates_2026_by_ward.csv`, `outputs/ffplus_pr_list_2026.csv`: FF+ 2026 candidates per ward and the party list
 - `outputs/*.csv`: the other tables behind the report
 
 ## Quick start
@@ -34,6 +35,20 @@ Each ward is named after the suburbs it covers (Stats SA Census 2011 sub-places)
 how many voters live in each, e.g. ward 52 = "Waverley, Villieria, Koedoespoort".
 To use your own names (for example from findmyward.co.za), fill in the `name` column of
 `data/tshwane/ward_names_override.csv` and re-run `ward_names.py`, `analyse.py` and `build_web.py`.
+
+## Candidates
+
+Paste the IEC candidate list (text copied from the IEC PDF, any party) into a text file
+under `data/sources/candidates/` and run:
+
+```bash
+python pipeline/candidates.py data/sources/candidates/*.txt   # -> data/tshwane/candidates_2026.csv (no ID numbers)
+python pipeline/analyse.py && python pipeline/build_web.py
+```
+
+Party-list rows carry the list position (1, 2, 3 ...); ward rows carry the 8-digit ward ID
+(79900052 = ward 52). The FF+ list is loaded: `outputs/ffplus_candidates_2026_by_ward.csv`,
+`outputs/ffplus_pr_list_2026.csv`, a Candidates page on the web page, and a section in the report.
 
 ## Election night / after 4 November 2026
 
@@ -72,7 +87,7 @@ compared directly.
 ## Layout
 
 ```
-pipeline/   fetch → prepare → ward_names → (ingest_2026) → analyse → build_web
+pipeline/   fetch → prepare → ward_names → (candidates, ingest_2026) → analyse → build_web
 data/tshwane/results/   tidy VD-level results per election (committed, small)
 data/tshwane/geo/       ward + VD boundaries per election (GeoJSON)
 data/templates/         template for hand-entered 2026 results

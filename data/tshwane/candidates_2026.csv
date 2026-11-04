@@ -1,0 +1,191 @@
+party,list,pr_position,ward_id,name,person,ward_no
+FF+,PR,1,,Willie Durand Spies,34,
+FF+,PR,2,,Lenor Daleen Janse van Rensburg,52,
+FF+,PR,3,,Peter Wynand Warnar Meijer,27,
+FF+,PR,4,,Roché Jacques Grebe,29,
+FF+,PR,5,,Llewellyn George Reinecke,53,
+FF+,PR,6,,Gertruida Elizabeth Catharina Marx,9,
+FF+,PR,7,,Salomon Maritz van Dyk,10,
+FF+,PR,8,,Morné Erasmus,75,
+FF+,PR,9,,Dirk Johannes Jacobus van der Spuy,4,
+FF+,PR,10,,Corline van Rooyen,41,
+FF+,PR,11,,Déhan Harmse,82,
+FF+,PR,12,,Barend Hendrik Josephes Erasmus,12,
+FF+,PR,13,,Aletta Catharina Nefdt,8,
+FF+,PR,14,,Nicolaas Cornelius Pascoe,11,
+FF+,PR,15,,Wesley André Jacobs,77,
+FF+,PR,16,,Anne-Marie Sparg,3,
+FF+,PR,17,,Mark Andrew Surgeon,81,
+FF+,PR,18,,André Nolan Jacobs,33,
+FF+,PR,19,,Mokganya Ramohoebo,36,
+FF+,PR,20,,Dévar Smit,70,
+FF+,PR,21,,Johan Louw,14,
+FF+,PR,22,,Francois van Wyngaardt,1,
+FF+,PR,23,,Marius Cronje,15,
+FF+,PR,24,,John Mac Lachlan,30,
+FF+,PR,25,,Mari Joubert,55,
+FF+,PR,26,,Douw Bernard Meyer,39,
+FF+,PR,27,,Merle Ann van Staden,47,
+FF+,PR,28,,Alene Tereza Candy,45,
+FF+,PR,29,,Tim Botha,73,
+FF+,PR,30,,Schandré Jute,83,
+FF+,PR,31,,Ilonka Botha,54,
+FF+,PR,32,,Petrus Johannes Fourie,7,
+FF+,PR,33,,Suzette Fourie,6,
+FF+,PR,34,,Frans Jacobus Esterhuyse,24,
+FF+,PR,35,,George Henry Portwig,23,
+FF+,PR,36,,Madeleine van der Merwe,50,
+FF+,PR,37,,Chanelle Erasmus,37,
+FF+,PR,38,,Lourens Moolman,42,
+FF+,PR,39,,Jacques Reynier van Staden,35,
+FF+,PR,40,,Ottokar Wilhelm Rippel,26,
+FF+,PR,41,,Marius Spies,20,
+FF+,PR,42,,Modisa Jason Jacobs,31,
+FF+,PR,43,,Maryna Fondse,18,
+FF+,PR,44,,Jacobus Christoffel Rossouw,19,
+FF+,PR,45,,Tercia Lynn Lombard,38,
+FF+,PR,46,,Martha Mabel Evelin Meyer,13,
+FF+,PR,47,,Johan van Drimmelen,2,
+FF+,PR,48,,James David Candy,40,
+FF+,PR,49,,Anisha Garib,64,
+FF+,PR,50,,Johannes Jacobus du Toit,25,
+FF+,PR,51,,Clevan Enzio Olifant,66,
+FF+,PR,52,,Elias Themba Mahlangu,57,
+FF+,PR,53,,Dikeledi Rebecca Mahlangu,63,
+FF+,PR,54,,Jacob Jakobus Madonzela,74,
+FF+,PR,55,,Johannes Gerhardus van Aarde,44,
+FF+,PR,56,,Pieter Jacobus Koekemoer,61,
+FF+,PR,57,,Solly Mahlangu,43,
+FF+,PR,58,,Keyaleboga Precious Seepamedi,76,
+FF+,PR,59,,Theunis Jacobus Theodorus Vogel,5,
+FF+,PR,60,,Johan Robert Erickson,69,
+FF+,PR,61,,Justin Branden Dilly,78,
+FF+,PR,62,,Samuel Kgotso Matshabe,28,
+FF+,PR,63,,Witness Ntombi Nkosi,49,
+FF+,PR,64,,Floyd Katleho Maubane,51,
+FF+,PR,65,,Arthur Thabo Modiba,48,
+FF+,PR,66,,Pule Perold Monaledi,62,
+FF+,PR,67,,Donald Siyabonga Msiza,60,
+FF+,PR,68,,Keitumetse Pole,84,
+FF+,PR,69,,Lerato Daisy Makwe,67,
+FF+,PR,70,,Anna Johanna Steyn,32,
+FF+,PR,71,,Durinda-Lee Leonora Olifant,72,
+FF+,PR,72,,Cecilia Magrita Deetlefs,21,
+FF+,PR,73,,Martha Christina Labuschagne,17,
+FF+,PR,74,,Hillten Janse van Rensburg,59,
+FF+,PR,75,,Madelein Spies,85,
+FF+,PR,76,,Lucinde Eleonore Dürr,79,
+FF+,PR,77,,Tanya Marais,65,
+FF+,PR,78,,Bettie Anderson,56,
+FF+,PR,79,,Stephanus Johannes Janse van Rensburg,80,
+FF+,PR,80,,Isak Hermanus Coenraad Johannes Prinsloo,71,
+FF+,PR,81,,Misha-Lamé Gericke,68,
+FF+,PR,82,,Sumare van Staden,58,
+FF+,PR,83,,Pieter Josua Hendrik de Necker,46,
+FF+,Ward,,79900001,Barend Hendrik Josephes Erasmus,12,1
+FF+,Ward,,79900002,Gertruida Elizabeth Catharina Marx,9,2
+FF+,Ward,,79900003,Johan Louw,14,3
+FF+,Ward,,79900004,Tim Botha,73,4
+FF+,Ward,,79900005,Mark Andrew Surgeon,81,5
+FF+,Ward,,79900006,Justin Branden Dilly,78,6
+FF+,Ward,,79900007,Johan Robert Erickson,69,7
+FF+,Ward,,79900008,Samuel Kgotso Matshabe,28,8
+FF+,Ward,,79900009,Arthur Thabo Modiba,48,9
+FF+,Ward,,79900010,Mokganya Ramohoebo,36,10
+FF+,Ward,,79900011,Pule Perold Monaledi,62,11
+FF+,Ward,,79900012,Arthur Thabo Modiba,48,12
+FF+,Ward,,79900013,Samuel Kgotso Matshabe,28,13
+FF+,Ward,,79900014,Samuel Kgotso Matshabe,28,14
+FF+,Ward,,79900015,Keitumetse Pole,84,15
+FF+,Ward,,79900016,Dikeledi Rebecca Mahlangu,63,16
+FF+,Ward,,79900017,Dikeledi Rebecca Mahlangu,63,17
+FF+,Ward,,79900018,Modisa Jason Jacobs,31,18
+FF+,Ward,,79900019,Arthur Thabo Modiba,48,19
+FF+,Ward,,79900020,Arthur Thabo Modiba,48,20
+FF+,Ward,,79900021,Arthur Thabo Modiba,48,21
+FF+,Ward,,79900022,Arthur Thabo Modiba,48,22
+FF+,Ward,,79900023,Mokganya Ramohoebo,36,23
+FF+,Ward,,79900024,Arthur Thabo Modiba,48,24
+FF+,Ward,,79900025,Pule Perold Monaledi,62,25
+FF+,Ward,,79900026,Pule Perold Monaledi,62,26
+FF+,Ward,,79900027,Pule Perold Monaledi,62,27
+FF+,Ward,,79900028,Modisa Jason Jacobs,31,28
+FF+,Ward,,79900029,Lerato Daisy Makwe,67,29
+FF+,Ward,,79900030,Floyd Katleho Maubane,51,30
+FF+,Ward,,79900031,Johannes Jacobus du Toit,25,31
+FF+,Ward,,79900032,Floyd Katleho Maubane,51,32
+FF+,Ward,,79900033,Lerato Daisy Makwe,67,33
+FF+,Ward,,79900034,Lerato Daisy Makwe,67,34
+FF+,Ward,,79900035,Lerato Daisy Makwe,67,35
+FF+,Ward,,79900036,Lerato Daisy Makwe,67,36
+FF+,Ward,,79900037,Keyaleboga Precious Seepamedi,76,37
+FF+,Ward,,79900038,Clevan Enzio Olifant,66,38
+FF+,Ward,,79900039,Floyd Katleho Maubane,51,39
+FF+,Ward,,79900040,Solly Mahlangu,43,40
+FF+,Ward,,79900041,Ilonka Botha,54,41
+FF+,Ward,,79900042,Dirk Johannes Jacobus van der Spuy,4,42
+FF+,Ward,,79900043,Martha Mabel Evelin Meyer,13,43
+FF+,Ward,,79900044,Nicolaas Cornelius Pascoe,11,44
+FF+,Ward,,79900045,Lourens Moolman,42,45
+FF+,Ward,,79900046,Willie Durand Spies,34,46
+FF+,Ward,,79900047,Marius Cronje,15,47
+FF+,Ward,,79900048,James David Candy,40,48
+FF+,Ward,,79900049,Theunis Jacobus Theodorus Vogel,5,49
+FF+,Ward,,79900050,Suzette Fourie,6,50
+FF+,Ward,,79900051,Marius Spies,20,51
+FF+,Ward,,79900052,Peter Wynand Warnar Meijer,27,52
+FF+,Ward,,79900053,Mari Joubert,55,53
+FF+,Ward,,79900054,George Henry Portwig,23,54
+FF+,Ward,,79900055,Morné Erasmus,75,55
+FF+,Ward,,79900056,Francois van Wyngaardt,1,56
+FF+,Ward,,79900057,Wesley André Jacobs,77,57
+FF+,Ward,,79900058,Madeleine van der Merwe,50,58
+FF+,Ward,,79900059,Anne-Marie Sparg,3,59
+FF+,Ward,,79900060,Jacob Johannes Jacobus Trollip,22,60
+FF+,Ward,,79900061,Anisha Garib,64,61
+FF+,Ward,,79900062,Elias Themba Mahlangu,57,62
+FF+,Ward,,79900063,Elias Themba Mahlangu,57,63
+FF+,Ward,,79900064,John Mac Lachlan,30,64
+FF+,Ward,,79900065,Douw Bernard Meyer,39,65
+FF+,Ward,,79900066,Aletta Catharina Nefdt,8,66
+FF+,Ward,,79900067,Justin Branden Dilly,78,67
+FF+,Ward,,79900068,Elias Themba Mahlangu,57,68
+FF+,Ward,,79900069,Salomon Maritz van Dyk,10,69
+FF+,Ward,,79900070,Lenor Daleen Janse van Rensburg,52,70
+FF+,Ward,,79900071,Elias Themba Mahlangu,57,71
+FF+,Ward,,79900072,Elias Themba Mahlangu,57,72
+FF+,Ward,,79900073,Déhan Harmse,82,73
+FF+,Ward,,79900074,Samuel Kgotso Matshabe,28,74
+FF+,Ward,,79900075,Samuel Kgotso Matshabe,28,75
+FF+,Ward,,79900076,Samuel Kgotso Matshabe,28,76
+FF+,Ward,,79900077,Merle Ann van Staden,47,77
+FF+,Ward,,79900078,André Nolan Jacobs,33,78
+FF+,Ward,,79900079,Frans Jacobus Esterhuyse,24,79
+FF+,Ward,,79900080,Elias Themba Mahlangu,57,80
+FF+,Ward,,79900081,Elias Themba Mahlangu,57,81
+FF+,Ward,,79900082,Corline van Rooyen,41,82
+FF+,Ward,,79900083,Llewellyn George Reinecke,53,83
+FF+,Ward,,79900084,Roché Jacques Grebe,29,84
+FF+,Ward,,79900085,Ottokar Wilhelm Rippel,26,85
+FF+,Ward,,79900086,Johanna Taylor,16,86
+FF+,Ward,,79900087,Pieter Jacobus Koekemoer,61,87
+FF+,Ward,,79900088,Pule Perold Monaledi,62,88
+FF+,Ward,,79900089,Lerato Daisy Makwe,67,89
+FF+,Ward,,79900090,Keyaleboga Precious Seepamedi,76,90
+FF+,Ward,,79900091,Dévar Smit,70,91
+FF+,Ward,,79900092,Johannes Gerhardus van Aarde,44,92
+FF+,Ward,,79900093,Mokganya Ramohoebo,36,93
+FF+,Ward,,79900094,Pule Perold Monaledi,62,94
+FF+,Ward,,79900095,Petrus Johannes Fourie,7,95
+FF+,Ward,,79900096,Schandré Jute,83,96
+FF+,Ward,,79900097,Solly Mahlangu,43,97
+FF+,Ward,,79900098,Jacobus Christoffel Rossouw,19,98
+FF+,Ward,,79900099,Jacob Jakobus Madonzela,74,99
+FF+,Ward,,79900100,Tercia Lynn Lombard,38,100
+FF+,Ward,,79900101,Johan van Drimmelen,2,101
+FF+,Ward,,79900102,Maryna Fondse,18,102
+FF+,Ward,,79900103,Witness Ntombi Nkosi,49,103
+FF+,Ward,,79900104,Donald Siyabonga Msiza,60,104
+FF+,Ward,,79900105,Maryna Fondse,18,105
+FF+,Ward,,79900106,Jacques Reynier van Staden,35,106
+FF+,Ward,,79900107,Alene Tereza Candy,45,107

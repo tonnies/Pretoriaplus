@@ -240,9 +240,48 @@ def main() -> None:
         vd_cmp.to_csv(OUTPUTS / "ffplus_vd_2021_vs_2026.csv", index=False, float_format="%.2f")
 
     write_vote_tables(summaries, all_long, ward_view)
-    write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp, vd21)
-    write_web(res, summaries, all_long, cw_stats)
+    cands = ffplus_candidates(ward_view)
+    write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp, vd21, cands)
+    write_web(res, summaries, all_long, cw_stats, cands)
     print("wrote outputs/ and web/data.json")
+
+
+def ffplus_candidates(ward_view):
+    """FF+ 2026 candidates joined to the 2026 wards (from data/tshwane/candidates_2026.csv).
+
+    Returns (ward table, PR list table) or None, and writes both to outputs/."""
+    p = TSH / "candidates_2026.csv"
+    if not p.exists():
+        return None
+    c = pd.read_csv(p)
+    c = c[c["party"] == FFP]
+    if c.empty:
+        return None
+    pr = c[c["list"] == "PR"].set_index("person")["pr_position"]
+    w = c[c["list"] == "Ward"].copy()
+    w["pr_position"] = w["person"].map(pr).astype("Int64")
+    w["wards_standing"] = w.groupby("person")["ward_no"].transform("count")
+    others = w.groupby("person")["ward_no"].apply(lambda s: sorted(int(x) for x in s))
+    w["other_wards"] = [", ".join(str(x) for x in others[pe] if x != wn) for pe, wn in zip(w["person"], w["ward_no"])]
+    base = ward_view("2021_on2026")[["ward_id", "ward_no", "area", "ffp_tier", "pr_ffp_votes", "pr_ffp_share", "pr_valid", "pr_winner"]]
+    wards = base.merge(w[["ward_id", "name", "pr_position", "wards_standing", "other_wards", "person"]], on="ward_id", how="left")
+    wards = wards.rename(columns={"ffp_tier": "tier_2021", "pr_ffp_votes": "ffp_votes_2021_est", "pr_ffp_share": "ffp_share_2021_est",
+                                  "pr_valid": "valid_votes_2021_est", "pr_winner": "winner_2021", "name": "ffp_candidate",
+                                  "pr_position": "candidate_pr_position"})
+    order = {t: i for i, (t, _) in enumerate(TIERS)}
+    wards = wards.sort_values(["tier_2021", "ward_no"], key=lambda col: col.map(order) if col.name == "tier_2021" else col)
+    wards["ffp_votes_2021_est"] = wards["ffp_votes_2021_est"].round().astype(int)
+    wards["valid_votes_2021_est"] = wards["valid_votes_2021_est"].round().astype(int)
+    wards.drop(columns="person").to_csv(OUTPUTS / "ffplus_candidates_2026_by_ward.csv", index=False, float_format="%.2f")
+
+    tier_of = dict(zip(wards["ward_no"], wards["tier_2021"]))
+    plist = c[c["list"] == "PR"][["pr_position", "name", "person"]].copy()
+    plist["ward_numbers"] = plist["person"].map(lambda pe: ", ".join(str(x) for x in others.get(pe, [])))
+    plist["ward_groups_2021"] = plist["person"].map(lambda pe: ", ".join(sorted({tier_of[x] for x in others.get(pe, [])}, key=order.get)))
+    plist["pr_position"] = plist["pr_position"].astype(int)
+    plist = plist.sort_values("pr_position").drop(columns="person")
+    plist.to_csv(OUTPUTS / "ffplus_pr_list_2026.csv", index=False)
+    return wards, plist
 
 
 TABLE_PARTIES = [FFP, "DA", "ANC", "EFF", "ActionSA", "ACDP", "MK", "PA", "BOSA", "Rise Mzansi", "COPE"]
@@ -310,7 +349,7 @@ def md_table(df: pd.DataFrame) -> str:
     return "\n".join(lines)
 
 
-def write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp, vd21) -> None:
+def write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp, vd21, cands=None) -> None:
     w21 = ward_view("2021_own")
     w16 = ward_view("2016_own")
     cw21, cw16 = citywide(res[2021]), citywide(res[2016])
@@ -382,6 +421,28 @@ def write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp,
              f"95% inside one 2026 ward; only the rest is split.\n")
     tb = b.groupby("n21_ffp_tier").agg(wards=("ward_id", "count")).reindex(order)
     L.append("2026 wards by notional 2021 FF+ tier: " + ", ".join(f"{t} {int(n)}" for t, n in tb["wards"].items()) + "\n")
+    if cands is not None:
+        cw, plist = cands
+        L.append("## FF+ candidates in 2026\n")
+        L.append(f"FF+ has a ward candidate in {cw['ffp_candidate'].notna().sum()} of {len(cw)} wards "
+                 f"({cw['person'].nunique()} different people) and {len(plist)} names on its party list. "
+                 "Groups are the 2021 FF+ support, estimated on the 2026 wards.\n")
+        order = [t for t, _ in TIERS]
+        g = cw.groupby("tier_2021").agg(wards=("ward_no", "count"), people=("person", "nunique"),
+                                        multi=("wards_standing", lambda s: int((s > 1).sum())),
+                                        on_list=("candidate_pr_position", lambda s: int(s.notna().sum()))).reindex(order).fillna(0).astype(int)
+        L.append(md_table(g.reset_index().rename(columns={"tier_2021": "group", "people": "different candidates",
+                                                          "multi": "wards whose candidate stands in several wards",
+                                                          "on_list": "wards whose candidate is also on the party list"})))
+        multi = cw[cw["wards_standing"] > 1].groupby("ffp_candidate")["ward_no"].apply(lambda s: ", ".join(str(int(x)) for x in sorted(s)))
+        if len(multi):
+            L.append("\nCandidates standing in more than one ward: " + "; ".join(f"{n} (wards {w})" for n, w in multi.items()) + ".\n")
+        L.append("### Ward candidates\n")
+        L.append(md_table(cw.assign(pr=cw["candidate_pr_position"].astype("string").fillna("–"))[
+            ["tier_2021", "ward_no", "area", "ffp_candidate", "pr", "ffp_votes_2021_est", "ffp_share_2021_est"]].rename(
+            columns={"tier_2021": "group", "ward_no": "ward", "ffp_candidate": "candidate", "pr": "list #",
+                     "ffp_votes_2021_est": "FF+ votes 2021 (est.)", "ffp_share_2021_est": "FF+ % 2021"})))
+        L.append("")
     if "swing_pp" in b:
         L.append("## 2021 → 2026 by 2021 tier\n")
         agg = b.groupby("n21_ffp_tier").agg(wards=("ward_id", "count"), ffp_2021=("n21_pr_ffp_votes", "sum"),
@@ -414,7 +475,7 @@ def simplify(gdf: gpd.GeoDataFrame, tol=0.00008) -> dict:
     return js
 
 
-def write_web(res, summaries, all_long, cw_stats) -> None:
+def write_web(res, summaries, all_long, cw_stats, cands=None) -> None:
     names = ward_names()
     areas = pd.read_csv(TSH / "ward_areas.csv") if (TSH / "ward_areas.csv").exists() else None
     geos = {}
@@ -470,6 +531,14 @@ def write_web(res, summaries, all_long, cw_stats) -> None:
         "notes": {"crosswalk_clean_pct": {str(k): round(v, 1) for k, v in cw_stats.items()}},
         "has2026": 2026 in res,
     }
+    if cands is not None:
+        cw, plist = cands
+        data["candidates"] = {
+            "ward": {str(int(r.ward_id)): {"n": r.ffp_candidate, "pr": None if pd.isna(r.candidate_pr_position) else int(r.candidate_pr_position),
+                                           "k": int(r.wards_standing), "o": r.other_wards}
+                     for r in cw.itertuples() if isinstance(r.ffp_candidate, str)},
+            "pr": [[int(r.pr_position), r.name, r.ward_numbers] for r in plist.itertuples()],
+        }
     (WEB / "data.json").write_text(json.dumps(data, separators=(",", ":")))
 
 

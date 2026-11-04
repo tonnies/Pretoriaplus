@@ -208,3 +208,128 @@ The 2026 election uses new ward boundaries (107 wards, many redrawn). 2016 and 2
 
 2026 wards by notional 2021 FF+ tier: Stronghold 21, Solid 20, Marginal 9, Negligible 57
 
+## FF+ candidates in 2026
+
+FF+ has a ward candidate in 107 of 107 wards (70 different people) and 83 names on its party list. Groups are the 2021 FF+ support, estimated on the 2026 wards.
+
+| group | wards | different candidates | wards whose candidate stands in several wards | wards whose candidate is also on the party list |
+|---|---|---|---|---|
+| Stronghold | 21 | 21 | 1 | 21 |
+| Solid | 20 | 20 | 0 | 19 |
+| Marginal | 9 | 9 | 2 | 8 |
+| Negligible | 57 | 22 | 47 | 57 |
+
+Candidates standing in more than one ward: Arthur Thabo Modiba (wards 9, 12, 19, 20, 21, 22, 24); Dikeledi Rebecca Mahlangu (wards 16, 17); Elias Themba Mahlangu (wards 62, 63, 68, 71, 72, 80, 81); Floyd Katleho Maubane (wards 30, 32, 39); Justin Branden Dilly (wards 6, 67); Keyaleboga Precious Seepamedi (wards 37, 90); Lerato Daisy Makwe (wards 29, 33, 34, 35, 36, 89); Maryna Fondse (wards 102, 105); Modisa Jason Jacobs (wards 18, 28); Mokganya Ramohoebo (wards 10, 23, 93); Pule Perold Monaledi (wards 11, 25, 26, 27, 88, 94); Samuel Kgotso Matshabe (wards 8, 13, 14, 74, 75, 76); Solly Mahlangu (wards 40, 97).
+
+### Ward candidates
+
+| group | ward | area | candidate | list # | FF+ votes 2021 (est.) | FF+ % 2021 |
+|---|---|---|---|---|---|---|
+| Stronghold | 1 | Mountain View, Claremont, Daspoort | Barend Hendrik Josephes Erasmus | 12 | 1774 | 21.6 |
+| Stronghold | 2 | Pretoria North, Dorandia, Wolmer | Gertruida Elizabeth Catharina Marx | 6 | 1795 | 20.9 |
+| Stronghold | 5 | Montana, Magalieskruin, Montana Park | Mark Andrew Surgeon | 17 | 2086 | 21.9 |
+| Stronghold | 41 | Silverton, Meyerspark, Murrayfield | Ilonka Botha | 31 | 1413 | 15.4 |
+| Stronghold | 45 | Garsfontein, Pretoriuspark, Woodhill | Lourens Moolman | 38 | 1752 | 16.7 |
+| Stronghold | 46 | Lynnwood Glen, Garsfontein, Lynnwood Ridge | Willie Durand Spies | 1 | 1415 | 15.6 |
+| Stronghold | 47 | Elarduspark, Wingate Park, Moreleta Park | Marius Cronje | 23 | 2021 | 19.0 |
+| Stronghold | 50 | Annlin, Sinoville, Wonderboom | Suzette Fourie | 33 | 2025 | 20.2 |
+| Stronghold | 52 | Waverley, Villieria, East Lynne | Peter Wynand Warnar Meijer | 3 | 2540 | 27.7 |
+| Stronghold | 53 | Rietfontein, Gezina, Villieria | Mari Joubert | 25 | 1163 | 18.7 |
+| Stronghold | 54 | Wonderboom South, Rietfontein, Mayville | George Henry Portwig | 35 | 1923 | 23.0 |
+| Stronghold | 55 | Andeon, Krauseville, Kameeldrift | Morné Erasmus | 8 | 1501 | 19.6 |
+| Stronghold | 57 | Die Hoewes, Lyttelton, Zwartkop SANDF | Wesley André Jacobs | 15 | 1057 | 15.4 |
+| Stronghold | 79 | Pierre van Ryneveld, Waterkloof Air Force Base, Centurion | Frans Jacobus Esterhuyse | 34 | 1520 | 18.0 |
+| Stronghold | 83 | Moreleta Park, Erasmuskloof, Constantia Park | Llewellyn George Reinecke | 5 | 1457 | 15.3 |
+| Stronghold | 84 | Queenswood, Rietondale, Kilner Park | Roché Jacques Grebe | 4 | 1909 | 20.4 |
+| Stronghold | 87 | Kameeldrift, Derdepoort, Koedoespoort | Pieter Jacobus Koekemoer | 56 | 1365 | 18.4 |
+| Stronghold | 91 | Rietfontein, Reitvlei, Rural Tshwane | Dévar Smit | 20 | 1565 | 16.9 |
+| Stronghold | 96 | Doornpoort, Rural Tshwane, Sinoville | Schandré Jute | 30 | 1604 | 19.6 |
+| Stronghold | 100 | Rayton, Rural Tshwane, Cullinan | Tercia Lynn Lombard | 45 | 1196 | 22.3 |
+| Stronghold | 102 | Rural Tshwane, Bronkhorstspruit, Riamar Park | Maryna Fondse | 43 | 1268 | 21.0 |
+| Solid | 4 | The Orchards, Karenpark, Fundus | Tim Botha | 29 | 378 | 5.7 |
+| Solid | 42 | Monument Park, Waterkloof Ridge, Waterkloof | Dirk Johannes Jacobus van der Spuy | 9 | 1128 | 12.6 |
+| Solid | 44 | Faerie Glen, Boadwalk | Nicolaas Cornelius Pascoe | 14 | 1081 | 14.0 |
+| Solid | 48 | Centurion, Rooihuiskraal Noord, Monavoni | James David Candy | 48 | 534 | 5.9 |
+| Solid | 56 | Hatfield, Brooklyn, Hillcrest | Francois van Wyngaardt | 22 | 418 | 9.2 |
+| Solid | 58 | Pretoria Central, Capital Park, Pretoria West | Madeleine van der Merwe | 36 | 255 | 5.4 |
+| Solid | 59 | Sunnyside, Muckleneuk, Groenkloof Pine Plantation | Anne-Marie Sparg | 16 | 190 | 5.2 |
+| Solid | 60 | Danville, Elandspoort, Philip Nel Park | Jacob Johannes Jacobus Trollip | – | 428 | 7.0 |
+| Solid | 64 | The Reeds, Rooihuiskraal, Thatchfield | John Mac Lachlan | 24 | 882 | 10.8 |
+| Solid | 65 | Louwlardia, Irene Research Institute, Rooihuiskraal | Douw Bernard Meyer | 26 | 915 | 9.9 |
+| Solid | 66 | Valhalla, Hennopspark, Clubview | Aletta Catharina Nefdt | 13 | 1230 | 13.8 |
+| Solid | 69 | Eldoraigne, Rooihuiskraal Noord, Wierda Park | Salomon Maritz van Dyk | 7 | 1496 | 14.5 |
+| Solid | 70 | Wierda Park, Centurion, Raslou | Lenor Daleen Janse van Rensburg | 2 | 1293 | 14.4 |
+| Solid | 78 | Zwartkop, Doringkloof, Die Hoewes | André Nolan Jacobs | 18 | 900 | 12.5 |
+| Solid | 82 | Menlo Park, Lynnwood, University of Pretoria | Corline van Rooyen | 10 | 829 | 10.9 |
+| Solid | 85 | Equestria, Die Wilgers, Wapadrand | Ottokar Wilhelm Rippel | 40 | 1331 | 13.4 |
+| Solid | 92 | Arcadia, Sunnyside, Eastwood | Johannes Gerhardus van Aarde | 55 | 215 | 5.3 |
+| Solid | 95 | Stinkwater D, New Eersterus, Stinkwater C | Petrus Johannes Fourie | 32 | 373 | 6.8 |
+| Solid | 98 | Theresapark, Klerksoord, Ninapark | Jacobus Christoffel Rossouw | 44 | 916 | 13.0 |
+| Solid | 101 | Silver Lakes Golf Estate, Shere, Zwavelpoort | Johan van Drimmelen | 47 | 1287 | 13.7 |
+| Marginal | 3 | Philip Nel Park, Pretoria West, West Park | Johan Louw | 21 | 205 | 4.0 |
+| Marginal | 31 | Ga-Rankuwa, Wildebeesthoek, Kameeldrift | Johannes Jacobus du Toit | 50 | 155 | 2.8 |
+| Marginal | 43 | Eersterust, Despatch, Waltloo | Martha Mabel Evelin Meyer | 46 | 206 | 3.1 |
+| Marginal | 49 | Bultfontein, Kanana, Mandela Village | Theunis Jacobus Theodorus Vogel | 59 | 75 | 1.6 |
+| Marginal | 61 | Laudium, Schurwe Plaas Mine, Centurion | Anisha Garib | 49 | 162 | 2.0 |
+| Marginal | 81 | Sunnyside, Arcadia, Trevenna | Elias Themba Mahlangu | 52 | 76 | 2.9 |
+| Marginal | 86 | Nellmapius, Willow Park Manor, Samcor Park | Johanna Taylor | – | 112 | 2.1 |
+| Marginal | 99 | Refilwe, Rural Tshwane, Premier Diamond Mine | Jacob Jakobus Madonzela | 54 | 264 | 4.3 |
+| Marginal | 105 | Rural Tshwane, Zithobeni, Roodepoort | Maryna Fondse | 43 | 267 | 4.1 |
+| Negligible | 6 | Mamelodi QD4, Mamelodi PD3, Mamelodi RD5 | Justin Branden Dilly | 61 | 5 | 0.1 |
+| Negligible | 7 | Lotus Gardens, Krauseville, Pretoria | Johan Robert Erickson | 60 | 23 | 0.4 |
+| Negligible | 8 | Suurman, Sekampaneng, Kudube | Samuel Kgotso Matshabe | 62 | 1 | 0.0 |
+| Negligible | 9 | Winterveld Ext 1, 3 | Arthur Thabo Modiba | 65 | 7 | 0.2 |
+| Negligible | 10 | Mamelodi Ext 22, 6, 11 | Mokganya Ramohoebo | 19 | 11 | 0.2 |
+| Negligible | 11 | Soshanguve JJ, Soshanguve NN, Soshanguve HH | Pule Perold Monaledi | 66 | 4 | 0.1 |
+| Negligible | 12 | Mabopane A, Winterveld, Lebanon | Arthur Thabo Modiba | 65 | 9 | 0.2 |
+| Negligible | 13 | Stinkwater B, Stinkwater, Stinkwater C | Samuel Kgotso Matshabe | 62 | 3 | 0.1 |
+| Negligible | 14 | New Eersterus | Samuel Kgotso Matshabe | 62 | 3 | 0.1 |
+| Negligible | 15 | Nellmapius, Rayton, Mamelodi | Keitumetse Pole | 68 | 10 | 0.2 |
+| Negligible | 16 | Mamelodi, Mamelodi Fourteens | Dikeledi Rebecca Mahlangu | 53 | 16 | 0.2 |
+| Negligible | 17 | Mamelodi, Mahube Valley | Dikeledi Rebecca Mahlangu | 53 | 4 | 0.1 |
+| Negligible | 18 | Mamelodi, Mamelodi Seventeens, Mamelodi Fourteens | Modisa Jason Jacobs | 42 | 9 | 0.1 |
+| Negligible | 19 | Winterveld, Mabopane, Slovo | Arthur Thabo Modiba | 65 | 5 | 0.1 |
+| Negligible | 20 | Itsoseng, Mabopane, Mabopane M | Arthur Thabo Modiba | 65 | 8 | 0.2 |
+| Negligible | 21 | Mabopane, Mabopane X, Mabopane A | Arthur Thabo Modiba | 65 | 6 | 0.1 |
+| Negligible | 22 | Mabopane U, Botshabelo, Tsebe | Arthur Thabo Modiba | 65 | 6 | 0.1 |
+| Negligible | 23 | Mamelodi S&S, Eastwood, Khalambazo | Mokganya Ramohoebo | 19 | 8 | 0.2 |
+| Negligible | 24 | Winterveld Ext 1 | Arthur Thabo Modiba | 65 | 3 | 0.1 |
+| Negligible | 25 | Soshanguve V, Soshanguve PP 2, Soutpan | Pule Perold Monaledi | 66 | 5 | 0.1 |
+| Negligible | 26 | Soshanguve KK, Soshanguve R, Soshanguve FF | Pule Perold Monaledi | 66 | 7 | 0.1 |
+| Negligible | 27 | Soshanguve X, Soshanguve W, Soshanguve R | Pule Perold Monaledi | 66 | 8 | 0.2 |
+| Negligible | 28 | Nellmapius, Phumulamcashi Buffer Zone, Tsakane | Modisa Jason Jacobs | 42 | 17 | 0.4 |
+| Negligible | 29 | Soshanguve F, Winterveld, Soshanguve IA | Lerato Daisy Makwe | 69 | 15 | 0.3 |
+| Negligible | 30 | Ga-Rankuwa, Ga-Rankuwa View, Ga-Rankuwa Industrial | Floyd Katleho Maubane | 64 | 7 | 0.1 |
+| Negligible | 32 | Ga-Rankuwa, Medunsa | Floyd Katleho Maubane | 64 | 8 | 0.1 |
+| Negligible | 33 | Soshanguve G, Soshanguve AA, Soshanguve BB | Lerato Daisy Makwe | 69 | 7 | 0.1 |
+| Negligible | 34 | Soshanguve H, Soshanguve K, Soshanguve M | Lerato Daisy Makwe | 69 | 9 | 0.2 |
+| Negligible | 35 | Soshanguve L, Soshanguve K, Soshanguve M | Lerato Daisy Makwe | 69 | 5 | 0.1 |
+| Negligible | 36 | Soshanguve M, Soshanguve UU, Soshanguve East | Lerato Daisy Makwe | 69 | 9 | 0.2 |
+| Negligible | 37 | Soshanguve South, Klipfontein, Soshanguve | Keyaleboga Precious Seepamedi | 58 | 5 | 0.1 |
+| Negligible | 38 | Mamelodi FB3, Mamelodi Sun Valley, Naledi | Clevan Enzio Olifant | 51 | 7 | 0.2 |
+| Negligible | 39 | Soshanguve South, Ga-Rankuwa | Floyd Katleho Maubane | 64 | 4 | 0.1 |
+| Negligible | 40 | Mamelodi Ext 6, 12 | Solly Mahlangu | 57 | 7 | 0.1 |
+| Negligible | 51 | Atteridgeville, Thaba Tshwane, Pretoria | Marius Spies | 41 | 21 | 0.4 |
+| Negligible | 62 | Atteridgeville, Pretoria | Elias Themba Mahlangu | 52 | 11 | 0.2 |
+| Negligible | 63 | Saulsville, Atteridgeville | Elias Themba Mahlangu | 52 | 9 | 0.2 |
+| Negligible | 67 | Baviaanspoort, Mamelodi DB1, Mamelodi FB3 | Justin Branden Dilly | 61 | 10 | 0.2 |
+| Negligible | 68 | Saulsville, Atteridgeville | Elias Themba Mahlangu | 52 | 6 | 0.1 |
+| Negligible | 71 | Phumolong, Jeffersville, Vergenoeg | Elias Themba Mahlangu | 52 | 0 | 0.0 |
+| Negligible | 72 | Saulsville, Atteridgeville, Jeffersville | Elias Themba Mahlangu | 52 | 5 | 0.1 |
+| Negligible | 73 | Ramotse, Marokolong, Rural Tshwane | Déhan Harmse | 11 | 15 | 0.3 |
+| Negligible | 74 | Temba, Marokolong, Babelegi Industrial | Samuel Kgotso Matshabe | 62 | 5 | 0.1 |
+| Negligible | 75 | Kudube, Temba, Leboneng | Samuel Kgotso Matshabe | 62 | 4 | 0.1 |
+| Negligible | 76 | Mashemong, Majaneng, Bosplaas Mathabe | Samuel Kgotso Matshabe | 62 | 3 | 0.1 |
+| Negligible | 77 | Olievenhoutbos, Rua Vista, Centurion | Merle Ann van Staden | 27 | 37 | 0.7 |
+| Negligible | 80 | Pretoria Central, Salvokop, Muckleneuk | Elias Themba Mahlangu | 52 | 13 | 0.4 |
+| Negligible | 88 | Soshanguve P, Soshanguve DD, Soshanguve SS | Pule Perold Monaledi | 66 | 13 | 0.2 |
+| Negligible | 89 | Soshanguve South, Soshanguve TT | Lerato Daisy Makwe | 69 | 3 | 0.1 |
+| Negligible | 90 | Soshanguve East, Soshanguve A, Klipfontein | Keyaleboga Precious Seepamedi | 58 | 10 | 0.2 |
+| Negligible | 93 | Mamelodi, Leeuwfontein, Stanza Bopape | Mokganya Ramohoebo | 19 | 12 | 0.2 |
+| Negligible | 94 | Soshanguve GG, Soshanguve FF, Soshanguve HH | Pule Perold Monaledi | 66 | 5 | 0.1 |
+| Negligible | 97 | Mamelodi Ext 18, 11, 12 | Solly Mahlangu | 57 | 6 | 0.1 |
+| Negligible | 103 | Ekangala, Rural Tshwane, Rethabiseng | Witness Ntombi Nkosi | 63 | 7 | 0.1 |
+| Negligible | 104 | Ekangala Section A, Section B | Donald Siyabonga Msiza | 67 | 6 | 0.1 |
+| Negligible | 106 | Olievenhoutbos, Knoppieslaagte | Jacques Reynier van Staden | 39 | 24 | 0.4 |
+| Negligible | 107 | Vergenoeg, Siahlala, Atteridgeville | Alene Tereza Candy | 28 | 18 | 0.3 |
+
