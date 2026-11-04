@@ -1,0 +1,322 @@
+boundary,ward_id,ward_no,name,areas
+2016,79900001,1,"Mountain View, Claremont, Daspoort",Mountain View 29%; Claremont 18%; Daspoort 17%; Capital Park 10%; Hermanstad 9%; Pretoria Gardens 9%; Daspoort Estate 4%; Roseville 3%
+2016,79900002,2,"Pretoria North, Wolmer, Dorandia",Pretoria North 62%; Wolmer 18%; Dorandia 12%; Florauna 7%
+2016,79900003,3,"Danville, West Park, Elandspoort","West Park 15%; Elandspoort 14%; Pretoria 13%; Danville 11%; Atteridgeville 11%; Pretoria Industrial 8%; Danville Ext 8, 9, 11, 12, 13 & 15 8%; Kwaggasrand 7%; Danville Ext 2 7%; Danville Ext 3 3%"
+2016,79900004,4,"The Orchards, Karenpark, The Orchards Ext",Karenpark 33%; The Orchards 21%; The Orchards Ext 11 16%; The Orchards Ext 10%; Wildebeesthoek 6%; Amandasig 5%; Chantelle 3%
+2016,79900005,5,"Montana, Magalieskruin, Montana Tuine",Montana 28%; Magalieskruin 24%; Montana Tuine 13%; Sinoville 12%; Zambezi Courty Estate 11%; Montana Park 11%
+2016,79900006,6,"Mamelodi QD4, Mamelodi RD5, Mamelodi AA4",Mamelodi QD4 20%; Mamelodi RD5 17%; Mamelodi AA4 16%; Baviaanspoort 13%; Mamelodi MD1 11%; Mamelodi KC4 10%; Mamelodi SA5 6%; Mamelodi JB3 4%
+2016,79900007,7,"Lotus Gardens, Pretoria, Krauseville",Lotus Gardens Ext 2 27%; Pretoria 24%; Krauseville 24%; Lotus Gardens 22%
+2016,79900008,8,"Suurman, Sekampaneng, Dilopye",Suurman 39%; Sekampaneng 32%; Dilopye 11%; Kudube Unit 11 8%; Temba Unit 7 6%
+2016,79900009,9,"Winterveld Ext 1, 3",Winterveld Ext 1 88%; Winterveld Ext 3 12%
+2016,79900010,10,"Mamelodi Ext 18, 22, 11, 6",Mamelodi Ext 18 41%; Mamelodi Ext 22 28%; Mamelodi Ext 11 18%; Mamelodi Ext 6 13%
+2016,79900011,11,"Soshanguve JJ, Soshanguve LL, Chris Hani",Soshanguve JJ 25%; Soshanguve LL 22%; Chris Hani 17%; Soshanguve HH 17%; Soshanguve PP 1 6%; Soshanguve NN 5%; Soshanguve PP3 5%
+2016,79900012,12,"Mabopane A, Lebanon, Winterveld",Mabopane A 51%; Lebanon 24%; Winterveld Ext 3 16%; Beirut 9%
+2016,79900013,13,"Stinkwater B, Stinkwater, Soutpan",Stinkwater B 27%; Stinkwater 24%; Soutpan 20%; Stinkwater C 11%; Soshanguve V Ext 1 6%; New Eersterus 4%; Stinkwater A 3%
+2016,79900014,14,New Eersterus,New Eersterus 100%
+2016,79900015,15,"Mamelodi, Mamelodi Seventeens, Nellmapius",Mamelodi Ext 14 33%; Mamelodi Seventeens 22%; Mamelodi Ext 3 15%; Nellmapius Ext 6 10%; Mamelodi Ext 2 8%; Phumulamcashi Buffer Zone 5%; Nellmapius Ext 7 5%
+2016,79900016,16,"Mamelodi Ext 5, 4, 2",Mamelodi Ext 5 56%; Mamelodi Ext 4 35%; Mamelodi Ext 2 6%
+2016,79900017,17,"Mamelodi, Mahube Valley",Mamelodi Ext 10 27%; Mahube Valley 22%; Mamelodi Ext 7 17%; Mamelodi Ext 6 17%; Mahube Valley Ext 3 10%; Mahube Valley Ext 2 5%
+2016,79900018,18,"Mamelodi Fourteens, Mamelodi, Phumulamcashi Buffer Zone",Mamelodi Fourteens 33%; Mamelodi Ext 2 20%; Phumulamcashi Buffer Zone 17%; Mamelodi Sixteens 13%; Mamelodi Fifteens 10%; Khutsong 7%
+2016,79900019,19,"Winterveld, Mabopane, Slovo",Winterveld Ext 3 64%; Mabopane 16%; Slovo 14%; Lebanon 6%
+2016,79900020,20,"Mabopane, Itsoseng, Mabopane U",Itsoseng 32%; Mabopane Unit C 27%; Mabopane U 20%; Mabopane Unit S 15%; Mabopane Unit D 6%
+2016,79900021,21,"Mabopane, Mabopane X, Mabopane A",Mabopane Unit B 48%; Mabopane X 29%; Mabopane A 23%
+2016,79900022,22,"Mabopane U, Mabopane M, Botshabelo",Mabopane M 24%; Mabopane U 22%; Botshabelo 19%; Tsebe 9%; Itsoseng 7%; Midas 5%; Mabopane U Ext 1 4%; Mabopane 3%
+2016,79900023,23,"Mamelodi S&S, Eastwood, Khalambazo",Mamelodi S&S 34%; Eastwood 23%; Khalambazo 20%; Tsakane 16%; White City 4%
+2016,79900024,24,Winterveld Ext 1,Winterveld Ext 1 66%; Winterveld 34%
+2016,79900025,25,"Soshanguve V, Soshanguve T, Soshanguve W",Soshanguve V 28%; Soshanguve T 28%; Soshanguve W 27%; Soshanguve PP 2 7%; Soshanguve V Ext 1 6%
+2016,79900026,26,"Soshanguve R, Soshanguve KK, Soshanguve FF",Soshanguve R 31%; Soshanguve KK 29%; Soshanguve FF 19%; Soshanguve GG 10%; Soshanguve S 7%; Soshanguve BB 4%
+2016,79900027,27,"Soshanguve X, Soshanguve Y, Soshanguve R",Soshanguve X 44%; Soshanguve Y 21%; Soshanguve R 17%; Rural Tshwane 7%; Soshanguve W 5%; Soshanguve S 4%
+2016,79900028,28,"Naledi, Mamelodi PD3, Mamelodi OD2",Naledi 23%; Mamelodi PD3 22%; Mamelodi OD2 21%; Moretele View 9%; Phumulamcashi Buffer Zone 9%; Mamelodi ND6 7%; Tsakane 5%
+2016,79900029,29,"Soshanguve NN, Winterveld, Soshanguve IA",Soshanguve NN 23%; Winterveld Ext 1 13%; Soshanguve IA 13%; Mabopane Unit E 9%; Mabopane N 9%; Winterveld 7%; Mabopane CV 7%; Soshanguve NNME1 7%; Soshanguve AA 4%; Soshanguve F 4%
+2016,79900030,30,"Ga-Rankuwa, Ga-Rankuwa Industrial, Ga-Rankuwa View",Ga-Rankuwa Unit 16 18%; GaRankuwa Unit 20 16%; Ga-Rankuwa Industrial 13%; Ga-Rankuwa Unit 15 12%; Ga-Rankuwa View 8%; Ga-Rankuwa Unit 23 7%; Hebron 7%; Ga-Rankuwa Unit 5 6%; Ga-Rankuwa Unit 25 6%; Ga-Rankuwa Unit 4 5%
+2016,79900031,31,"Ga-Rankuwa Unit 1, Unit 2, Unit 5, Unit 4",Ga-Rankuwa Unit 1 46%; Ga-Rankuwa Unit 2 30%; Ga-Rankuwa Unit 5 13%; Ga-Rankuwa Unit 4 10%
+2016,79900032,32,"Ga-Rankuwa, Wildebeesthoek, Medunsa",Ga-Rankuwa 43%; Wildebeesthoek 9%; Ga-Rankuwa Unit 21 8%; Ga-Rankuwa Unit 9 7%; Ga-Rankuwa Unit 3 6%; Ga-Rankuwa Unit 6 5%; Medunsa 5%; Ga-Rankuwa Unit 10 5%; Ga-Rankuwa Unit 7 5%; Ga-Rankuwa Unit 8 3%
+2016,79900033,33,"Soshanguve G, Soshanguve BB, Soshanguve AA",Soshanguve G 44%; Soshanguve BB 18%; Soshanguve AA 17%; Soshanguve F 15%; Soshanguve CC 6%
+2016,79900034,34,"Soshanguve H, Soshanguve F, Soshanguve L",Soshanguve H 70%; Soshanguve F 18%; Soshanguve L 6%
+2016,79900035,35,"Soshanguve K, Soshanguve M, Soshanguve WW",Soshanguve K 43%; Soshanguve M 25%; Soshanguve M Ext 1 13%; Soshanguve WW 10%; Soshanguve L 9%
+2016,79900036,36,"Soshanguve L, Soshanguve K, Haakdoornboom",Soshanguve L 49%; Soshanguve L Ext 1 18%; Soshanguve K 15%; Haakdoornboom 10%; Soshanguve M Ext 1 4%; Soshanguve YY 4%
+2016,79900037,37,"Soshanguve South, Klipfontein, Soshanguve",Klipfontein 29%; Soshanguve South Ext 4 28%; Soshanguve South Ext 5 14%; Soshanguve South Ext 3 7%; Soshanguve South Ext 10 7%; Soshanguve South Ext 9 5%; Soshanguve Ext 13 5%; Soshanguve South Ext 8 4%
+2016,79900038,38,"Mamelodi FB3, Mamelodi EB2, Mamelodi BA1",Mamelodi FB3 65%; Mamelodi EB2 11%; Mamelodi BA1 10%; Naledi 6%; Mamelodi CA3 4%
+2016,79900039,39,"Soshanguve South, Ga-Rankuwa",Soshanguve South Ext 1 42%; Soshanguve South Ext 8 24%; Soshanguve South Ext 2 12%; Ga-Rankuwa 10%; Soshanguve South Ext 11 6%; Soshanguve South 6%
+2016,79900040,40,"Mamelodi, Mahube Valley",Mamelodi 45%; Mamelodi Ext 6 26%; Mamelodi Ext 8 15%; Mamelodi Ext 20 6%; Mamelodi Ext 12 4%; Mahube Valley Ext 3 3%
+2016,79900041,41,"Meyerspark, Silverton, Murrayfield",Meyerspark 31%; Silverton 27%; Murrayfield 17%; La Montagne 14%; Willow Park Manor 6%; Val De Grace 5%
+2016,79900042,42,"Monument Park, Waterkloof Ridge, Waterkloof",Monument Park 35%; Waterkloof Ridge 26%; Waterkloof 16%; Erasmusrand 10%; Waterkloof Heights 8%; Sterrewag Estate 4%
+2016,79900043,43,"Eersterust, Despatch, Waltloo",Eersterust Ext 6 46%; Eersterust Ext 2 21%; Despatch 7%; Eersterust Ext 5 6%; Waltloo 5%; Eersterust Ext 4 5%; Eersterust Ext 3 4%
+2016,79900044,44,"Faerie Glen, Garsfontein, Lynnwood Ridge",Faerie Glen 86%; Garsfontein 7%; Lynnwood Ridge 3%
+2016,79900045,45,"Garsfontein, Pretoriuspark, Moreleta Park",Garsfontein 69%; Pretoriuspark 10%; Moreleta Park 8%; Woodhill 7%; Constantia Park 4%
+2016,79900046,46,"Waterkloof Glen, Lynnwood Ridge, Lynnwood Glen",Waterkloof Glen 15%; Lynnwood Ridge 13%; Lynnwood Glen 13%; Murrayfield Ext1 12%; Lynnwood Manor 9%; Die Wilgers 9%; Scientia 7%; Wapadrand 6%; Koedoespoort 3%
+2016,79900047,47,"Elarduspark, Moreleta Park, Wingate Park",Elarduspark 33%; Moreleta Park 26%; Wingate Park 25%; Reitvlei 10%
+2016,79900048,48,"Centurion, Rooihuiskraal Noord, Monavoni",Centurion 33%; Rooihuiskraal Noord 13%; Monavoni 10%; Mnandi 6%; Raslouw Lifestyle Estate 5%; Heuweloord 4%; Raslou 4%; Rural Tshwane 4%
+2016,79900049,49,"Bultfontein, Kanana, Mandela Village",Bultfontein 23%; Kanana 21%; Mandela Village 15%; Rens Town 12%; Marokolong 11%; Grootvlei 5%; Waterval 5%; Temba Unit 1 5%
+2016,79900050,50,"Sinoville, Annlin, Wonderboom",Sinoville 34%; Annlin 32%; Wonderboom 25%; Bon Accord 9%
+2016,79900051,51,Atteridgeville,Atteridgeville 100%
+2016,79900052,52,"Waverley, Villieria, Rietfontein",Waverley 48%; Villieria 41%; Rietfontein 6%; East Lynne 5%
+2016,79900053,53,"Rietfontein, Capital Park, Gezina",Rietfontein 20%; Capital Park 19%; Gezina 17%; Villieria 14%; Eloffsdal 8%; Roseville 8%; Riviera 7%; Les Marais 5%
+2016,79900054,54,"Wonderboom South, Rietfontein, Mayville",Wonderboom South 36%; Rietfontein 22%; Mayville 19%; Mountain View 15%; Park Town Estate 7%
+2016,79900055,55,"Danville, Andeon, Krauseville",Andeon 15%; Krauseville 12%; Claremont 9%; Danville Ext 5 9%; Kameeldrift 9%; Pretoria Gardens 9%; Kirkney 8%; Danville Ext 1 6%; Danville 6%; Hornsoord 4%; Booysens 4%; Suiderberg 4%
+2016,79900056,56,"Hatfield, Brooklyn, Hillcrest",Hatfield 42%; Brooklyn 18%; Hillcrest 14%; Nieuw Muckleneuk 12%; Bailey's Muckleneuk 8%; Loftus Stadium 5%
+2016,79900057,57,"Die Hoewes, Lyttelton",Die Hoewes 52%; Lyttelton 48%
+2016,79900058,58,"Philip Nel Park, Pretoria West, Technikon Rant",Philip Nel Park 31%; Pretoria West 20%; Technikon Rant 15%; Pretoria Central 14%; Prinshof 9%; Asiatic Bazaar 5%; Capital Park 5%
+2016,79900059,59,"Sunnyside, Muckleneuk, Thaba Tshwane",Sunnyside 36%; Muckleneuk 14%; Thaba Tshwane 14%; Groenkloof Pine Plantation 9%; Zwartkop SANDF 6%; Groenkloof 5%; University of South Africa 4%; Lukasrand 4%; Voortrekker Monument 3%
+2016,79900060,60,"Pretoria Central, Salvokop, Pretoria West",Pretoria Central 46%; Salvokop 18%; Pretoria West 18%; Weskoppies 11%; Philip Nel Park 6%
+2016,79900061,61,"Laudium, Schurwe Plaas Mine, Centurion",Schurwe Plaas Mine 27%; Laudium 24%; Centurion 17%; Laudium Ext 2 11%; Laudium Ext 3 9%; Erasmia 6%; Claudius 5%
+2016,79900062,62,"Atteridgeville, Saulsville",Atteridgeville 93%; Saulsville 7%
+2016,79900063,63,"Saulsville, Atteridgeville",Saulsville 71%; Atteridgeville 29%
+2016,79900064,64,"Rooihuiskraal, The Reeds, Thatchfield","Rooihuiskraal 50%; The Reeds Ext 5 24%; The Reeds Ext 2, 10, 43 8%; The Reeds Ext 15 7%; Thatchfield 5%; The Reeds 4%"
+2016,79900065,65,"Doringkloof, Irene Research Institute, Die Hoewes",Doringkloof 19%; Irene Research Institute 16%; Die Hoewes 13%; Louwlardia 12%; Southdowns Irene Country Farm 7%; Centurion Golf Eastate 5%; Doornkloof 5%; Eco-Park Estate 4%; Highveld 4%
+2016,79900066,66,"Valhalla, Thaba Tshwane, Snake Valley",Valhalla 35%; Thaba Tshwane 21%; Snake Valley 18%; Clubview 9%; Zwartkop SANDF 7%; Glen Lauriston 5%
+2016,79900067,67,"Mamelodi Sun Valley, Mamelodi DB1, Mamelodi FB3",Mamelodi Sun Valley 23%; Mamelodi DB1 21%; Mamelodi FB3 18%; Mamelodi KC4 16%; Mamelodi CA3 8%; Baviaanspoort 7%; Eersterust Ext 3 3%
+2016,79900068,68,"Saulsville, Atteridgeville","Saulsville 62%; Atteridgeville Ext 3, 7 25%; Atteridgeville Ext 6, 16, 17 12%"
+2016,79900069,69,"Eldoraigne, Rooihuiskraal Noord, Wierda Park","Eldoraigne Ext 3, 16, 18 20%; Rooihuiskraal Noord 18%; Eldoraigne Ext 1 14%; Wierda Park Ext 2 13%; Eldoraigne 11%; Wierdaglen Estate 8%; Eldoraigne Ext 11, 27 5%; Eldoraigne Ext 6 4%"
+2016,79900070,70,"Wierda Park, Raslou, Rooihuiskraal Noord",Wierda Park 39%; Wierda Park Ext 1 17%; Raslou 10%; Rooihuiskraal Noord 7%; Wierda Park Ext 2 5%; Eldo Glen 4%; Eldoraigne 4%; Deltoidia 3%
+2016,79900071,71,"Phumolong, Vergenoeg, Schurwe Plaas Mine",Phumolong 47%; Vergenoeg 23%; Schurwe Plaas Mine 22%; Jeffersville 8%
+2016,79900072,72,"Jeffersville, Saulsville, Schurwe Plaas Mine",Jeffersville 43%; Saulsville 36%; Schurwe Plaas Mine 14%; Matejoane 5%
+2016,79900073,73,"Ramotse, Rural Tshwane, Marokolong",Ramotse 40%; Rural Tshwane 39%; Marokolong 12%; Mandela Village 7%
+2016,79900074,74,"Temba, Marokolong, Kudube",Temba Unit 1 44%; Marokolong 43%; Kudube Unit 2 7%; Temba Unit 2 4%
+2016,79900075,75,"Kudube, Temba, Babelegi Industrial",Kudube Unit D 29%; Kudube Unit 2 15%; Kudube Unit 10 15%; Temba Unit 7 13%; Temba Unit 6 8%; Kudube Unit 11 6%; Babelegi Industrial 6%; Temba Unit D 4%; Leboneng 4%
+2016,79900076,76,"Mashemong, Majaneng, Bosplaas Mathabe",Mashemong 47%; Majaneng 39%; Bosplaas Mathabe 10%
+2016,79900077,77,"Olievenhoutbos, Centurion, Rua Vista","Olievenhoutbos Ext 4, 19, 22 50%; Centurion 12%; Rua Vista 8%; Blue Valley Golf Estate 7%; Thatchfield 4%; The Reeds Ext 9 3%; Samrand Business Park 3%"
+2016,79900078,78,"Zwartkop, Hennopspark, Centurion Central",Zwartkop 51%; Hennopspark 26%; Centurion Central 13%; Clubview 6%; Bronberrik 4%
+2016,79900079,79,"Pierre van Ryneveld, Waterkloof Air Force Base, Centurion",Pierre van Ryneveld 29%; Waterkloof Air Force Base 22%; Centurion 13%; Irene Farm Villages 7%; Lyttelton 7%; Elarduspark 6%; Route 21 Business Park 6%; Erasmus Park 4%; Waterkloof Ridge 4%
+2016,79900080,80,"Pretoria Central, Muckleneuk, Sunnyside",Pretoria Central 83%; Muckleneuk 11%; Sunnyside 6%
+2016,79900081,81,"Sunnyside, Arcadia, Trevenna",Sunnyside 80%; Arcadia 11%; Trevenna 5%; Pretoria Central 4%
+2016,79900082,82,"Menlo Park, Lynnwood, University of Pretoria",Menlo Park 24%; Lynnwood 23%; University of Pretoria 18%; Hazelwood 13%; Brooklyn 7%; Waterkloof 6%; Colbyn 4%
+2016,79900083,83,"Erasmuskloof, Moreleta Park, Constantia Park",Erasmuskloof 36%; Moreleta Park 31%; Constantia Park 24%; Waterkloof Glen 6%; Newlands 4%
+2016,79900084,84,"Queenswood, Rietondale, Kilner Park",Queenswood 30%; Rietondale 24%; Kilner Park 18%; Moregloed 10%; Villieria 8%; Queenswood Ext 2 5%; Koedoespoort Industrial 4%
+2016,79900085,85,"Equestria, Die Wilgers, Faerie Glen",Equestria 42%; Die Wilgers 23%; Faerie Glen 20%; Wapadrand 13%
+2016,79900086,86,"Nellmapius, Samcor Park",Nellmapius Ext 4 34%; Nellmapius Ext 9 22%; Nellmapius Ext 3 19%; Nellmapius 15%; Samcor Park 6%
+2016,79900087,87,"Derdepoort, Koedoespoort, Kameeldrift",Derdepoort 25%; Koedoespoort 13%; Kameeldrift 11%; Rural Tshwane 9%; East Lynne 8%; Silverton 8%; Jan Niemand Park 6%; Montana Park 4%; Weavind Park 3%
+2016,79900088,88,"Soshanguve P, Soshanguve DD, Soshanguve SS",Soshanguve P 52%; Soshanguve DD 27%; Soshanguve SS Ext 4 21%
+2016,79900089,89,"Soshanguve TT, Soshanguve UU, Soshanguve South",Soshanguve TT 49%; Soshanguve UU 23%; Soshanguve South Ext 3 11%; Soshanguve WW 8%; Soshanguve East Ext 3 5%; Soshanguve South Ext 2 4%
+2016,79900090,90,"Soshanguve East, Soshanguve A, Soshanguve XX",Soshanguve A 17%; Soshanguve XX 16%; Soshanguve South Ext 5 16%; Soshanguve East 14%; Soshanguve VV 9%; Klipfontein 8%; Soshanguve East Ext 8 7%; Haakdoornboom 7%
+2016,79900091,91,"Rietfontein, Pretoriuspark, Zwavelpoort",Rietfontein 16%; Pretoriuspark 13%; Zwavelpoort 12%; Garsfontein 12%; Reitvlei 10%; Rural Tshwane 9%; Mooikloof 7%; Woodhill 6%; The Wilds 6%; Moreleta Park 4%
+2016,79900092,92,"Arcadia, Sunnyside, Eastwood",Arcadia 64%; Sunnyside 16%; Eastwood 9%; Hatfield 4%; Colbyn 3%
+2016,79900093,93,"Mamelodi, Stanza Bopape, Baviaanspoort",Stanza Bopape 21%; Baviaanspoort 19%; Leeuwfontein 16%; Mamelodi Ext 10 14%; Mamelodi Ext 17 12%; Selbourne Site 11%; Eastwood 4%
+2016,79900094,94,"Soshanguve GG, Soshanguve FF, Soshanguve HH",Soshanguve GG 58%; Soshanguve FF 18%; Soshanguve HH 10%; Soshanguve BB 8%; Soshanguve AA 4%
+2016,79900095,95,"Stinkwater D, Stinkwater C, New Eersterus",Stinkwater D 51%; Stinkwater C 18%; New Eersterus 18%; Rural Tshwane 7%; Bultfontein 4%
+2016,79900096,96,"Doornpoort, Rural Tshwane, Soshanguve MM",Doornpoort 27%; Rural Tshwane 23%; Soshanguve MM 12%; Annlin 10%; Waterval 9%; Haakdoornboom 6%; Honingnestkrans 5%
+2016,79900097,97,"Mamelodi Ext 12, 11, 22, 6…",Mamelodi Ext 12 35%; Mamelodi Ext 11 27%; Mamelodi Ext 22 19%; Mamelodi Ext 6 13%; Mamelodi Ext 8 5%
+2016,79900098,98,"Theresapark, Klerksoord, Ninapark",Theresapark 35%; Klerksoord 11%; Ninapark 10%; Amandasig 9%; Dorandia 9%; Rosslyn Industrial 6%; Tileba 5%; Winternest 4%; Heatherdale 4%
+2016,79900099,99,"Refilwe, Rural Tshwane, Kameeldrift",Refilwe 30%; Rural Tshwane 11%; Kameeldrift 11%; Derdepoort 7%; Leeuwfontein 7%; Mahube Valley Ext 1 7%; Baviaanspoort 6%; Kameelfontein 5%; Lewzene Estate 5%; Doornkraal 5%
+2016,79900100,100,"Rayton, Cullinan, Rural Tshwane",Rayton 34%; Cullinan 16%; Rural Tshwane 14%; Premier Diamond Mine 13%; Donkerhoek 11%; Refilwe 9%
+2016,79900101,101,"Mooiplaas, Rural Tshwane, Boadwalk",Mooiplaas 23%; Rural Tshwane 17%; Boadwalk 11%; Shere 10%; Tierpoort 7%; Six Fountains Residential Estate 5%; Silver Lakes Golf Estate 5%; Willow Acres Estate 4%; Arathorn Estate 3%
+2016,79900102,102,"Zithobeni, Rural Tshwane, Riamar Park",Zithobeni 47%; Rural Tshwane 43%; Riamar Park 6%
+2016,79900103,103,"Ekangala, Rural Tshwane, Rethabiseng",Ekangala 32%; Ekangala Section B 25%; Rural Tshwane 21%; Ekangala Section A 6%; Rethabiseng Ext 1 6%; Ekandustria 4%
+2016,79900104,104,Ekangala Section A,Ekangala 73%; Ekangala Section A 27%
+2016,79900105,105,"Rural Tshwane, Ekangala, Bronkhorstspruit",Rural Tshwane 39%; Ekangala Section D 30%; Bronkhorstspruit 13%; Roodepoort 8%
+2016,79900106,106,"Olievenhoutbos, Mnandi, Knoppieslaagte",Olievenhoutbos Ext 36 27%; Olievenhoutbos 17%; Olievenhoutbos Ext 15 10%; Olievenhoutbos Ext 26 10%; Olievenhoutbos Ext 13 8%; Olievenhoutbos Ext 20 5%; Olievenhoutbos Ext 24 4%; Mnandi 4%; Knoppieslaagte 4%
+2016,79900107,107,"Vergenoeg, Atteridgeville, Siahlala","Vergenoeg 48%; Atteridgeville Ext 6, 16, 17 17%; Siahlala 16%; Centurion 9%; Pretoria 5%; Schurwe Plaas Mine 5%"
+2021,79900001,1,"Mountain View, Claremont, Daspoort",Mountain View 24%; Claremont 17%; Daspoort 13%; Capital Park 11%; Hermanstad 10%; Pretoria Gardens 10%; Roseville 9%
+2021,79900002,2,"Pretoria North, Wolmer, Dorandia",Pretoria North 54%; Wolmer 17%; Dorandia 12%; Annlin 9%; Florauna 8%
+2021,79900003,3,"Philip Nel Park, Pretoria West, West Park",Philip Nel Park 24%; Pretoria West 18%; West Park 14%; Proclamation Hill 11%; Pretoria 10%; Weskoppies 9%; Kwaggasrand 7%
+2021,79900004,4,"The Orchards, Karenpark, Wildebeesthoek",Karenpark 28%; The Orchards 26%; The Orchards Ext 11 13%; Wildebeesthoek 13%; Fundus 8%; The Orchards Ext 3%; Amandasig 3%
+2021,79900005,5,"Montana, Magalieskruin, Sinoville",Montana 38%; Magalieskruin 26%; Sinoville 17%; Montana Park 12%; Zambezi Courty Estate 3%; Montana Tuine 3%
+2021,79900006,6,"Naledi, Mamelodi QD4, Mamelodi PD3",Naledi 18%; Mamelodi QD4 17%; Mamelodi PD3 14%; Mamelodi RD5 13%; Mamelodi AA4 12%; Mamelodi MD1 9%; Mamelodi KC4 9%; Mamelodi SA5 7%
+2021,79900007,7,"Lotus Gardens, Pretoria, Krauseville",Pretoria 28%; Krauseville 25%; Lotus Gardens Ext 2 25%; Lotus Gardens 19%
+2021,79900008,8,"Suurman, Sekampaneng, Dilopye",Suurman 40%; Sekampaneng 30%; Dilopye 11%; Kudube Unit 11 7%; Temba Unit 7 6%; Temba Unit 1 3%
+2021,79900009,9,"Winterveld Ext 1, 3",Winterveld Ext 1 89%; Winterveld Ext 3 11%
+2021,79900010,10,"Mamelodi Ext 22, 6, 11",Mamelodi Ext 22 53%; Mamelodi Ext 6 43%; Mamelodi Ext 11 3%
+2021,79900011,11,"Soshanguve JJ, Soshanguve NN, Soshanguve HH",Soshanguve JJ 31%; Soshanguve NN 30%; Soshanguve HH 18%; Soshanguve LL 18%; Soshanguve GG 3%
+2021,79900012,12,"Mabopane A, Winterveld, Lebanon",Mabopane A 43%; Winterveld Ext 3 27%; Lebanon 21%; Beirut 9%
+2021,79900013,13,"Stinkwater, Stinkwater B, Soutpan",Stinkwater 24%; Stinkwater B 24%; Soutpan 24%; Stinkwater C 10%; Soshanguve V Ext 1 6%; New Eersterus 4%; Stinkwater A 3%
+2021,79900014,14,New Eersterus,New Eersterus 100%
+2021,79900015,15,"Nellmapius, Mamelodi, Phumulamcashi Buffer Zone",Mamelodi Ext 14 22%; Nellmapius Ext 6 18%; Mamelodi Ext 3 18%; Nellmapius Ext 7 16%; Nellmapius Ext 8 14%; Phumulamcashi Buffer Zone 11%
+2021,79900016,16,"Mamelodi, Mamelodi Fourteens",Mamelodi Ext 5 52%; Mamelodi Ext 4 31%; Mamelodi Fourteens 11%; Mamelodi Ext 2 6%
+2021,79900017,17,"Mamelodi, Mahube Valley",Mamelodi Ext 10 23%; Mahube Valley 18%; Mamelodi Ext 8 15%; Mamelodi Ext 7 15%; Mahube Valley Ext 3 13%; Mamelodi Ext 20 6%; Mahube Valley Ext 2 5%
+2021,79900018,18,"Mamelodi, Mamelodi Seventeens, Mamelodi Fourteens",Mamelodi Ext 2 26%; Mamelodi Seventeens 22%; Mamelodi Fourteens 17%; Phumulamcashi Buffer Zone 10%; Mamelodi Sixteens 10%; Mamelodi Fifteens 8%; Khutsong 6%
+2021,79900019,19,"Winterveld, Mabopane, Slovo",Winterveld Ext 3 57%; Mabopane 20%; Slovo 16%; Lebanon 6%
+2021,79900020,20,"Itsoseng, Mabopane, Mabopane M",Itsoseng 42%; Mabopane M 20%; Mabopane Unit C 17%; Mabopane Unit S 16%; Mabopane Unit D 6%
+2021,79900021,21,"Mabopane, Mabopane X, Mabopane A",Mabopane Unit B 47%; Mabopane X 31%; Mabopane A 22%
+2021,79900022,22,"Mabopane U, Botshabelo, Mabopane",Mabopane U 40%; Botshabelo 17%; Mabopane Unit C 11%; Tsebe 10%; Mabopane M 5%; Midas 4%; Mabopane U Ext 1 4%; Mabopane 4%
+2021,79900023,23,"Mamelodi S&S, Eastwood, Khalambazo",Mamelodi S&S 30%; Eastwood 18%; Khalambazo 16%; Baviaanspoort 13%; Mamelodi OD2 9%; Mamelodi ND6 8%; White City 3%
+2021,79900024,24,Winterveld Ext 1,Winterveld Ext 1 69%; Winterveld 31%
+2021,79900025,25,"Soshanguve PP 2, Soshanguve V, Soshanguve T",Soshanguve V 25%; Soshanguve T 20%; Soshanguve PP 2 16%; Chris Hani 12%; Soshanguve PP 1 10%; Soshanguve PP3 9%; Soshanguve V Ext 1 6%
+2021,79900026,26,"Soshanguve R, Soshanguve KK, Soshanguve FF",Soshanguve R 31%; Soshanguve KK 30%; Soshanguve FF 18%; Soshanguve GG 10%; Soshanguve S 7%; Soshanguve BB 4%
+2021,79900027,27,"Soshanguve X, Soshanguve W, Soshanguve R",Soshanguve X 42%; Soshanguve W 29%; Soshanguve R 16%; Rural Tshwane 7%; Soshanguve S 4%
+2021,79900028,28,"Nellmapius, Tsakane, Mamelodi",Nellmapius Ext 4 28%; Tsakane 18%; Mamelodi Ext 14 16%; Mamelodi OD2 9%; Phumulamcashi Buffer Zone 9%; Moretele View 8%; Samcor Park 4%; Nellmapius Ext 9 4%
+2021,79900029,29,"Soshanguve F, Winterveld, Soshanguve IA",Soshanguve F 29%; Soshanguve IA 13%; Winterveld Ext 1 12%; Mabopane Unit E 9%; Mabopane N 8%; Winterveld 7%; Mabopane CV 7%; Soshanguve NNME1 7%; Soshanguve AA 4%
+2021,79900030,30,"Ga-Rankuwa, Ga-Rankuwa View, Ga-Rankuwa Industrial",Ga-Rankuwa Unit 16 17%; GaRankuwa Unit 20 15%; Ga-Rankuwa View 14%; Ga-Rankuwa Industrial 14%; Ga-Rankuwa Unit 15 11%; Ga-Rankuwa Unit 23 8%; Ga-Rankuwa Unit 25 7%; Ga-Rankuwa Unit 5 5%; Ga-Rankuwa Unit 4 5%
+2021,79900031,31,"Ga-Rankuwa, Wildebeesthoek, Kameeldrift",Ga-Rankuwa Unit 1 42%; Ga-Rankuwa Unit 2 28%; Ga-Rankuwa Unit 5 12%; Ga-Rankuwa Unit 4 9%; Wildebeesthoek 5%; Kameeldrift 4%
+2021,79900032,32,"Ga-Rankuwa, Wildebeesthoek, Medunsa",Ga-Rankuwa 28%; Ga-Rankuwa Unit 7 16%; Ga-Rankuwa Unit 3 12%; Ga-Rankuwa Unit 21 8%; Wildebeesthoek 6%; Ga-Rankuwa Unit 9 6%; Medunsa 6%; Ga-Rankuwa Unit 10 5%; Ga-Rankuwa Unit 6 5%; Klipfontein 4%; Ga-Rankuwa Unit 8 3%
+2021,79900033,33,"Soshanguve G, Soshanguve BB, Soshanguve AA",Soshanguve G 36%; Soshanguve BB 17%; Soshanguve AA 14%; Soshanguve F 13%; Soshanguve CC 11%; Soshanguve MM 8%
+2021,79900034,34,"Soshanguve H, Soshanguve K, Soshanguve M",Soshanguve H 57%; Soshanguve K 27%; Soshanguve M 6%; Soshanguve L 6%
+2021,79900035,35,"Soshanguve L, Soshanguve K, Soshanguve M",Soshanguve L 42%; Soshanguve K 22%; Soshanguve L Ext 1 16%; Soshanguve M 12%; Haakdoornboom 8%
+2021,79900036,36,"Soshanguve M, Soshanguve UU, Soshanguve East",Soshanguve M Ext 1 20%; Soshanguve UU 20%; Soshanguve WW 12%; Haakdoornboom 11%; Soshanguve East Ext 3 7%; Soshanguve L 7%; Soshanguve VV 7%; Soshanguve YY 6%; Soshanguve East Ext 4 4%; Soshanguve East Ext 5 3%
+2021,79900037,37,"Soshanguve South, Klipfontein, Rosslyn Industrial",Klipfontein 25%; Soshanguve South Ext 10 17%; Soshanguve South Ext 8 12%; Rosslyn Industrial 11%; Soshanguve Ext 13 11%; Soshanguve South Ext 9 10%; Soshanguve South Ext 4 8%
+2021,79900038,38,"Mamelodi FB3, Mamelodi Sun Valley, Mamelodi EB2",Mamelodi FB3 61%; Mamelodi Sun Valley 16%; Mamelodi EB2 10%; Naledi 5%; Mamelodi K18 4%; Eersterust Ext 3 3%
+2021,79900039,39,"Soshanguve South, Ga-Rankuwa",Soshanguve South Ext 1 46%; Soshanguve South Ext 8 20%; Soshanguve South Ext 2 13%; Soshanguve South Ext 11 10%; Soshanguve South 6%; Ga-Rankuwa 5%
+2021,79900040,40,"Mamelodi Ext 6, 12, 8",Mamelodi 39%; Mamelodi Ext 6 35%; Mamelodi Ext 12 20%; Mamelodi Ext 8 4%
+2021,79900041,41,"Silverton, Meyerspark, Murrayfield",Silverton 27%; Meyerspark 26%; Murrayfield 13%; La Montagne 12%; Willow Park Manor 7%; Waltloo 6%; Val De Grace 5%
+2021,79900042,42,"Monument Park, Waterkloof Ridge, Waterkloof",Monument Park 33%; Waterkloof Ridge 30%; Waterkloof 10%; Erasmusrand 9%; Waterkloof Heights 7%; Erasmus Park 5%; Sterrewag Estate 4%
+2021,79900043,43,"Eersterust, Despatch, Derdepoort",Eersterust Ext 6 47%; Eersterust Ext 2 21%; Despatch 7%; Eersterust Ext 5 6%; Eersterust Ext 4 5%; Derdepoort 5%; Eersterust Ext 3 5%; Jan Niemand Park 4%
+2021,79900044,44,"Faerie Glen, Garsfontein",Faerie Glen 86%; Garsfontein 8%
+2021,79900045,45,"Garsfontein, Pretoriuspark, Woodhill",Garsfontein 80%; Pretoriuspark 8%; Woodhill 7%
+2021,79900046,46,"Lynnwood Glen, Lynnwood Ridge, Murrayfield Ext1",Lynnwood Glen 19%; Lynnwood Ridge 13%; Murrayfield Ext1 10%; Lynnwood Manor 9%; Silverton 9%; Wapadrand 7%; Die Wilgers 7%; Scientia 6%; Faerie Glen 5%; Val De Grace 4%; Koedoespoort 3%
+2021,79900047,47,"Elarduspark, Wingate Park, Moreleta Park",Elarduspark 31%; Wingate Park 25%; Moreleta Park 25%; Reitvlei 10%; Clearwater Flyfishing Estate 4%
+2021,79900048,48,"Centurion, Rooihuiskraal Noord, Monavoni",Centurion 18%; Rooihuiskraal Noord 17%; Monavoni 13%; Raslouw Lifestyle Estate 7%; Mnandi 7%; Heuweloord 6%; Raslou 5%; Rural Tshwane 4%; Heuwelsig Estate 4%; Amberfield Valley 4%
+2021,79900049,49,"Bultfontein, Kanana, Mandela Village",Bultfontein 30%; Kanana 22%; Mandela Village 14%; Rens Town 12%; Marokolong 11%; Temba Unit 1 5%; Grootvlei 5%
+2021,79900050,50,"Sinoville, Annlin, Wonderboom",Sinoville 34%; Annlin 32%; Wonderboom 25%; Bon Accord 9%
+2021,79900051,51,"Atteridgeville, Thaba Tshwane, Pretoria",Atteridgeville 67%; Thaba Tshwane 22%; Pretoria 8%
+2021,79900052,52,"Waverley, Villieria, Koedoespoort",Waverley 41%; Villieria 32%; Koedoespoort 10%; East Lynne 9%; Rietfontein 5%
+2021,79900053,53,"Rietfontein, Gezina, Villieria",Rietfontein 23%; Gezina 18%; Villieria 17%; Capital Park 15%; Riviera 11%; Roseville 8%
+2021,79900054,54,"Wonderboom South, Rietfontein, Mayville",Wonderboom South 37%; Rietfontein 22%; Mayville 18%; Mountain View 16%; Park Town Estate 7%
+2021,79900055,55,"Andeon, Krauseville, Kameeldrift",Andeon 19%; Krauseville 16%; Kameeldrift 14%; Kirkney 12%; Claremont 11%; Pretoria Gardens 9%; Suiderberg 5%; Booysens 5%; Lady Selborne 4%
+2021,79900056,56,"Hatfield, Brooklyn, Hillcrest",Hatfield 41%; Brooklyn 19%; Hillcrest 15%; Nieuw Muckleneuk 10%; Bailey's Muckleneuk 8%; Loftus Stadium 5%
+2021,79900057,57,"Die Hoewes, Lyttelton",Die Hoewes 54%; Lyttelton 46%
+2021,79900058,58,"Pretoria Central, Pretoria West, Technikon Rant",Pretoria Central 54%; Pretoria West 16%; Technikon Rant 11%; Prinshof 9%; Asiatic Bazaar 5%; Capital Park 4%
+2021,79900059,59,"Sunnyside, Muckleneuk, Thaba Tshwane",Sunnyside 37%; Muckleneuk 15%; Thaba Tshwane 12%; Groenkloof Pine Plantation 10%; Groenkloof 6%; Zwartkop SANDF 5%; University of South Africa 4%; Lukasrand 4%; Voortrekker Monument 3%
+2021,79900060,60,"Danville, Elandspoort, Philip Nel Park","Danville 21%; Elandspoort 16%; Danville Ext 5 14%; Danville Ext 1 13%; Philip Nel Park 12%; Danville Ext 8, 9, 11, 12, 13 & 15 9%; Danville Ext 2 8%; Danville Ext 3 3%"
+2021,79900061,61,"Laudium, Schurwe Plaas Mine, Centurion",Schurwe Plaas Mine 28%; Laudium 21%; Centurion 19%; Laudium Ext 2 10%; Laudium Ext 3 9%; Erasmia 6%; Claudius 4%
+2021,79900062,62,Atteridgeville,Atteridgeville 100%
+2021,79900063,63,"Saulsville, Atteridgeville",Saulsville 79%; Atteridgeville 21%
+2021,79900064,64,"The Reeds, Rooihuiskraal, Thatchfield","Rooihuiskraal 28%; The Reeds Ext 15 14%; Thatchfield 14%; The Reeds Ext 5 13%; The Reeds Ext 2, 10, 43 10%; The Reeds 7%; The Reeds Ext 9 7%; The Reeds Ext 6,19,20 3%"
+2021,79900065,65,"Irene Research Institute, Louwlardia, Rooihuiskraal",Irene Research Institute 17%; Louwlardia 17%; Rooihuiskraal 16%; Southdowns Irene Country Farm 8%; Eco-Park Estate 6%; Centurion 6%; Doornkloof 5%; Highveld 5%; Centurion Golf Eastate 5%; Highveld Techno Park 4%; Irene Security Estate 3%
+2021,79900066,66,"Valhalla, Hennopspark, Clubview",Valhalla 33%; Hennopspark 22%; Clubview 19%; Snake Valley 13%; Zwartkop SANDF 4%; Bronberrik 3%
+2021,79900067,67,"Baviaanspoort, Mamelodi DB1, Mamelodi FB3",Baviaanspoort 18%; Mamelodi DB1 17%; Mamelodi FB3 15%; Mamelodi KC4 14%; Mamelodi CA3 11%; Mamelodi BA1 11%; Mamelodi Sun Valley 4%; Mamelodi JB3 4%; Mamelodi LC5 3%
+2021,79900068,68,"Saulsville, Atteridgeville","Saulsville 52%; Atteridgeville Ext 3, 7 32%; Atteridgeville Ext 6, 16, 17 16%"
+2021,79900069,69,"Eldoraigne, Rooihuiskraal Noord, Wierda Park","Rooihuiskraal Noord 23%; Eldoraigne Ext 3, 16, 18 17%; Wierda Park Ext 2 16%; Eldoraigne Ext 1 13%; Eldoraigne 10%; Wierdaglen Estate 7%; Eldoraigne Ext 11, 27 5%; Eldoraigne Ext 6 3%"
+2021,79900070,70,"Wierda Park, Centurion, Raslou",Wierda Park 33%; Centurion 20%; Wierda Park Ext 1 15%; Raslou 10%; Eldo Glen 6%; Eldoraigne 5%; Deltoidia 3%
+2021,79900071,71,"Phumolong, Jeffersville, Vergenoeg",Phumolong 38%; Jeffersville 25%; Vergenoeg 19%; Schurwe Plaas Mine 18%
+2021,79900072,72,"Saulsville, Jeffersville, Atteridgeville",Saulsville 45%; Jeffersville 18%; Atteridgeville 17%; Schurwe Plaas Mine 13%; Matejoane 5%
+2021,79900073,73,"Rural Tshwane, Ramotse, Marokolong",Rural Tshwane 40%; Ramotse 39%; Marokolong 12%; Mandela Village 7%
+2021,79900074,74,"Temba, Marokolong, Kudube",Temba Unit 1 44%; Marokolong 44%; Kudube Unit 2 7%; Temba Unit 2 4%
+2021,79900075,75,"Kudube, Temba, Babelegi Industrial",Kudube Unit D 27%; Kudube Unit 10 16%; Temba Unit 7 15%; Kudube Unit 2 14%; Temba Unit 6 8%; Kudube Unit 11 6%; Babelegi Industrial 6%; Temba Unit D 4%; Leboneng 4%
+2021,79900076,76,"Mashemong, Majaneng, Bosplaas Mathabe",Mashemong 47%; Majaneng 38%; Bosplaas Mathabe 11%
+2021,79900077,77,"Olievenhoutbos, Rua Vista, Centurion","Olievenhoutbos Ext 4, 19, 22 36%; Olievenhoutbos Ext 36 26%; Rua Vista 9%; Centurion 9%; Blue Valley Golf Estate 6%"
+2021,79900078,78,"Zwartkop, Doringkloof, Die Hoewes",Zwartkop 44%; Doringkloof 25%; Die Hoewes 18%; Centurion Central 12%
+2021,79900079,79,"Pierre van Ryneveld, Waterkloof Air Force Base, Centurion",Pierre van Ryneveld 31%; Waterkloof Air Force Base 22%; Centurion 14%; Elarduspark 10%; Irene Farm Villages 8%; Lyttelton 7%; Route 21 Business Park 7%
+2021,79900080,80,"Pretoria Central, Salvokop, Muckleneuk",Pretoria Central 70%; Salvokop 17%; Muckleneuk 8%; Sunnyside 5%
+2021,79900081,81,"Sunnyside, Arcadia, Trevenna",Sunnyside 77%; Arcadia 12%; Trevenna 6%; Pretoria Central 4%
+2021,79900082,82,"Menlo Park, Lynnwood, University of Pretoria",Menlo Park 27%; Lynnwood 25%; University of Pretoria 17%; Hazelwood 11%; Waterkloof 9%; Colbyn 3%
+2021,79900083,83,"Moreleta Park, Erasmuskloof, Constantia Park",Moreleta Park 28%; Erasmuskloof 26%; Constantia Park 21%; Waterkloof Glen 17%; Newlands 6%
+2021,79900084,84,"Queenswood, Rietondale, Kilner Park",Queenswood 27%; Rietondale 21%; Kilner Park 17%; Moregloed 10%; Villieria 8%; Queenswood Ext 2 5%; Koedoespoort Industrial 4%; Weavind Park 3%
+2021,79900085,85,"Equestria, Die Wilgers, Wapadrand",Equestria 53%; Die Wilgers 24%; Wapadrand 19%
+2021,79900086,86,"Nellmapius, Samcor Park",Nellmapius 24%; Nellmapius Ext 3 24%; Nellmapius Ext 4 23%; Nellmapius Ext 9 22%; Samcor Park 5%
+2021,79900087,87,"Derdepoort, Kameeldrift, Montana Park",Derdepoort 28%; Kameeldrift 25%; Montana Park 11%; Rural Tshwane 9%; Baviaanspoort 7%; Kameelfontein 5%; Leeuwfontein 4%; Roodeplaat 3%
+2021,79900088,88,"Soshanguve P, Soshanguve DD, Soshanguve SS",Soshanguve P 42%; Soshanguve DD 22%; Soshanguve SS Ext 4 18%; Soshanguve Y 17%
+2021,79900089,89,"Soshanguve South, Soshanguve TT",Soshanguve TT 38%; Soshanguve South Ext 4 26%; Soshanguve South Ext 3 18%; Soshanguve South Ext 5 13%; Soshanguve South Ext 2 4%
+2021,79900090,90,"Soshanguve East, Soshanguve A, Klipfontein",Soshanguve A 19%; Klipfontein 18%; Soshanguve XX 17%; Soshanguve East 16%; Soshanguve South Ext 5 13%; Soshanguve East Ext 8 8%; Soshanguve VV 6%
+2021,79900091,91,"Rietfontein, Reitvlei, Rural Tshwane",Rietfontein 31%; Reitvlei 16%; Rural Tshwane 16%; Mooikloof 13%; Moreleta Park 11%; Pretoriuspark 3%
+2021,79900092,92,"Arcadia, Sunnyside, Eastwood",Arcadia 61%; Sunnyside 16%; Eastwood 10%; Hatfield 4%; Loftus Stadium 4%; Colbyn 3%
+2021,79900093,93,"Mamelodi, Leeuwfontein, Stanza Bopape",Leeuwfontein 29%; Mamelodi Ext 17 18%; Stanza Bopape 16%; Mamelodi Ext 10 12%; Mahube Valley Ext 1 9%; Selbourne Site 9%; Baviaanspoort 4%; Eastwood 3%
+2021,79900094,94,"Soshanguve GG, Soshanguve FF, Soshanguve HH",Soshanguve GG 53%; Soshanguve FF 19%; Soshanguve HH 13%; Soshanguve BB 8%; Soshanguve AA 3%
+2021,79900095,95,"Stinkwater D, New Eersterus, Stinkwater C",Stinkwater D 46%; New Eersterus 21%; Stinkwater C 18%; Bultfontein 6%; Rural Tshwane 5%; Vastfontein 4%
+2021,79900096,96,"Doornpoort, Rural Tshwane, Waterval",Doornpoort 29%; Rural Tshwane 25%; Waterval 11%; Montana 8%; Haakdoornboom 6%; Montana Tuine 5%; Honingnestkrans 5%; Wallmannsthal Army Base 3%
+2021,79900097,97,"Mamelodi Ext 18, 11, 12, 6",Mamelodi Ext 18 43%; Mamelodi Ext 11 38%; Mamelodi Ext 12 11%; Mamelodi Ext 6 8%
+2021,79900098,98,"Theresapark, Klerksoord, Ninapark",Theresapark 36%; Klerksoord 12%; Ninapark 10%; Amandasig 10%; Dorandia 9%; Winternest 5%; Heatherdale 5%; Tileba 5%
+2021,79900099,99,"Refilwe, Rural Tshwane, Premier Diamond Mine",Refilwe 46%; Rural Tshwane 19%; Premier Diamond Mine 11%; Doornkraal 8%; Lewzene Estate 7%; Roodeplaat 4%
+2021,79900100,100,"Rayton, Cullinan, Rural Tshwane",Rayton 52%; Cullinan 15%; Rural Tshwane 15%; Donkerhoek 13%; Premier Diamond Mine 4%
+2021,79900101,101,"Silver Lakes Golf Estate, Boadwalk, Shere",Silver Lakes Golf Estate 18%; Boadwalk 14%; Shere 11%; Zwavelpoort 11%; Mooiplaas 10%; Pretoriuspark 9%; Six Fountains Residential Estate 5%; Woodhill 5%; The Wilds 5%; Arathorn Estate 4%; Willow Acres Estate 4%
+2021,79900102,102,"Rural Tshwane, Zithobeni, Tierpoort",Rural Tshwane 54%; Zithobeni 24%; Tierpoort 8%; Tweedracht 3%; Boschkop 3%
+2021,79900103,103,"Ekangala, Rural Tshwane, Rethabiseng",Ekangala Section D 28%; Ekangala 27%; Rural Tshwane 26%; Rethabiseng Ext 1 6%; Ekangala Section B 5%; Rethabiseng 3%
+2021,79900104,104,"Ekangala Section A, Section B",Ekangala 60%; Ekangala Section A 25%; Ekangala Section B 15%
+2021,79900105,105,"Rural Tshwane, Zithobeni, Bronkhorstspruit",Rural Tshwane 43%; Zithobeni 23%; Bronkhorstspruit 11%; Riamar Park 8%; Roodepoort 8%
+2021,79900106,106,"Olievenhoutbos, Knoppieslaagte, Blue Hills",Olievenhoutbos 22%; Olievenhoutbos Ext 26 16%; Olievenhoutbos Ext 15 13%; Olievenhoutbos Ext 13 10%; Olievenhoutbos Ext 24 6%; Knoppieslaagte 6%; Olievenhoutbos Ext 20 6%; Olievenhoutbos Ext 36 4%; Blue Hills 4%; Olievenhoutbos Ext 21 3%; Olievenhoutbos Ext 23 3%; Olievenhoutbos Ext 25 3%
+2021,79900107,107,"Vergenoeg, Atteridgeville, Siahlala","Vergenoeg 46%; Atteridgeville Ext 6, 16, 17 18%; Siahlala 16%; Centurion 9%; Pretoria 5%; Schurwe Plaas Mine 5%"
+2026,79900001,1,"Mountain View, Claremont, Daspoort",Mountain View 37%; Claremont 18%; Daspoort 13%; Hermanstad 11%; Pretoria Gardens 10%; Suiderberg 4%; Roseville 3%
+2026,79900002,2,"Pretoria North, Dorandia, Wolmer",Pretoria North 52%; Dorandia 20%; Wolmer 16%; Florauna 7%; Tileba 5%
+2026,79900003,3,"Philip Nel Park, Pretoria West, West Park",Philip Nel Park 24%; Pretoria West 18%; West Park 14%; Proclamation Hill 11%; Pretoria 10%; Weskoppies 9%; Kwaggasrand 7%
+2026,79900004,4,"The Orchards, Karenpark, Fundus",The Orchards 30%; Karenpark 25%; The Orchards Ext 11 16%; Fundus 10%; Wildebeesthoek 7%; The Orchards Ext 4%; Amandasig 4%
+2026,79900005,5,"Montana, Magalieskruin, Montana Park",Montana 38%; Magalieskruin 25%; Montana Park 23%; Sinoville 7%; Zambezi Courty Estate 3%; Montana Tuine 3%
+2026,79900006,6,"Mamelodi QD4, Mamelodi PD3, Mamelodi RD5",Mamelodi QD4 18%; Mamelodi PD3 17%; Mamelodi RD5 13%; Mamelodi AA4 12%; Mamelodi KC4 9%; Mamelodi MD1 8%; Mamelodi OD2 8%; Naledi 8%; Mamelodi SA5 7%
+2026,79900007,7,"Lotus Gardens, Krauseville, Pretoria",Lotus Gardens Ext 2 33%; Krauseville 28%; Lotus Gardens 25%; Pretoria 14%
+2026,79900008,8,"Suurman, Sekampaneng, Kudube",Suurman 38%; Sekampaneng 28%; Kudube Unit 11 13%; Dilopye 11%; Temba Unit 7 5%
+2026,79900009,9,"Winterveld Ext 1, 3",Winterveld Ext 1 89%; Winterveld Ext 3 11%
+2026,79900010,10,"Mamelodi Ext 22, 6, 11",Mamelodi Ext 22 48%; Mamelodi Ext 6 47%; Mamelodi Ext 11 3%
+2026,79900011,11,"Soshanguve JJ, Soshanguve NN, Soshanguve HH",Soshanguve JJ 31%; Soshanguve NN 30%; Soshanguve HH 18%; Soshanguve LL 18%
+2026,79900012,12,"Mabopane A, Winterveld, Lebanon",Mabopane A 51%; Winterveld Ext 3 21%; Lebanon 19%; Beirut 8%
+2026,79900013,13,"Stinkwater B, Stinkwater, Stinkwater C",Stinkwater B 33%; Stinkwater 32%; Stinkwater C 22%; New Eersterus 5%; Stinkwater A 4%
+2026,79900014,14,New Eersterus,New Eersterus 100%
+2026,79900015,15,"Nellmapius, Rayton, Mamelodi",Rayton 25%; Mamelodi Ext 14 20%; Nellmapius Ext 6 17%; Nellmapius Ext 7 15%; Nellmapius Ext 8 13%; Donkerhoek 10%
+2026,79900016,16,"Mamelodi, Mamelodi Fourteens",Mamelodi Ext 5 45%; Mamelodi Ext 4 27%; Mamelodi Ext 3 15%; Mamelodi Fourteens 10%; Mamelodi Ext 2 3%
+2026,79900017,17,"Mamelodi, Mahube Valley",Mamelodi Ext 10 23%; Mamelodi Ext 8 18%; Mahube Valley 18%; Mamelodi Ext 7 15%; Mahube Valley Ext 3 13%; Mamelodi Ext 20 6%; Mahube Valley Ext 2 5%
+2026,79900018,18,"Mamelodi, Mamelodi Seventeens, Mamelodi Fourteens",Mamelodi Ext 2 28%; Mamelodi Seventeens 21%; Mamelodi Fourteens 17%; Phumulamcashi Buffer Zone 10%; Mamelodi Sixteens 10%; Mamelodi Fifteens 8%; Khutsong 6%
+2026,79900019,19,"Winterveld, Mabopane, Slovo",Winterveld Ext 3 56%; Mabopane 22%; Slovo 16%; Lebanon 6%
+2026,79900020,20,"Itsoseng, Mabopane, Mabopane M",Itsoseng 46%; Mabopane Unit S 17%; Mabopane M 17%; Mabopane Unit C 13%; Mabopane Unit D 7%
+2026,79900021,21,"Mabopane, Mabopane X, Mabopane A",Mabopane Unit B 46%; Mabopane X 30%; Mabopane Unit C 15%; Mabopane A 9%
+2026,79900022,22,"Mabopane U, Botshabelo, Tsebe",Mabopane U 43%; Botshabelo 19%; Tsebe 10%; Mabopane M 10%; Midas 5%; Mabopane U Ext 1 5%; Odinburg Gardens 3%
+2026,79900023,23,"Mamelodi S&S, Eastwood, Khalambazo",Mamelodi S&S 29%; Eastwood 17%; Khalambazo 15%; Baviaanspoort 13%; Mamelodi ND6 9%; Mamelodi OD2 9%; White City 3%
+2026,79900024,24,Winterveld Ext 1,Winterveld Ext 1 69%; Winterveld 31%
+2026,79900025,25,"Soshanguve V, Soshanguve PP 2, Soutpan",Soshanguve V 19%; Soutpan 18%; Soshanguve T 15%; Soshanguve PP 2 12%; Soshanguve V Ext 1 9%; Chris Hani 9%; Soshanguve PP3 8%; Soshanguve PP 1 7%
+2026,79900026,26,"Soshanguve KK, Soshanguve R, Soshanguve FF",Soshanguve KK 31%; Soshanguve R 27%; Soshanguve FF 19%; Soshanguve GG 11%; Soshanguve S 7%; Soshanguve BB 5%
+2026,79900027,27,"Soshanguve X, Soshanguve W, Soshanguve R",Soshanguve X 40%; Soshanguve W 29%; Soshanguve R 21%; Rural Tshwane 7%; Soshanguve S 4%
+2026,79900028,28,"Nellmapius, Phumulamcashi Buffer Zone, Tsakane",Nellmapius Ext 4 29%; Phumulamcashi Buffer Zone 23%; Tsakane 19%; Mamelodi Ext 14 18%; Moretele View 9%
+2026,79900029,29,"Soshanguve F, Winterveld, Soshanguve IA",Soshanguve F 28%; Winterveld Ext 1 12%; Soshanguve IA 11%; Mabopane Unit E 9%; Mabopane N 8%; Soshanguve NNME1 8%; Winterveld 7%; Mabopane CV 7%; Soshanguve AA 4%
+2026,79900030,30,"Ga-Rankuwa, Ga-Rankuwa View, Ga-Rankuwa Industrial",Ga-Rankuwa Unit 16 17%; GaRankuwa Unit 20 15%; Ga-Rankuwa View 14%; Ga-Rankuwa Industrial 14%; Ga-Rankuwa Unit 15 11%; Ga-Rankuwa Unit 23 8%; Ga-Rankuwa Unit 25 7%; Ga-Rankuwa Unit 5 5%; Ga-Rankuwa Unit 4 4%
+2026,79900031,31,"Ga-Rankuwa, Wildebeesthoek, Kameeldrift",Ga-Rankuwa Unit 1 40%; Ga-Rankuwa Unit 2 26%; Wildebeesthoek 20%; Ga-Rankuwa Unit 4 9%; Kameeldrift 4%
+2026,79900032,32,"Ga-Rankuwa, Medunsa",Ga-Rankuwa 28%; Ga-Rankuwa Unit 7 16%; Ga-Rankuwa Unit 3 12%; Ga-Rankuwa Unit 5 11%; Ga-Rankuwa Unit 21 8%; Ga-Rankuwa Unit 9 6%; Medunsa 6%; Ga-Rankuwa Unit 10 5%; Ga-Rankuwa Unit 6 5%; Ga-Rankuwa Unit 8 3%
+2026,79900033,33,"Soshanguve G, Soshanguve AA, Soshanguve BB",Soshanguve G 36%; Soshanguve AA 17%; Soshanguve BB 15%; Soshanguve F 13%; Soshanguve CC 11%; Soshanguve MM 8%
+2026,79900034,34,"Soshanguve H, Soshanguve K, Soshanguve M",Soshanguve H 56%; Soshanguve K 27%; Soshanguve M 7%; Soshanguve L 6%
+2026,79900035,35,"Soshanguve L, Soshanguve K, Soshanguve M",Soshanguve L 42%; Soshanguve K 22%; Soshanguve L Ext 1 16%; Soshanguve M 12%; Haakdoornboom 8%
+2026,79900036,36,"Soshanguve M, Soshanguve UU, Soshanguve East",Soshanguve M Ext 1 20%; Soshanguve UU 20%; Soshanguve WW 12%; Haakdoornboom 11%; Soshanguve East Ext 3 7%; Soshanguve L 7%; Soshanguve VV 7%; Soshanguve YY 6%; Soshanguve East Ext 4 4%; Soshanguve East Ext 5 3%
+2026,79900037,37,"Soshanguve South, Klipfontein, Soshanguve",Klipfontein 28%; Soshanguve South Ext 10 16%; Soshanguve South Ext 8 12%; Soshanguve Ext 13 11%; Rosslyn Industrial 11%; Soshanguve South Ext 9 10%; Soshanguve South Ext 4 8%
+2026,79900038,38,"Mamelodi FB3, Mamelodi Sun Valley, Naledi",Mamelodi FB3 52%; Mamelodi Sun Valley 18%; Naledi 15%; Nellmapius Ext 9 4%; Samcor Park 4%; Mamelodi K18 3%
+2026,79900039,39,"Soshanguve South, Ga-Rankuwa",Soshanguve South Ext 1 46%; Soshanguve South Ext 8 20%; Soshanguve South Ext 2 13%; Soshanguve South Ext 11 10%; Soshanguve South 6%; Ga-Rankuwa 5%
+2026,79900040,40,"Mamelodi Ext 6, 12",Mamelodi 41%; Mamelodi Ext 6 37%; Mamelodi Ext 12 21%
+2026,79900041,41,"Silverton, Meyerspark, Murrayfield",Silverton 33%; Meyerspark 25%; Murrayfield 13%; La Montagne 11%; Val De Grace 6%; Koedoespoort 6%; Weavind Park 4%
+2026,79900042,42,"Monument Park, Waterkloof Ridge, Waterkloof",Monument Park 32%; Waterkloof Ridge 29%; Waterkloof 11%; Erasmusrand 9%; Waterkloof Heights 7%; Erasmus Park 5%; Sterrewag Estate 5%
+2026,79900043,43,"Eersterust, Despatch, Waltloo",Eersterust Ext 6 44%; Eersterust Ext 2 19%; Despatch 7%; Eersterust Ext 5 6%; Waltloo 6%; Derdepoort 5%; Eersterust Ext 4 5%; Eersterust Ext 3 4%
+2026,79900044,44,"Faerie Glen, Boadwalk",Faerie Glen 94%; Boadwalk 6%
+2026,79900045,45,"Garsfontein, Pretoriuspark, Woodhill",Garsfontein 61%; Pretoriuspark 18%; Woodhill 12%; The Wilds 6%
+2026,79900046,46,"Lynnwood Glen, Garsfontein, Lynnwood Ridge",Lynnwood Glen 19%; Garsfontein 17%; Lynnwood Ridge 13%; Lynnwood Manor 9%; Murrayfield Ext1 8%; Wapadrand 7%; Die Wilgers 7%; Faerie Glen 6%; Scientia 6%
+2026,79900047,47,"Elarduspark, Wingate Park, Moreleta Park",Elarduspark 38%; Wingate Park 22%; Moreleta Park 11%; Reitvlei 9%; Route 21 Business Park 7%; Pierre van Ryneveld 4%; Clearwater Flyfishing Estate 4%; Erasmuskloof 3%
+2026,79900048,48,"Centurion, Rooihuiskraal Noord, Monavoni",Centurion 18%; Rooihuiskraal Noord 16%; Monavoni 13%; Raslouw Lifestyle Estate 7%; Mnandi 6%; Heuweloord 6%; Raslou 5%; Rural Tshwane 4%; Heuwelsig Estate 4%; Amberfield Valley 4%
+2026,79900049,49,"Bultfontein, Kanana, Mandela Village",Bultfontein 34%; Kanana 26%; Mandela Village 25%; Rens Town 14%
+2026,79900050,50,"Annlin, Sinoville, Wonderboom",Annlin 38%; Sinoville 31%; Wonderboom 22%; Bon Accord 9%
+2026,79900051,51,"Atteridgeville, Thaba Tshwane, Pretoria",Atteridgeville 60%; Thaba Tshwane 30%; Pretoria 7%
+2026,79900052,52,"Waverley, Villieria, East Lynne",Waverley 49%; Villieria 40%; East Lynne 5%; Rietfontein 5%
+2026,79900053,53,"Rietfontein, Gezina, Villieria",Rietfontein 29%; Gezina 20%; Villieria 13%; Riviera 12%; Prinshof 9%; Roseville 8%
+2026,79900054,54,"Wonderboom South, Rietfontein, Mayville",Wonderboom South 40%; Rietfontein 21%; Mayville 19%; Roseville 9%; Park Town Estate 8%
+2026,79900055,55,"Andeon, Krauseville, Kameeldrift",Andeon 20%; Krauseville 17%; Kameeldrift 15%; Kirkney 12%; Claremont 11%; Pretoria Gardens 10%; Booysens 5%; Lady Selborne 4%; Leoka Villa 3%
+2026,79900056,56,"Hatfield, Brooklyn, Hillcrest",Hatfield 41%; Brooklyn 20%; Hillcrest 14%; Nieuw Muckleneuk 10%; Bailey's Muckleneuk 8%; Loftus Stadium 5%
+2026,79900057,57,"Die Hoewes, Lyttelton, Zwartkop SANDF",Die Hoewes 52%; Lyttelton 44%; Zwartkop SANDF 4%
+2026,79900058,58,"Pretoria Central, Capital Park, Pretoria West",Pretoria Central 44%; Capital Park 28%; Pretoria West 14%; Technikon Rant 9%; Asiatic Bazaar 4%
+2026,79900059,59,"Sunnyside, Muckleneuk, Groenkloof Pine Plantation",Sunnyside 46%; Muckleneuk 17%; Groenkloof Pine Plantation 11%; Zwartkop SANDF 6%; Groenkloof 6%; University of South Africa 4%; Lukasrand 4%; Voortrekker Monument 4%
+2026,79900060,60,"Danville, Elandspoort, Philip Nel Park","Danville 19%; Elandspoort 15%; Danville Ext 5 13%; Danville Ext 1 12%; Philip Nel Park 11%; Danville Ext 8, 9, 11, 12, 13 & 15 8%; Danville Ext 2 7%; Krauseville 7%; Danville Ext 3 3%"
+2026,79900061,61,"Laudium, Schurwe Plaas Mine, Centurion",Schurwe Plaas Mine 28%; Centurion 22%; Laudium 21%; Laudium Ext 2 10%; Laudium Ext 3 9%; Erasmia 6%; Claudius 4%
+2026,79900062,62,"Atteridgeville, Pretoria",Atteridgeville 85%; Pretoria 15%
+2026,79900063,63,"Saulsville, Atteridgeville",Saulsville 78%; Atteridgeville 22%
+2026,79900064,64,"The Reeds, Rooihuiskraal, Thatchfield","Rooihuiskraal 24%; The Reeds Ext 15 12%; Thatchfield 11%; The Reeds Ext 5 11%; The Reeds Ext 2, 10, 43 9%; Centurion 8%; The Reeds 6%; The Reeds Ext 9 6%; Olievenhoutbos Ext 4, 19, 22 4%"
+2026,79900065,65,"Louwlardia, Irene Research Institute, Rooihuiskraal",Louwlardia 20%; Irene Research Institute 17%; Rooihuiskraal 16%; Southdowns Irene Country Farm 8%; Eco-Park Estate 6%; Doornkloof 5%; Highveld 5%; Centurion 5%; Samrand Business Park 4%; Highveld Techno Park 4%
+2026,79900066,66,"Valhalla, Hennopspark, Clubview",Valhalla 33%; Hennopspark 23%; Clubview 19%; Snake Valley 13%; Glen Lauriston 4%; Bronberrik 3%
+2026,79900067,67,"Baviaanspoort, Mamelodi DB1, Mamelodi FB3",Baviaanspoort 17%; Mamelodi DB1 17%; Mamelodi FB3 14%; Mamelodi KC4 13%; Mamelodi CA3 11%; Mamelodi BA1 10%; Mamelodi EB2 10%; Mamelodi JB3 4%; Mamelodi LC5 3%
+2026,79900068,68,"Saulsville, Atteridgeville","Saulsville 50%; Atteridgeville Ext 3, 7 31%; Atteridgeville Ext 6, 16, 17 19%"
+2026,79900069,69,"Eldoraigne, Rooihuiskraal Noord, Wierda Park","Rooihuiskraal Noord 23%; Eldoraigne Ext 3, 16, 18 18%; Wierda Park Ext 2 16%; Eldoraigne Ext 1 13%; Eldoraigne 10%; Wierdaglen Estate 7%; Eldoraigne Ext 11, 27 5%; Eldoraigne Ext 6 3%"
+2026,79900070,70,"Wierda Park, Centurion, Raslou",Wierda Park 34%; Centurion 18%; Wierda Park Ext 1 15%; Raslou 10%; Eldo Glen 6%; Eldoraigne 5%; Deltoidia 3%
+2026,79900071,71,"Phumolong, Jeffersville, Vergenoeg",Phumolong 38%; Jeffersville 25%; Vergenoeg 19%; Schurwe Plaas Mine 18%
+2026,79900072,72,"Saulsville, Atteridgeville, Jeffersville",Saulsville 45%; Atteridgeville 18%; Jeffersville 17%; Schurwe Plaas Mine 13%; Matejoane 5%
+2026,79900073,73,"Ramotse, Marokolong, Rural Tshwane",Ramotse 41%; Marokolong 35%; Rural Tshwane 22%
+2026,79900074,74,"Temba, Marokolong, Babelegi Industrial",Temba Unit 1 53%; Marokolong 29%; Babelegi Industrial 8%; Kudube Unit 2 7%; Temba Unit 2 4%
+2026,79900075,75,"Kudube, Temba, Leboneng",Kudube Unit D 31%; Kudube Unit 10 18%; Temba Unit 7 17%; Kudube Unit 2 16%; Temba Unit 6 9%; Temba Unit D 5%; Leboneng 5%
+2026,79900076,76,"Mashemong, Majaneng, Bosplaas Mathabe",Mashemong 46%; Majaneng 38%; Bosplaas Mathabe 13%
+2026,79900077,77,"Olievenhoutbos, Rua Vista, Centurion","Olievenhoutbos Ext 4, 19, 22 58%; Rua Vista 14%; Centurion 11%; Blue Valley Golf Estate 9%"
+2026,79900078,78,"Zwartkop, Doringkloof, Die Hoewes",Zwartkop 44%; Doringkloof 25%; Die Hoewes 18%; Centurion Central 12%
+2026,79900079,79,"Pierre van Ryneveld, Waterkloof Air Force Base, Centurion",Pierre van Ryneveld 31%; Waterkloof Air Force Base 24%; Centurion 16%; Irene Farm Villages 9%; Lyttelton 8%; Centurion Golf Eastate 6%; Irene Security Estate 4%
+2026,79900080,80,"Pretoria Central, Salvokop, Muckleneuk",Pretoria Central 71%; Salvokop 16%; Muckleneuk 8%; Sunnyside 4%
+2026,79900081,81,"Sunnyside, Arcadia, Trevenna",Sunnyside 77%; Arcadia 12%; Trevenna 6%; Pretoria Central 4%
+2026,79900082,82,"Menlo Park, Lynnwood, University of Pretoria",Menlo Park 28%; Lynnwood 26%; University of Pretoria 18%; Hazelwood 12%; Waterkloof 8%
+2026,79900083,83,"Moreleta Park, Erasmuskloof, Constantia Park",Moreleta Park 36%; Erasmuskloof 22%; Constantia Park 20%; Waterkloof Glen 15%; Newlands 5%
+2026,79900084,84,"Queenswood, Rietondale, Kilner Park",Queenswood 28%; Rietondale 22%; Kilner Park 18%; Villieria 11%; Moregloed 10%; Queenswood Ext 2 5%; Koedoespoort Industrial 4%
+2026,79900085,85,"Equestria, Die Wilgers, Wapadrand",Equestria 50%; Die Wilgers 24%; Wapadrand 19%
+2026,79900086,86,"Nellmapius, Willow Park Manor, Samcor Park",Nellmapius 22%; Nellmapius Ext 3 21%; Nellmapius Ext 4 20%; Nellmapius Ext 9 20%; Willow Park Manor 8%; Samcor Park 4%
+2026,79900087,87,"Kameeldrift, Derdepoort, Koedoespoort",Kameeldrift 23%; Derdepoort 23%; Koedoespoort 10%; Rural Tshwane 8%; East Lynne 7%; Baviaanspoort 7%; Roodeplaat 6%; Jan Niemand Park 6%; Leeuwfontein 4%
+2026,79900088,88,"Soshanguve P, Soshanguve DD, Soshanguve SS",Soshanguve P 43%; Soshanguve DD 22%; Soshanguve SS Ext 4 18%; Soshanguve Y 17%
+2026,79900089,89,"Soshanguve South, Soshanguve TT",Soshanguve TT 37%; Soshanguve South Ext 4 26%; Soshanguve South Ext 3 20%; Soshanguve South Ext 5 13%; Soshanguve South Ext 2 4%
+2026,79900090,90,"Soshanguve East, Soshanguve A, Klipfontein",Soshanguve A 19%; Klipfontein 18%; Soshanguve XX 17%; Soshanguve East 16%; Soshanguve South Ext 5 13%; Soshanguve East Ext 8 8%; Soshanguve VV 6%
+2026,79900091,91,"Rietfontein, Reitvlei, Rural Tshwane",Rietfontein 31%; Reitvlei 16%; Rural Tshwane 16%; Mooikloof 13%; Moreleta Park 11%; Pretoriuspark 3%
+2026,79900092,92,"Arcadia, Sunnyside, Eastwood",Arcadia 63%; Sunnyside 11%; Eastwood 11%; Colbyn 6%; Hatfield 4%; Loftus Stadium 4%
+2026,79900093,93,"Mamelodi, Leeuwfontein, Stanza Bopape",Leeuwfontein 29%; Mamelodi Ext 17 18%; Stanza Bopape 17%; Mamelodi Ext 10 12%; Mahube Valley Ext 1 9%; Selbourne Site 9%; Baviaanspoort 3%
+2026,79900094,94,"Soshanguve GG, Soshanguve FF, Soshanguve HH",Soshanguve GG 57%; Soshanguve FF 20%; Soshanguve HH 14%; Soshanguve BB 9%
+2026,79900095,95,"Stinkwater D, New Eersterus, Stinkwater C",Stinkwater D 45%; New Eersterus 20%; Stinkwater C 10%; Bultfontein 6%; Grootvlei 6%; Rural Tshwane 5%; Vastfontein 3%
+2026,79900096,96,"Doornpoort, Rural Tshwane, Sinoville",Doornpoort 27%; Rural Tshwane 24%; Sinoville 12%; Waterval 10%; Montana 8%; Montana Tuine 5%; Haakdoornboom 5%; Honingnestkrans 4%; Wallmannsthal Army Base 3%
+2026,79900097,97,"Mamelodi Ext 18, 11, 12",Mamelodi Ext 18 46%; Mamelodi Ext 11 43%; Mamelodi Ext 12 12%
+2026,79900098,98,"Theresapark, Klerksoord, Ninapark",Theresapark 38%; Klerksoord 13%; Ninapark 11%; Amandasig 10%; Karenpark 9%; Winternest 5%; Heatherdale 5%; Heather View 3%
+2026,79900099,99,"Refilwe, Rural Tshwane, Premier Diamond Mine",Refilwe 39%; Rural Tshwane 35%; Premier Diamond Mine 9%; Doornkraal 7%; Lewzene Estate 6%
+2026,79900100,100,"Rayton, Rural Tshwane, Cullinan",Rayton 33%; Rural Tshwane 25%; Cullinan 20%; Kameelfontein 7%; Premier Diamond Mine 6%
+2026,79900101,101,"Silver Lakes Golf Estate, Shere, Zwavelpoort",Silver Lakes Golf Estate 22%; Shere 16%; Zwavelpoort 14%; Boadwalk 13%; Mooiplaas 12%; Six Fountains Residential Estate 7%; Arathorn Estate 5%; Willow Acres Estate 4%
+2026,79900102,102,"Rural Tshwane, Bronkhorstspruit, Riamar Park",Rural Tshwane 49%; Bronkhorstspruit 12%; Riamar Park 11%; Tierpoort 10%; Tweedracht 4%; Boschkop 4%; Caltura Park 3%
+2026,79900103,103,"Ekangala, Rural Tshwane, Rethabiseng",Ekangala Section D 30%; Rural Tshwane 28%; Ekangala 24%; Rethabiseng Ext 1 6%; Ekangala Section B 4%; Rethabiseng 4%
+2026,79900104,104,"Ekangala Section A, Section B",Ekangala 60%; Ekangala Section A 24%; Ekangala Section B 16%
+2026,79900105,105,"Rural Tshwane, Zithobeni, Roodepoort",Rural Tshwane 47%; Zithobeni 44%; Roodepoort 7%
+2026,79900106,106,"Olievenhoutbos, Knoppieslaagte",Olievenhoutbos Ext 36 36%; Olievenhoutbos 16%; Olievenhoutbos Ext 26 11%; Olievenhoutbos Ext 15 10%; Olievenhoutbos Ext 13 7%; Knoppieslaagte 5%; Olievenhoutbos Ext 20 4%; Olievenhoutbos Ext 24 4%
+2026,79900107,107,"Vergenoeg, Siahlala, Atteridgeville","Vergenoeg 45%; Siahlala 15%; Atteridgeville Ext 6, 16, 17 15%; Centurion 9%; Pretoria 8%; Schurwe Plaas Mine 5%"
