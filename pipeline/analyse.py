@@ -270,6 +270,10 @@ def ffplus_candidates(ward_view):
                                   "pr_position": "candidate_pr_position"})
     order = {t: i for i, (t, _) in enumerate(TIERS)}
     wards = wards.sort_values(["tier_2021", "ward_no"], key=lambda col: col.map(order) if col.name == "tier_2021" else col)
+    da = pd.read_csv(p)
+    da = da[(da["party"] == "DA") & (da["list"] == "Ward")].set_index("ward_id")["name"]
+    if len(da):
+        wards.insert(wards.columns.get_loc("ffp_candidate") + 1, "da_candidate", wards["ward_id"].map(da))
     wards["ffp_votes_2021_est"] = wards["ffp_votes_2021_est"].round().astype(int)
     wards["valid_votes_2021_est"] = wards["valid_votes_2021_est"].round().astype(int)
     wards.drop(columns="person").to_csv(OUTPUTS / "ffplus_candidates_2026_by_ward.csv", index=False, float_format="%.2f")
@@ -539,6 +543,17 @@ def write_web(res, summaries, all_long, cw_stats, cands=None) -> None:
                      for r in cw.itertuples() if isinstance(r.ffp_candidate, str)},
             "pr": [[int(r.pr_position), r.name, r.ward_numbers] for r in plist.itertuples()],
         }
+    # other parties' 2026 ward candidates (e.g. the DA), keyed by party then 2026 ward ID
+    cp = TSH / "candidates_2026.csv"
+    if cp.exists():
+        c = pd.read_csv(cp)
+        pr = c[c["list"] == "PR"].set_index(["party", "person"])["pr_position"]
+        other = {}
+        for party, g in c[(c["list"] == "Ward") & (c["party"] != FFP)].groupby("party"):
+            other[party] = {str(int(r.ward_id)): {"n": r.name, "pr": None if pd.isna(pr.get((party, r.person))) else int(pr.get((party, r.person)))}
+                            for r in g.itertuples()}
+        if other:
+            data.setdefault("candidates", {"ward": {}, "pr": []})["other"] = other
     (WEB / "data.json").write_text(json.dumps(data, separators=(",", ":")))
 
 

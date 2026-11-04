@@ -48,9 +48,10 @@ def normalise_file(path: Path, vd_lookup: pd.Series) -> pd.DataFrame:
     for col, default in [("VotingStationName", ""), ("RegisteredVoters", "0"), ("SpoiltVotes", "0")]:
         if col not in raw.columns:
             raw[col] = default
-    with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False) as t:
-        raw.to_csv(t.name, index=False)
-        return read_iec_results(t.name, 2026)
+    with tempfile.TemporaryDirectory() as d:
+        tmp = Path(d) / "results.csv"
+        raw.to_csv(tmp, index=False)
+        return read_iec_results(tmp, 2026)
 
 
 def main(paths: list[str]) -> int:

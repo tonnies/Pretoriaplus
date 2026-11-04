@@ -275,6 +275,10 @@ const VIEW = Object.fromEntries(VIEWS.map((v) => [v.key, v]));
 const CAND = DATA.candidates || null;
 const candFor = (v, id) => (CAND && v.geo === "wards_2026" ? CAND.ward[id] || null : null);
 const candText = (c) => c ? `${c.n}${c.pr ? ` (list #${c.pr})` : ""}` : "";
+// other parties' ward candidates, e.g. OTHER_CAND.DA[wardId] = {n, pr}
+const OTHER_CAND = (CAND && CAND.other) || {};
+const otherFor = (party, v, id) => (OTHER_CAND[party] && v.geo === "wards_2026" ? OTHER_CAND[party][id] || null : null);
+const HAS_DA = !!OTHER_CAND.DA;
 
 const state = { page: "map", view: DATA.has2026 ? "2026_own" : "2021_on2026", party: FF, colour: "tier", selected: null,
   sort: { key: "ff", dir: -1 }, filter: "" };
@@ -456,6 +460,8 @@ function renderSide() {
   if (c) h += `<dt>FF+ ward candidate 2026</dt><dd><b>${esc(c.n)}</b></dd><dt>On the FF+ party list</dt><dd>${c.pr ? "#" + c.pr : "No"}</dd>` +
     (c.k > 1 ? `<dt>Also stands in</dt><dd>wards ${esc(c.o)}</dd>` : "");
   else if (CAND && v.geo !== "wards_2026") h += `<dt>FF+ candidates 2026</dt><dd>see the 2026 ward map</dd>`;
+  const dc = otherFor("DA", v, id);
+  if (dc) h += `<dt>DA ward candidate 2026</dt><dd><b>${esc(dc.n)}</b></dd>`;
   if (v.change) h += `<dt>FF+ 2021 (estimate)</dt><dd class="num">${fmtInt(votes(v.prev, id, FF))} · ${fmt(share(v.prev, id, FF))}%</dd><dt>Change</dt><dd class="num">${signedInt(n - votes(v.prev, id, FF))} votes · ${signed(s - share(v.prev, id, FF))} pts</dd>`;
   if (u) { h += `<dt>Registered voters</dt><dd class="num">${fmtInt(u.reg)}</dd><dt>Turnout</dt><dd class="num">${fmt(u.to)}%</dd><dt>Winner (PR)</dt><dd>${esc(winner(u.p) || "–")}</dd>`;
     if (!v.est && u.st != null) h += `<dt>FF+ ward candidate</dt><dd>${u.st ? "Yes" : "No"}</dd>`; }
@@ -580,9 +586,9 @@ function renderCandidates() {
     return { id, ward: wardNo(id), area: f.properties.name, c, tier: tierOf(share(base, id, FF)), ff: votes(base, id, FF), ffs: share(base, id, FF) }; });
   const q = (state.cfilter || "").toLowerCase();
   const has26 = !!DS["2026_own"];
-  const ncols = 8 + (has26 ? 2 : 0);
+  const ncols = 8 + (has26 ? 2 : 0) + (HAS_DA ? 1 : 0);
   const textHit = (r) => !q || String(r.ward) === q || (r.area || "").toLowerCase().includes(q) || (r.c && r.c.n.toLowerCase().includes(q));
-  const match = (r) => (!TRACK.onlyTicked || TRACK.ids.has(r.id)) && textHit(r);
+  const match = (r) => (!TRACK.onlyTicked || TRACK.ids.has(r.id)) && (textHit(r) || (HAS_DA && ((OTHER_CAND.DA[r.id] || {}).n || "").toLowerCase().includes(q)));
   let h = `<div><h2>FF+ candidates, 2026 election</h2><p class="note">Ward candidates on the 2026 wards, grouped by FF+ support in 2021 (estimated on the 2026 wards). Source: IEC certified candidate list, 23 Oct 2026.</p></div>`;
   h += `<div class="tiersum">${DATA.tiers.map((t) => { const list = rows.filter((r) => r.tier === t.label);
     const people = new Set(list.filter((r) => r.c).map((r) => r.c.n)).size, multi = list.filter((r) => r.c && r.c.k > 1).length;
@@ -593,10 +599,10 @@ function renderCandidates() {
   for (const t of DATA.tiers) {
     const list = rows.filter((r) => r.tier === t.label && match(r)).sort((a, b) => a.ward - b.ward); if (!list.length) continue;
     body += `<tr class="grp" style="--c:${tierColor(t.label)}"><td colspan="${ncols}">${t.label} <span class="num">${list.length} wards</span></td></tr>`;
-    body += list.map((r) => `<tr class="w" data-id="${r.id}" tabindex="0"><td class="tick"><input type="checkbox" class="trk" data-id="${r.id}"${TRACK.ids.has(r.id) ? " checked" : ""}${TRACK.mode === "shared" || TRACK.mode === "local" ? "" : " disabled"}${TRACK.busy.has(r.id) ? " disabled" : ""} aria-label="Track ${esc(r.c ? r.c.n : "")} in ward ${r.ward} as New FF+"></td><td class="l num">${r.ward}</td><td class="l area">${esc(r.area)}</td><td class="l"><b>${esc(r.c ? r.c.n : "–")}</b></td>
+    body += list.map((r) => `<tr class="w" data-id="${r.id}" tabindex="0"><td class="tick"><input type="checkbox" class="trk" data-id="${r.id}"${TRACK.ids.has(r.id) ? " checked" : ""}${TRACK.mode === "shared" || TRACK.mode === "local" ? "" : " disabled"}${TRACK.busy.has(r.id) ? " disabled" : ""} aria-label="Track ${esc(r.c ? r.c.n : "")} in ward ${r.ward} as New FF+"></td><td class="l num">${r.ward}</td><td class="l area">${esc(r.area)}</td><td class="l"><b>${esc(r.c ? r.c.n : "–")}</b></td>${HAS_DA ? `<td class="l">${esc((OTHER_CAND.DA[r.id] || {}).n || "–")}</td>` : ""}
       <td class="num">${r.c && r.c.pr ? "#" + r.c.pr : "–"}</td><td class="l">${r.c && r.c.k > 1 ? "wards " + esc(r.c.o) : ""}</td><td class="num ff">${fmtInt(r.ff)}</td><td class="num ff">${fmt(r.ffs)}</td>${has26 ? `<td class="num ff">${fmtInt(votes("2026_own", r.id, FF))}</td><td class="num">${signed(share("2026_own", r.id, FF) - r.ffs)}</td>` : ""}</tr>`).join("");
   }
-  h += `<h2>Ward candidates</h2><div class="scroll"><table class="wards"><thead><tr><th class="tick" title="Tick candidates to track as 2026 results come in">New FF+</th><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th><th>List #</th><th class="l">Also stands in</th><th class="ff">FF+ votes 2021 (est.)</th><th class="ff">FF+ % 2021</th>${has26 ? `<th class="ff">FF+ votes 2026</th><th>Change in share (pts)</th>` : ""}</tr></thead><tbody>${body || `<tr><td colspan="${ncols}" class="l">${TRACK.onlyTicked ? "No candidates ticked yet." : "No match."}</td></tr>`}</tbody></table></div>`;
+  h += `<h2>Ward candidates</h2><div class="scroll"><table class="wards"><thead><tr><th class="tick" title="Tick candidates to track as 2026 results come in">New FF+</th><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th>${HAS_DA ? `<th class="l">DA candidate</th>` : ""}<th>List #</th><th class="l">Also stands in</th><th class="ff">FF+ votes 2021 (est.)</th><th class="ff">FF+ % 2021</th>${has26 ? `<th class="ff">FF+ votes 2026</th><th>Change in share (pts)</th>` : ""}</tr></thead><tbody>${body || `<tr><td colspan="${ncols}" class="l">${TRACK.onlyTicked ? "No candidates ticked yet." : "No match."}</td></tr>`}</tbody></table></div>`;
   const pr = CAND.pr.filter(([pos, n, w]) => !q || n.toLowerCase().includes(q) || String(pos) === q || (w || "").split(", ").includes(q));
   h += `<h2>Party list (PR)</h2><p class="note">The order in which FF+ fills its proportional seats on council.</p>`;
   h += `<div class="scroll"><table class="wards"><thead><tr><th>#</th><th class="l">Name</th><th class="l">Ward candidate in</th><th class="l">Ward support group (2021)</th></tr></thead><tbody>${pr.map(([pos, n, w]) => {
@@ -806,8 +812,8 @@ function bgRows(v) {
     const id = f.properties.id, u = unit(v.cur, id), pv = (u && u.p) || {};
     const ranked = Object.entries(pv).filter(([p]) => p !== "Other").sort((a, b) => b[1] - a[1]);
     if (!(ranked.length > 1 && ranked[0][0] === "DA" && ranked[1][0] === FF)) return null;
-    const t = total(pv), da = pv.DA || 0, ff = pv[FF] || 0, c = candFor(v, id);
-    return { f, id, ward: wardNo(id), area: f.properties.name, c, cand: c ? c.n : "", da, das: (da / t) * 100, ff, ffs: (ff / t) * 100,
+    const t = total(pv), da = pv.DA || 0, ff = pv[FF] || 0, c = candFor(v, id), dc = otherFor("DA", v, id);
+    return { f, id, ward: wardNo(id), area: f.properties.name, c, cand: c ? c.n : "", dc, dcand: dc ? dc.n : "", da, das: (da / t) * 100, ff, ffs: (ff / t) * 100,
       gap: da - ff, gp: ((da - ff) / t) * 100, valid: t, u };
   }).filter(Boolean);
 }
@@ -826,7 +832,7 @@ function bgInit() {
       if (!p || e.pointerType === "touch") { tip.hidden = true; return; }
       const v = VIEW[state.view], id = +p.dataset.id, r = (BG.rows || []).find((x) => x.id === id), f = featById(v, id);
       let h = `<b>Ward ${wardNo(id)}</b><br>${esc(f.properties.name)}`;
-      h += r ? `<br>DA <span class="num">${fmtInt(r.da)}</span> (${fmt(r.das)}%) · FF+ <span class="num">${fmtInt(r.ff)}</span> (${fmt(r.ffs)}%)<br>Gap: <span class="num">${fmtInt(r.gap)}</span> votes (${fmt(r.gp)} pts)${r.c ? `<br>FF+ candidate: ${esc(r.c.n)}` : ""}`
+      h += r ? `<br>DA <span class="num">${fmtInt(r.da)}</span> (${fmt(r.das)}%) · FF+ <span class="num">${fmtInt(r.ff)}</span> (${fmt(r.ffs)}%)<br>Gap: <span class="num">${fmtInt(r.gap)}</span> votes (${fmt(r.gp)} pts)${r.dc ? `<br>DA candidate: ${esc(r.dc.n)}` : ""}${r.c ? `<br>FF+ candidate: ${esc(r.c.n)}` : ""}`
              : `<br><span class="note">Not a DA–FF+ battleground</span>`;
       tip.innerHTML = h; tip.hidden = false;
       const rr = $("bgwrap").getBoundingClientRect();
@@ -877,22 +883,24 @@ function renderBG() {
   renderBgSide(v, rows);
 
   const withCand = CAND && v.geo === "wards_2026";
-  const cols = [["ward", "Ward", "l"], ["area", "Area", "l"], ...(withCand ? [["cand", "FF+ candidate", "l"]] : []), ["da", "DA votes"], ["das", "DA %"],
+  const withDa = HAS_DA && v.geo === "wards_2026";
+  const cols = [["ward", "Ward", "l"], ["area", "Area", "l"], ...(withDa ? [["dcand", "DA candidate", "l"]] : []), ...(withCand ? [["cand", "FF+ candidate", "l"]] : []), ["da", "DA votes"], ["das", "DA %"],
     ["ff", "FF+ votes", "ff"], ["ffs", "FF+ %", "ff"], ["gap", "Gap (votes)"], ["gp", "Gap (% points)"]];
   const { key, dir } = BG.sort;
-  const val = (x) => (["area", "cand"].includes(key) ? (x[key] || "") : x[key] ?? -Infinity);
+  const val = (x) => (["area", "cand", "dcand"].includes(key) ? (x[key] || "") : x[key] ?? -Infinity);
   rows.sort((a, b) => { const p = val(a), q = val(b); return (typeof p === "string" ? p.localeCompare(q) : p - q) * dir || a.ward - b.ward; });
   const cell = (k, x) => k === "ward" ? `<td class="l num">${x.ward}</td>` : k === "area" ? `<td class="l area">${esc(x.area)}</td>` : k === "cand" ? `<td class="l"><b>${esc(x.cand || "–")}</b></td>`
+    : k === "dcand" ? `<td class="l">${esc(x.dcand || "–")}</td>`
     : k === "das" || k === "ffs" || k === "gp" ? `<td class="num${k === "ffs" ? " ff" : ""}">${fmt(x[k])}</td>` : `<td class="num${k === "ff" ? " ff" : ""}">${fmtInt(x[k])}</td>`;
   let body = rows.map((x) => `<tr class="w" data-id="${x.id}" tabindex="0" aria-current="${x.id === BG.sel}">${cols.map(([k]) => cell(k, x)).join("")}</tr>`).join("");
   if (rows.length > 1) { const s = { da: 0, ff: 0, valid: 0 }; for (const r of rows) { s.da += r.da; s.ff += r.ff; s.valid += r.valid; }
     const t = { ward: "", area: "All battleground wards", cand: "", da: s.da, das: (s.da / s.valid) * 100, ff: s.ff, ffs: (s.ff / s.valid) * 100, gap: s.da - s.ff, gp: ((s.da - s.ff) / s.valid) * 100 };
-    body += `<tr class="tot">${cols.map(([k]) => k === "ward" ? "<td></td>" : k === "area" ? `<td class="l">${t.area}</td>` : k === "cand" ? "<td></td>" : cell(k, t)).join("")}</tr>`; }
+    body += `<tr class="tot">${cols.map(([k]) => k === "ward" ? "<td></td>" : k === "area" ? `<td class="l">${t.area}</td>` : k === "cand" || k === "dcand" ? "<td></td>" : cell(k, t)).join("")}</tr>`; }
   const tbl = $("bgtable");
   tbl.innerHTML = rows.length ? `<thead><tr>${cols.map(([k, lab, c]) => `<th class="${c || ""}" data-k="${k}" aria-sort="${key === k ? (dir < 0 ? "descending" : "ascending") : "none"}">${lab}</th>`).join("")}</tr></thead><tbody>${body}</tbody>` : "";
   tbl.parentElement.hidden = !rows.length;
   for (const th of tbl.querySelectorAll("th")) th.onclick = () => { const k = th.dataset.k;
-    BG.sort = { key: k, dir: BG.sort.key === k ? -BG.sort.dir : (["ward", "area", "cand", "gap", "gp"].includes(k) ? 1 : -1) }; renderBG(); };
+    BG.sort = { key: k, dir: BG.sort.key === k ? -BG.sort.dir : (["ward", "area", "cand", "dcand", "gap", "gp"].includes(k) ? 1 : -1) }; renderBG(); };
   for (const tr of tbl.querySelectorAll("tr.w")) { const go = () => bgSelect(+tr.dataset.id, true);
     tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
 }
@@ -915,7 +923,9 @@ function renderBgSide(v, rows) {
   if (x.f.properties.areas) h += `<p class="note">Suburbs by share of voters: ${esc(x.f.properties.areas.replace(/;/g, ","))}</p>`;
   h += `<div class="stats"><div class="stat"><b>${fmtInt(x.gap)}</b><span>votes between DA and FF+</span></div><div class="stat"><b>${fmt(x.gp)}</b><span>points gap</span></div></div>`;
   h += `<dl class="kv"><dt>DA</dt><dd class="num">${fmtInt(x.da)} · ${fmt(x.das)}%</dd><dt>FF+</dt><dd class="num">${fmtInt(x.ff)} · ${fmt(x.ffs)}%</dd>`;
-  if (x.c) h += `<dt>FF+ candidate 2026</dt><dd><b>${esc(x.c.n)}</b></dd><dt>On the party list</dt><dd>${x.c.pr ? "#" + x.c.pr : "No"}</dd>`;
+  if (x.dc) h += `<dt>DA candidate 2026</dt><dd><b>${esc(x.dc.n)}</b></dd>`;
+  if (x.c) h += `<dt>FF+ candidate 2026</dt><dd><b>${esc(x.c.n)}</b></dd><dt>FF+ party list</dt><dd>${x.c.pr ? "#" + x.c.pr : "No"}</dd>`;
+  else if (CAND && v.geo !== "wards_2026") h += `<dt>Candidates 2026</dt><dd>pick a 2026 election to see them</dd>`;
   if (x.u) h += `<dt>Registered voters${v.est ? " (est.)" : ""}</dt><dd class="num">${fmtInt(x.u.reg)}</dd><dt>Turnout</dt><dd class="num">${fmt(x.u.to)}%</dd>`;
   h += `</dl>` + resultsTable(x.u);
   if (v.est) h += `<p class="note">Estimate: 2021 votes split across the redrawn 2026 wards by area.</p>`;
