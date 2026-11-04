@@ -129,6 +129,10 @@ table.wards tr.grp td { background: var(--ground); border-top: 2px solid var(--c
 table.wards tr.grp td .num { font-weight: 500; color: var(--ink-2); margin-left: 8px; }
 table.wards tr.sub td { font-weight: 600; background: var(--ground); }
 table.wards tr.tot td { font-weight: 700; border-top: 2px solid var(--ink); }
+table.wards th.tick, table.wards td.tick { text-align: center; width: 4.5em; }
+table.wards td.tick input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+.chip { font: inherit; font-size: var(--step--1); font-weight: 600; color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
 table.wards td.ff, table.wards th.ff { background: color-mix(in srgb, var(--t-solid) 10%, transparent); }
 .up { color: #2f7d32; } .down { color: var(--loss); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .up { color: #7bc67e; } }
@@ -485,6 +489,47 @@ function renderTable() {
     return `<div style="--c:${tierColor(t.label)}"><b>${t.label}</b><span class="big">${fmtInt(s.ff)}</span><span>FF+ votes in ${list.length} wards (${fmt(s.ffs)}%)</span><span>${fmtInt(s.reg)} registered voters</span></div>`; }).join("");
 }
 
+// ---------- "New FF+" ticks: candidates to track as 2026 results come in.
+// Kept in the page's shared database on claude.ai; in a plain browser file, in this browser only.
+const TRACK = { mode: "loading", ids: new Set(), db: null, busy: new Set(), note: "", onlyTicked: false };
+const rerenderCands = () => { if (state.page === "candidates") renderCandidates(); };
+async function initTracking() {
+  let db = null, user = null;
+  try { if (window.claude && window.claude.use) [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]); } catch (e) { db = null; }
+  if (!db) {
+    TRACK.mode = "local";
+    try { for (const id of JSON.parse(localStorage.getItem("tsh-tracked") || "[]")) TRACK.ids.add(+id); } catch (e) {}
+    TRACK.note = "Ticks are saved in this browser only. Open the page on claude.ai to keep them with the page."; rerenderCands(); return;
+  }
+  TRACK.db = db; TRACK.mode = "shared";
+  try { if (user && (await user.can("data.write")) === false) { TRACK.mode = "readonly"; TRACK.note = "You can see the ticks but not change them."; } } catch (e) {}
+  const timer = setTimeout(() => { TRACK.note = "Saved ticks can't be reached yet; the list may be incomplete."; rerenderCands(); }, 10000);
+  db.collection("tracked").onSnapshot((snap) => {
+    if (!snap.metadata.fromCache) { clearTimeout(timer); if (TRACK.note.startsWith("Saved ticks")) TRACK.note = ""; }
+    TRACK.ids = new Set(snap.docs.map((d) => +d.id)); rerenderCands();
+  }, () => { clearTimeout(timer); TRACK.mode = "readonly"; TRACK.note = "Saved ticks can't be loaded right now."; rerenderCands(); });
+}
+async function setTracked(id, on) {
+  const c = CAND && CAND.ward[id];
+  if (TRACK.mode === "local") {
+    on ? TRACK.ids.add(id) : TRACK.ids.delete(id);
+    try { localStorage.setItem("tsh-tracked", JSON.stringify([...TRACK.ids])); } catch (e) {}
+    rerenderCands(); return;
+  }
+  if (TRACK.mode !== "shared" || TRACK.busy.has(id)) return;
+  TRACK.busy.add(id); on ? TRACK.ids.add(id) : TRACK.ids.delete(id); rerenderCands();
+  const ref = TRACK.db.doc("tracked/" + id);
+  try {
+    if (on) await ref.set({ ward_id: id, ward_no: wardNo(id), candidate: c ? c.n : "", ticked_at: new Date().toISOString() });
+    else await ref.delete();
+  } catch (e) {
+    on ? TRACK.ids.delete(id) : TRACK.ids.add(id);
+    TRACK.note = e && e.code === "invalid_argument" ? "You can see the ticks but not change them." : "That tick wasn't saved. Try again.";
+    if (e && e.code === "invalid_argument") TRACK.mode = "readonly";
+  }
+  TRACK.busy.delete(id); rerenderCands();
+}
+
 // ---------- candidates page
 function renderCandidates() {
   const el = $("page-candidates");
@@ -493,20 +538,24 @@ function renderCandidates() {
   const rows = DATA.geos.wards_2026.features.map((f) => { const id = f.properties.id, c = CAND.ward[id];
     return { id, ward: wardNo(id), area: f.properties.name, c, tier: tierOf(share(base, id, FF)), ff: votes(base, id, FF), ffs: share(base, id, FF) }; });
   const q = (state.cfilter || "").toLowerCase();
-  const match = (r) => !q || String(r.ward) === q || (r.area || "").toLowerCase().includes(q) || (r.c && r.c.n.toLowerCase().includes(q));
+  const has26 = !!DS["2026_own"];
+  const ncols = 8 + (has26 ? 2 : 0);
+  const textHit = (r) => !q || String(r.ward) === q || (r.area || "").toLowerCase().includes(q) || (r.c && r.c.n.toLowerCase().includes(q));
+  const match = (r) => (!TRACK.onlyTicked || TRACK.ids.has(r.id)) && textHit(r);
   let h = `<div><h2>FF+ candidates, 2026 election</h2><p class="note">Ward candidates on the 2026 wards, grouped by FF+ support in 2021 (estimated on the 2026 wards). Source: IEC certified candidate list, 23 Oct 2026.</p></div>`;
   h += `<div class="tiersum">${DATA.tiers.map((t) => { const list = rows.filter((r) => r.tier === t.label);
     const people = new Set(list.filter((r) => r.c).map((r) => r.c.n)).size, multi = list.filter((r) => r.c && r.c.k > 1).length;
     return `<div style="--c:${tierColor(t.label)}"><b>${t.label}</b><span class="big">${list.length} wards</span><span>${people} different candidates</span><span>${multi} ${multi === 1 ? "ward shares its" : "wards share their"} candidate with other wards</span></div>`; }).join("")}</div>`;
-  h += `<div class="tablebar"><input type="search" id="csearch" placeholder="Filter by ward, area or name" aria-label="Filter candidates" value="${esc(state.cfilter || "")}"><span class="note">Tap a row to see the ward on the map.</span></div>`;
+  h += `<div class="tablebar"><input type="search" id="csearch" placeholder="Filter by ward, area or name" aria-label="Filter candidates" value="${esc(state.cfilter || "")}"><button type="button" class="chip" id="onlyticked" aria-pressed="${TRACK.onlyTicked}">${TRACK.onlyTicked ? "Show all wards" : "Show ticked only"}</button>
+    <span class="note"><b class="num">${TRACK.ids.size}</b> ticked as New FF+. Tap a row to see the ward on the map.${TRACK.note ? " " + esc(TRACK.note) : ""}</span></div>`;
   let body = "";
   for (const t of DATA.tiers) {
     const list = rows.filter((r) => r.tier === t.label && match(r)).sort((a, b) => a.ward - b.ward); if (!list.length) continue;
-    body += `<tr class="grp" style="--c:${tierColor(t.label)}"><td colspan="7">${t.label} <span class="num">${list.length} wards</span></td></tr>`;
-    body += list.map((r) => `<tr class="w" data-id="${r.id}" tabindex="0"><td class="l num">${r.ward}</td><td class="l area">${esc(r.area)}</td><td class="l"><b>${esc(r.c ? r.c.n : "–")}</b></td>
-      <td class="num">${r.c && r.c.pr ? "#" + r.c.pr : "–"}</td><td class="l">${r.c && r.c.k > 1 ? "wards " + esc(r.c.o) : ""}</td><td class="num ff">${fmtInt(r.ff)}</td><td class="num ff">${fmt(r.ffs)}</td></tr>`).join("");
+    body += `<tr class="grp" style="--c:${tierColor(t.label)}"><td colspan="${ncols}">${t.label} <span class="num">${list.length} wards</span></td></tr>`;
+    body += list.map((r) => `<tr class="w" data-id="${r.id}" tabindex="0"><td class="tick"><input type="checkbox" class="trk" data-id="${r.id}"${TRACK.ids.has(r.id) ? " checked" : ""}${TRACK.mode === "shared" || TRACK.mode === "local" ? "" : " disabled"}${TRACK.busy.has(r.id) ? " disabled" : ""} aria-label="Track ${esc(r.c ? r.c.n : "")} in ward ${r.ward} as New FF+"></td><td class="l num">${r.ward}</td><td class="l area">${esc(r.area)}</td><td class="l"><b>${esc(r.c ? r.c.n : "–")}</b></td>
+      <td class="num">${r.c && r.c.pr ? "#" + r.c.pr : "–"}</td><td class="l">${r.c && r.c.k > 1 ? "wards " + esc(r.c.o) : ""}</td><td class="num ff">${fmtInt(r.ff)}</td><td class="num ff">${fmt(r.ffs)}</td>${has26 ? `<td class="num ff">${fmtInt(votes("2026_own", r.id, FF))}</td><td class="num">${signed(share("2026_own", r.id, FF) - r.ffs)}</td>` : ""}</tr>`).join("");
   }
-  h += `<h2>Ward candidates</h2><div class="scroll"><table class="wards"><thead><tr><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th><th>List #</th><th class="l">Also stands in</th><th class="ff">FF+ votes 2021 (est.)</th><th class="ff">FF+ % 2021</th></tr></thead><tbody>${body || `<tr><td colspan="7" class="l">No match.</td></tr>`}</tbody></table></div>`;
+  h += `<h2>Ward candidates</h2><div class="scroll"><table class="wards"><thead><tr><th class="tick" title="Tick candidates to track as 2026 results come in">New FF+</th><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th><th>List #</th><th class="l">Also stands in</th><th class="ff">FF+ votes 2021 (est.)</th><th class="ff">FF+ % 2021</th>${has26 ? `<th class="ff">FF+ votes 2026</th><th>Change in share (pts)</th>` : ""}</tr></thead><tbody>${body || `<tr><td colspan="${ncols}" class="l">${TRACK.onlyTicked ? "No candidates ticked yet." : "No match."}</td></tr>`}</tbody></table></div>`;
   const pr = CAND.pr.filter(([pos, n, w]) => !q || n.toLowerCase().includes(q) || String(pos) === q || (w || "").split(", ").includes(q));
   h += `<h2>Party list (PR)</h2><p class="note">The order in which FF+ fills its proportional seats on council.</p>`;
   h += `<div class="scroll"><table class="wards"><thead><tr><th>#</th><th class="l">Name</th><th class="l">Ward candidate in</th><th class="l">Ward support group (2021)</th></tr></thead><tbody>${pr.map(([pos, n, w]) => {
@@ -515,6 +564,11 @@ function renderCandidates() {
     return `<tr><td class="num">${pos}</td><td class="l">${esc(n)}</td><td class="l">${ws.length ? "ward " + ws.join(", ") : "–"}</td><td class="l">${tiers.map((t) => `<span class="pill" style="--c:${tierColor(t)}">${t}</span>`).join(" ")}</td></tr>`; }).join("")}</tbody></table></div>`;
   el.innerHTML = h;
   const inp = $("csearch"); inp.oninput = (e) => { state.cfilter = e.target.value.trim(); renderCandidates(); const i = $("csearch"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); };
+  $("onlyticked").onclick = () => { TRACK.onlyTicked = !TRACK.onlyTicked; renderCandidates(); };
+  for (const cb of el.querySelectorAll("input.trk")) {
+    cb.onclick = (e) => e.stopPropagation();
+    cb.onkeydown = (e) => e.stopPropagation();
+    cb.onchange = () => setTracked(+cb.dataset.id, cb.checked); }
   for (const tr of el.querySelectorAll("tr.w")) { const go = () => { state.view = DATA.has2026 ? "2026_own" : "2021_on2026"; state.selected = +tr.dataset.id; location.hash = "map"; };
     tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
 }
@@ -561,6 +615,7 @@ window.addEventListener("resize", () => { if (!home) return; const keep = vb; ho
 const mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", rethemed);
 new MutationObserver(rethemed).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 route();
+initTracking();
 })();
 </script>
 
