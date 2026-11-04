@@ -4,9 +4,12 @@ Ward-level analysis of the City of Tshwane local government elections, built to
 compare the 2016 and 2021 results with the 4 November 2026 election, with a
 focus on the Freedom Front Plus (FF+ / Vryheidsfront Plus).
 
-- `outputs/REPORT.md`: the baseline findings (support tiers, growth, pockets, no-candidate wards)
-- `web/index.html`: a self-contained 3D ward map (open it in a browser)
-- `outputs/*.csv`: the tables behind both
+- `web/index.html`: open in a browser. Two pages: a ward map (top-down, coloured by FF+
+  support or any party's share, with full vote counts per ward) and a ward table with the
+  votes per party for every ward, grouped Stronghold / Solid / Marginal / Negligible.
+- `outputs/REPORT.md`: the baseline findings (support groups, growth, pockets, no-candidate wards)
+- `outputs/ward_votes_<election>.csv`: the ward table as a spreadsheet
+- `outputs/*.csv`: the other tables behind the report
 
 ## Quick start
 
@@ -22,7 +25,15 @@ To rebuild the Tshwane data from the national source files:
 ```bash
 python pipeline/fetch.py        # ~370 MB into data/sources/ (not committed)
 python pipeline/prepare.py      # cuts it down to Tshwane: data/tshwane/
+python pipeline/ward_names.py   # area names per ward: data/tshwane/ward_areas.csv
 ```
+
+## Ward names
+
+Each ward is named after the suburbs it covers (Stats SA Census 2011 sub-places), ranked by
+how many voters live in each, e.g. ward 52 = "Waverley, Villieria, Koedoespoort".
+To use your own names (for example from findmyward.co.za), fill in the `name` column of
+`data/tshwane/ward_names_override.csv` and re-run `ward_names.py`, `analyse.py` and `build_web.py`.
 
 ## Election night / after 4 November 2026
 
@@ -61,11 +72,11 @@ compared directly.
 ## Layout
 
 ```
-pipeline/   fetch → prepare → (ingest_2026) → analyse → build_web
+pipeline/   fetch → prepare → ward_names → (ingest_2026) → analyse → build_web
 data/tshwane/results/   tidy VD-level results per election (committed, small)
 data/tshwane/geo/       ward + VD boundaries per election (GeoJSON)
 data/templates/         template for hand-entered 2026 results
 outputs/                generated tables and REPORT.md
-web/                    template.html → index.html (3D map, deck.gl)
+web/                    template.html → index.html (map + ward table, no external libraries)
 docs/DATA.md            sources, gaps, and what is still needed
 ```

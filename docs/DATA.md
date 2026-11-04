@@ -8,6 +8,7 @@
 | LGE 2016 detailed results | National, filtered to Tshwane | IEC | same mirror (raw IEC CSV, generated 16 Feb 2017) |
 | Ward boundaries 2016, 2020 (used in 2021), 2026 | National, filtered to Tshwane | Municipal Demarcation Board | GitHub mirror `j-norwood-young/SA-Maps` |
 | Voting district boundaries 2016, 2021, 2026 | National, filtered to Tshwane | IEC | same mirror |
+| Suburb (sub-place) boundaries and names | Census 2011, filtered to Tshwane | Stats SA | same mirror |
 
 Checks done: every 2021 result VD (778) matches a 2021 VD polygon; city totals match the
 IEC file (FF+ 52,458 PR votes = 7.79%; DA 31.8%); 107 wards in each boundary set.
@@ -16,6 +17,9 @@ The IEC and MDB websites were blocked from the environment this was built in, so
 files came from public mirrors of the original IEC/MDB downloads. When you have access,
 download the originals and drop them into `data/sources/` (names in `pipeline/fetch.py`)
 to rebuild from first-hand copies.
+
+Ward names: findmyward.co.za and gauteng.net were also blocked, so names are generated
+from the census suburbs. Paste better names into `data/tshwane/ward_names_override.csv`.
 
 ## Still needed
 

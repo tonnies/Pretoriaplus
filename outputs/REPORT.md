@@ -18,13 +18,132 @@ Tiers: Stronghold ≥ 15%, Solid ≥ 5%, Marginal ≥ 1%, Negligible < 1%.
 | Marginal | 9 | 1439 | 3.2 | 2.7 | 127370 |
 | Negligible | 58 | 554 | 0.2 | 1.1 | 795086 |
 
-**Stronghold** (19 wards): 52 (26.0%), 54 (23.1%), 5 (21.1%), 87 (21.0%), 84 (20.5%), 50 (20.5%), 2 (20.4%), 1 (20.2%), 96 (19.7%), 79 (19.0%), 55 (18.9%), 47 (18.9%), 53 (18.5%), 45 (17.6%), 91 (17.0%), 57 (15.7%), 102 (15.6%), 46 (15.2%), 83 (15.1%)
+### Stronghold (19 wards)
 
-**Solid** (21 wards): 98 (14.8%), 44 (14.7%), 41 (14.5%), 69 (14.5%), 70 (14.1%), 100 (13.9%), 101 (13.6%), 66 (13.6%), 85 (13.1%), 42 (12.7%), 78 (12.5%), 105 (11.3%), 64 (11.3%), 82 (11.0%), 65 (11.0%), 56 (9.1%), 60 (7.6%), 99 (6.0%), 48 (6.0%), 59 (5.3%), 4 (5.2%)
+| ward | area | FF+ votes | FF+ % | valid votes | winner |
+|---|---|---|---|---|---|
+| 52 | Waverley, Villieria, Koedoespoort | 2709 | 26.0 | 10416 | DA |
+| 54 | Wonderboom South, Rietfontein, Mayville | 2080 | 23.1 | 8999 | DA |
+| 5 | Montana, Magalieskruin, Sinoville | 1919 | 21.1 | 9094 | DA |
+| 87 | Derdepoort, Kameeldrift, Montana Park | 1504 | 21.0 | 7151 | DA |
+| 84 | Queenswood, Rietondale, Kilner Park | 1986 | 20.5 | 9690 | DA |
+| 50 | Sinoville, Annlin, Wonderboom | 1937 | 20.5 | 9464 | DA |
+| 2 | Pretoria North, Wolmer, Dorandia | 1632 | 20.4 | 7993 | DA |
+| 1 | Mountain View, Claremont, Daspoort | 1628 | 20.2 | 8048 | DA |
+| 96 | Doornpoort, Rural Tshwane, Waterval | 1513 | 19.7 | 7673 | DA |
+| 79 | Pierre van Ryneveld, Waterkloof Air Force Base, Centurion | 1834 | 19.0 | 9665 | DA |
+| 55 | Andeon, Krauseville, Kameeldrift | 1550 | 18.9 | 8180 | DA |
+| 47 | Elarduspark, Wingate Park, Moreleta Park | 1785 | 18.9 | 9453 | DA |
+| 53 | Rietfontein, Gezina, Villieria | 1241 | 18.5 | 6722 | DA |
+| 45 | Garsfontein, Pretoriuspark, Woodhill | 1621 | 17.6 | 9202 | DA |
+| 91 | Rietfontein, Reitvlei, Rural Tshwane | 1563 | 17.0 | 9221 | DA |
+| 57 | Die Hoewes, Lyttelton | 1038 | 15.7 | 6613 | DA |
+| 102 | Rural Tshwane, Zithobeni, Tierpoort | 958 | 15.6 | 6158 | ANC |
+| 46 | Lynnwood Glen, Lynnwood Ridge, Murrayfield Ext1 | 1355 | 15.2 | 8922 | DA |
+| 83 | Moreleta Park, Erasmuskloof, Constantia Park | 1318 | 15.1 | 8741 | DA |
 
-**Marginal** (9 wards): 92 (4.9%), 95 (4.5%), 3 (4.0%), 49 (3.0%), 81 (2.9%), 58 (2.8%), 31 (2.8%), 43 (2.3%), 61 (2.1%)
+### Solid (21 wards)
 
-**Negligible** (58 wards): 73 (0.7%), 77 (0.7%), 7 (0.6%), 106 (0.6%), 80 (0.4%), 28 (0.4%), 15 (0.3%), 51 (0.3%), 29 (0.3%), 10 (0.3%), 93 (0.2%), 88 (0.2%), 67 (0.2%), 12 (0.2%), 62 (0.2%), 34 (0.2%), 36 (0.2%), 63 (0.2%), 27 (0.2%), 20 (0.2%), 23 (0.2%), 40 (0.2%), 9 (0.2%), 26 (0.1%), 18 (0.1%), 38 (0.1%), 86 (0.1%), 32 (0.1%), 103 (0.1%), 33 (0.1%), 90 (0.1%), 97 (0.1%), 68 (0.1%), 16 (0.1%), 22 (0.1%), 30 (0.1%), 21 (0.1%), 6 (0.1%), 74 (0.1%), 104 (0.1%), 35 (0.1%), 72 (0.1%), 37 (0.1%), 94 (0.1%), 19 (0.1%), 75 (0.1%), 39 (0.1%), 25 (0.1%), 11 (0.1%), 17 (0.1%), 13 (0.1%), 76 (0.1%), 14 (0.1%), 89 (0.1%), 24 (0.1%), 8 (0.0%), 71 (0.0%), 107 (0.0%)
+| ward | area | FF+ votes | FF+ % | valid votes | winner |
+|---|---|---|---|---|---|
+| 98 | Theresapark, Klerksoord, Ninapark | 1147 | 14.8 | 7734 | DA |
+| 44 | Faerie Glen, Garsfontein | 1258 | 14.7 | 8576 | DA |
+| 41 | Silverton, Meyerspark, Murrayfield | 1290 | 14.5 | 8872 | DA |
+| 69 | Eldoraigne, Rooihuiskraal Noord, Wierda Park | 1512 | 14.5 | 10402 | DA |
+| 70 | Wierda Park, Centurion, Raslou | 1293 | 14.1 | 9138 | DA |
+| 100 | Rayton, Cullinan, Rural Tshwane | 897 | 13.9 | 6438 | DA |
+| 101 | Silver Lakes Golf Estate, Boadwalk, Shere | 1619 | 13.6 | 11880 | DA |
+| 66 | Valhalla, Hennopspark, Clubview | 1233 | 13.6 | 9059 | DA |
+| 85 | Equestria, Die Wilgers, Wapadrand | 1234 | 13.1 | 9414 | DA |
+| 42 | Monument Park, Waterkloof Ridge, Waterkloof | 1102 | 12.7 | 8711 | DA |
+| 78 | Zwartkop, Doringkloof, Die Hoewes | 900 | 12.5 | 7197 | DA |
+| 105 | Rural Tshwane, Zithobeni, Bronkhorstspruit | 773 | 11.3 | 6852 | ANC |
+| 64 | The Reeds, Rooihuiskraal, Thatchfield | 807 | 11.3 | 7160 | DA |
+| 82 | Menlo Park, Lynnwood, University of Pretoria | 873 | 11.0 | 7919 | DA |
+| 65 | Irene Research Institute, Louwlardia, Rooihuiskraal | 1053 | 11.0 | 9564 | DA |
+| 56 | Hatfield, Brooklyn, Hillcrest | 419 | 9.1 | 4585 | DA |
+| 60 | Danville, Elandspoort, Philip Nel Park | 426 | 7.6 | 5590 | ANC |
+| 99 | Refilwe, Rural Tshwane, Premier Diamond Mine | 332 | 6.0 | 5507 | ANC |
+| 48 | Centurion, Rooihuiskraal Noord, Monavoni | 533 | 6.0 | 8886 | DA |
+| 59 | Sunnyside, Muckleneuk, Thaba Tshwane | 195 | 5.3 | 3714 | DA |
+| 4 | The Orchards, Karenpark, Wildebeesthoek | 398 | 5.2 | 7626 | ANC |
+
+### Marginal (9 wards)
+
+| ward | area | FF+ votes | FF+ % | valid votes | winner |
+|---|---|---|---|---|---|
+| 92 | Arcadia, Sunnyside, Eastwood | 194 | 4.9 | 3987 | DA |
+| 95 | Stinkwater D, New Eersterus, Stinkwater C | 242 | 4.5 | 5347 | ANC |
+| 3 | Philip Nel Park, Pretoria West, West Park | 205 | 4.0 | 5090 | ANC |
+| 49 | Bultfontein, Kanana, Mandela Village | 170 | 3.0 | 5581 | ANC |
+| 81 | Sunnyside, Arcadia, Trevenna | 76 | 2.9 | 2580 | ANC |
+| 58 | Pretoria Central, Pretoria West, Technikon Rant | 98 | 2.8 | 3456 | ANC |
+| 31 | Ga-Rankuwa, Wildebeesthoek, Kameeldrift | 153 | 2.8 | 5437 | ANC |
+| 43 | Eersterust, Despatch, Derdepoort | 137 | 2.3 | 6010 | DA |
+| 61 | Laudium, Schurwe Plaas Mine, Centurion | 164 | 2.1 | 7931 | ANC |
+
+### Negligible (58 wards)
+
+| ward | area | FF+ votes | FF+ % | valid votes | winner |
+|---|---|---|---|---|---|
+| 73 | Rural Tshwane, Ramotse, Marokolong | 44 | 0.7 | 6090 | ANC |
+| 77 | Olievenhoutbos, Rua Vista, Centurion | 59 | 0.7 | 8632 | ANC |
+| 7 | Lotus Gardens, Pretoria, Krauseville | 43 | 0.6 | 6939 | ANC |
+| 106 | Olievenhoutbos, Knoppieslaagte, Blue Hills | 24 | 0.6 | 4236 | ANC |
+| 80 | Pretoria Central, Salvokop, Muckleneuk | 13 | 0.4 | 3423 | ANC |
+| 28 | Nellmapius, Tsakane, Mamelodi | 16 | 0.4 | 4472 | ANC |
+| 15 | Nellmapius, Mamelodi, Phumulamcashi Buffer Zone | 21 | 0.3 | 6070 | ANC |
+| 51 | Atteridgeville, Thaba Tshwane, Pretoria | 13 | 0.3 | 4445 | ANC |
+| 29 | Soshanguve F, Winterveld, Soshanguve IA | 15 | 0.3 | 5635 | ANC |
+| 10 | Mamelodi Ext 22, 6, 11 | 11 | 0.3 | 4215 | ANC |
+| 93 | Mamelodi, Leeuwfontein, Stanza Bopape | 12 | 0.2 | 5056 | ANC |
+| 88 | Soshanguve P, Soshanguve DD, Soshanguve SS | 13 | 0.2 | 5521 | ANC |
+| 67 | Baviaanspoort, Mamelodi DB1, Mamelodi FB3 | 11 | 0.2 | 4716 | ANC |
+| 12 | Mabopane A, Winterveld, Lebanon | 9 | 0.2 | 4290 | ANC |
+| 62 | Atteridgeville | 11 | 0.2 | 5277 | ANC |
+| 34 | Soshanguve H, Soshanguve K, Soshanguve M | 9 | 0.2 | 4849 | ANC |
+| 36 | Soshanguve M, Soshanguve UU, Soshanguve East | 9 | 0.2 | 5049 | ANC |
+| 63 | Saulsville, Atteridgeville | 9 | 0.2 | 5144 | ANC |
+| 27 | Soshanguve X, Soshanguve W, Soshanguve R | 8 | 0.2 | 4793 | ANC |
+| 20 | Itsoseng, Mabopane, Mabopane M | 9 | 0.2 | 5456 | ANC |
+| 23 | Mamelodi S&S, Eastwood, Khalambazo | 8 | 0.2 | 4945 | ANC |
+| 40 | Mamelodi Ext 6, 12, 8 | 7 | 0.2 | 4594 | ANC |
+| 9 | Winterveld Ext 1, 3 | 7 | 0.2 | 4602 | ANC |
+| 26 | Soshanguve R, Soshanguve KK, Soshanguve FF | 7 | 0.1 | 4787 | ANC |
+| 18 | Mamelodi, Mamelodi Seventeens, Mamelodi Fourteens | 9 | 0.1 | 6174 | ANC |
+| 38 | Mamelodi FB3, Mamelodi Sun Valley, Mamelodi EB2 | 4 | 0.1 | 2923 | ANC |
+| 86 | Nellmapius, Samcor Park | 6 | 0.1 | 4550 | ANC |
+| 32 | Ga-Rankuwa, Wildebeesthoek, Medunsa | 8 | 0.1 | 6105 | ANC |
+| 103 | Ekangala, Rural Tshwane, Rethabiseng | 7 | 0.1 | 5357 | ANC |
+| 33 | Soshanguve G, Soshanguve BB, Soshanguve AA | 7 | 0.1 | 5708 | ANC |
+| 90 | Soshanguve East, Soshanguve A, Klipfontein | 7 | 0.1 | 5767 | ANC |
+| 97 | Mamelodi Ext 18, 11, 12, 6 | 6 | 0.1 | 5020 | ANC |
+| 68 | Saulsville, Atteridgeville | 6 | 0.1 | 5057 | ANC |
+| 16 | Mamelodi, Mamelodi Fourteens | 7 | 0.1 | 6224 | ANC |
+| 22 | Mabopane U, Botshabelo, Mabopane | 6 | 0.1 | 5374 | ANC |
+| 30 | Ga-Rankuwa, Ga-Rankuwa View, Ga-Rankuwa Industrial | 7 | 0.1 | 6361 | ANC |
+| 21 | Mabopane, Mabopane X, Mabopane A | 6 | 0.1 | 5479 | ANC |
+| 6 | Naledi, Mamelodi QD4, Mamelodi PD3 | 6 | 0.1 | 5665 | ANC |
+| 74 | Temba, Marokolong, Kudube | 5 | 0.1 | 4778 | ANC |
+| 104 | Ekangala Section A, Section B | 6 | 0.1 | 5795 | ANC |
+| 35 | Soshanguve L, Soshanguve K, Soshanguve M | 5 | 0.1 | 5054 | ANC |
+| 72 | Saulsville, Jeffersville, Atteridgeville | 5 | 0.1 | 5096 | ANC |
+| 37 | Soshanguve South, Klipfontein, Rosslyn Industrial | 5 | 0.1 | 5240 | ANC |
+| 94 | Soshanguve GG, Soshanguve FF, Soshanguve HH | 5 | 0.1 | 5433 | ANC |
+| 19 | Winterveld, Mabopane, Slovo | 5 | 0.1 | 5444 | ANC |
+| 75 | Kudube, Temba, Babelegi Industrial | 5 | 0.1 | 5555 | ANC |
+| 39 | Soshanguve South, Ga-Rankuwa | 4 | 0.1 | 4604 | ANC |
+| 25 | Soshanguve PP 2, Soshanguve V, Soshanguve T | 4 | 0.1 | 4633 | ANC |
+| 11 | Soshanguve JJ, Soshanguve NN, Soshanguve HH | 4 | 0.1 | 4923 | ANC |
+| 17 | Mamelodi, Mahube Valley | 4 | 0.1 | 5483 | ANC |
+| 13 | Stinkwater, Stinkwater B, Soutpan | 4 | 0.1 | 5679 | ANC |
+| 76 | Mashemong, Majaneng, Bosplaas Mathabe | 3 | 0.1 | 4788 | ANC |
+| 14 | New Eersterus | 3 | 0.1 | 4896 | ANC |
+| 89 | Soshanguve South, Soshanguve TT | 3 | 0.1 | 5147 | ANC |
+| 24 | Winterveld Ext 1 | 3 | 0.1 | 5292 | ANC |
+| 8 | Suurman, Sekampaneng, Dilopye | 1 | 0.0 | 5009 | ANC |
+| 71 | Phumolong, Jeffersville, Vergenoeg | 0 | 0.0 | 4483 | ANC |
+| 107 | Vergenoeg, Atteridgeville, Siahlala | 0 | 0.0 | 5185 | ANC |
 
 FF+ placement on the PR ballot in 2021: first in 0 wards, second in 28, third in 4. Every Negligible ward was won by ANC (58).
 

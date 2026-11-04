@@ -15,7 +15,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-from common import FFP, GEO, METRIC_CRS, OUTPUTS, RESULTS, WEB
+from common import FFP, GEO, METRIC_CRS, OUTPUTS, RESULTS, TSH, WEB
 
 # FF+ support tiers, by share of the PR (party list) ballot in the ward.
 # The PR ballot is the same in every ward, so it measures party support
@@ -181,9 +181,12 @@ def main() -> None:
     all_long.to_csv(OUTPUTS / "party_results_long.csv", index=False, float_format="%.3f")
 
     # ---------------- FF+ outputs
+    names = ward_names()
+
     def ward_view(key: str) -> pd.DataFrame:
         s = summaries[key].copy()
         s.insert(1, "ward_no", s["unit_id"] % 1000)
+        s.insert(2, "area", s["unit_id"].map(names.get(boundary_of(key), {})))
         return s.rename(columns={"unit_id": "ward_id"})
 
     w21 = ward_view("2021_own").sort_values("pr_ffp_share", ascending=False)
@@ -201,15 +204,15 @@ def main() -> None:
             continue
         s = ward_view(key)
         hit = s[(~s["ffp_stood"]) & (s["pr_ffp_votes"] > 0)]
-        nc.append(hit.assign(year=label)[["year", "ward_id", "ward_no", "pr_ffp_votes", "pr_ffp_share", "pr_winner", "ffp_tier"]])
+        nc.append(hit.assign(year=label)[["year", "ward_id", "ward_no", "area", "pr_ffp_votes", "pr_ffp_share", "pr_winner", "ffp_tier"]])
     no_cand = pd.concat(nc, ignore_index=True)
     no_cand.to_csv(OUTPUTS / "ffplus_no_ward_candidate.csv", index=False, float_format="%.2f")
     stood = {int(k[:4]): int(ward_view(k)["ffp_stood"].sum()) for k in ("2016_own", "2021_own", "2026_own") if k in summaries}
 
     # 2026-ward baseline + comparison
-    b = ward_view("2021_on2026")[["ward_id", "ward_no", "registered", "turnout", "pr_valid", "pr_winner",
+    b = ward_view("2021_on2026")[["ward_id", "ward_no", "area", "registered", "turnout", "pr_valid", "pr_winner",
                                   "pr_ffp_votes", "pr_ffp_share", "pr_DA_share", "pr_ANC_share", "ffp_tier"]]
-    b = b.rename(columns=lambda c: c if c in ("ward_id", "ward_no") else f"n21_{c}")
+    b = b.rename(columns=lambda c: c if c in ("ward_id", "ward_no", "area") else f"n21_{c}")
     n16 = ward_view("2016_on2026")[["ward_id", "pr_ffp_votes", "pr_ffp_share"]].rename(
         columns={"pr_ffp_votes": "n16_pr_ffp_votes", "pr_ffp_share": "n16_pr_ffp_share"})
     b = b.merge(n16, on="ward_id", how="left")
@@ -236,9 +239,56 @@ def main() -> None:
         vd_cmp = x.rename(columns={"unit_id": "vd"})
         vd_cmp.to_csv(OUTPUTS / "ffplus_vd_2021_vs_2026.csv", index=False, float_format="%.2f")
 
+    write_vote_tables(summaries, all_long, ward_view)
     write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp, vd21)
     write_web(res, summaries, all_long, cw_stats)
     print("wrote outputs/ and web/data.json")
+
+
+TABLE_PARTIES = [FFP, "DA", "ANC", "EFF", "ActionSA", "ACDP", "MK", "PA", "BOSA", "Rise Mzansi", "COPE"]
+
+
+def write_vote_tables(summaries, all_long, ward_view) -> None:
+    """outputs/ward_votes_<dataset>.csv: PR votes per party per ward, grouped by FF+ tier.
+
+    Tiers come from the 2021 FF+ share on the same ward map (2016 wards use 2016)."""
+    tier_source = {"2016_own": "2016_own", "2021_own": "2021_own", "2021_on2026": "2021_on2026",
+                   "2026_own": "2021_on2026"}
+    order = {t: i for i, (t, _) in enumerate(TIERS)}
+    for key, src in tier_source.items():
+        if key not in summaries:
+            continue
+        w = ward_view(key)
+        tiers = ward_view(src).set_index("ward_id")["ffp_tier"]
+        v = all_long[(all_long["dataset"] == key) & (all_long["ballot"] == "PR")]
+        piv = v.pivot_table(index="unit_id", columns="party", values="votes", aggfunc="sum", fill_value=0)
+        cols = [p for p in TABLE_PARTIES if p in piv.columns]
+        piv["Other"] = piv.drop(columns=cols).sum(axis=1)
+        out = pd.DataFrame({
+            "tier": w["ward_id"].map(tiers), "ward_no": w["ward_no"], "area": w["area"],
+            "registered": w["registered"].round(), "turnout_pct": w["turnout"].round(1),
+            "valid_votes": w["pr_valid"],
+        })
+        for p in cols + ["Other"]:
+            out[f"{p} votes"] = w["ward_id"].map(piv[p]).round().astype(int)
+        out["FF+ %"] = w["pr_ffp_share"].round(2)
+        out["winner"] = w["pr_winner"]
+        out = out.sort_values(["tier", "FF+ votes"], key=lambda c: c.map(order) if c.name == "tier" else -c)
+        out.to_csv(OUTPUTS / f"ward_votes_{key}.csv", index=False)
+
+
+def boundary_of(dataset_key: str) -> int:
+    """Which ward map a dataset is on: '2016_own' -> 2016, '2021_on2026' -> 2026."""
+    return 2026 if dataset_key.endswith("on2026") else int(dataset_key[:4])
+
+
+def ward_names() -> dict[int, dict[int, str]]:
+    """{boundary year: {ward_id: area name}} from data/tshwane/ward_areas.csv (see ward_names.py)."""
+    p = TSH / "ward_areas.csv"
+    if not p.exists():
+        return {}
+    d = pd.read_csv(p)
+    return {int(b): dict(zip(g["ward_id"], g["name"])) for b, g in d.groupby("boundary")}
 
 
 # ---------------------------------------------------------------- report
@@ -289,7 +339,10 @@ def write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp,
     L.append("")
     for t in order:
         ws = w21[w21["ffp_tier"] == t].sort_values("pr_ffp_share", ascending=False)
-        L.append(f"**{t}** ({len(ws)} wards): " + ", ".join(f"{n} ({s:.1f}%)" for n, s in zip(ws["ward_no"], ws["pr_ffp_share"])))
+        L.append(f"### {t} ({len(ws)} wards)\n")
+        L.append(md_table(pd.DataFrame({"ward": ws["ward_no"], "area": ws["area"].fillna(""),
+                                        "FF+ votes": ws["pr_ffp_votes"].astype(int), "FF+ %": ws["pr_ffp_share"],
+                                        "valid votes": ws["pr_valid"].astype(int), "winner": ws["pr_winner"]})))
         L.append("")
     ranks = w21["pr_ffp_rank"].value_counts()
     L.append(f"FF+ placement on the PR ballot in 2021: first in {int(ranks.get(1, 0))} wards, second in "
@@ -362,25 +415,24 @@ def simplify(gdf: gpd.GeoDataFrame, tol=0.00008) -> dict:
 
 
 def write_web(res, summaries, all_long, cw_stats) -> None:
-    geos = {
-        "wards_2016": load_geo("wards_2016")[["ward_id", "geometry"]].rename(columns={"ward_id": "id"}),
-        "wards_2021": load_geo("wards_2021")[["ward_id", "geometry"]].rename(columns={"ward_id": "id"}),
-        "wards_2026": load_geo("wards_2026")[["ward_id", "geometry"]].rename(columns={"ward_id": "id"}),
-        "vd_2021": load_geo("vd_2021")[["vd", "name", "ward_id", "geometry"]].rename(columns={"vd": "id"}),
-    }
-    if 2026 in res:
-        geos["vd_2026"] = load_geo("vd_2026")[["vd", "ward_id", "geometry"]].rename(columns={"vd": "id"})
+    names = ward_names()
+    areas = pd.read_csv(TSH / "ward_areas.csv") if (TSH / "ward_areas.csv").exists() else None
+    geos = {}
+    for year in (2016, 2021, 2026):
+        g = load_geo(f"wards_{year}")[["ward_id", "geometry"]].rename(columns={"ward_id": "id"})
+        g["name"] = g["id"].map(names.get(year, {})).fillna("")
+        if areas is not None:
+            g["areas"] = g["id"].map(areas[areas["boundary"] == year].set_index("ward_id")["areas"]).fillna("")
+        geos[f"wards_{year}"] = g
 
+    # (key, label, ward map, election year, estimated?)
     datasets = [
-        ("2016_own", "2016 · 2016 wards", "wards_2016", 2016, False),
-        ("2021_own", "2021 · 2021 wards", "wards_2021", 2021, False),
-        ("2021_vd", "2021 · voting districts", "vd_2021", 2021, False),
-        ("2016_on2026", "2016 · on 2026 wards", "wards_2026", 2016, True),
-        ("2021_on2026", "2021 · on 2026 wards", "wards_2026", 2021, True),
+        ("2016_own", "2016 election", "wards_2016", 2016, False),
+        ("2021_own", "2021 election", "wards_2021", 2021, False),
+        ("2021_on2026", "2021 election, estimated on 2026 wards", "wards_2026", 2021, True),
     ]
     if 2026 in res:
-        datasets += [("2026_own", "2026 · 2026 wards", "wards_2026", 2026, False),
-                     ("2026_vd", "2026 · voting districts", "vd_2026", 2026, False)]
+        datasets.append(("2026_own", "2026 election", "wards_2026", 2026, False))
 
     # parties shown by name: the key parties plus any that won >= 0.5% city-wide in some election
     own = all_long[(all_long["ballot"] == "PR") & all_long["dataset"].str.endswith("_own")]
@@ -397,10 +449,10 @@ def write_web(res, summaries, all_long, cw_stats) -> None:
         for uid, g in L.groupby("unit_id"):
             rec = {}
             for ballot, gb in g.groupby("ballot"):
-                d = {p: round(float(v), 1) for p, v in zip(gb["party"], gb["votes"]) if p in parties and v > 0}
-                other = float(gb.loc[~gb["party"].isin(parties), "votes"].sum())
+                d = {p: int(round(v)) for p, v in zip(gb["party"], gb["votes"]) if p in parties and round(v) > 0}
+                other = int(round(gb.loc[~gb["party"].isin(parties), "votes"].sum()))
                 if other > 0:
-                    d["Other"] = round(other, 1)
+                    d["Other"] = other
                 rec["p" if ballot == "PR" else "w"] = d
             if uid in s.index:
                 r = s.loc[uid]

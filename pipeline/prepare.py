@@ -89,6 +89,14 @@ def main() -> None:
         write_geo(gpd.GeoDataFrame({"vd": v21["CODE"].astype(int), "ward_id": v21["WARD"].astype(int),
                                     "name": v21["NAME"]}, geometry=v21.geometry), "vd_2021.geojson")
 
+        sp_dir = unzip(SOURCES / "subplace_2011.zip", tmp)
+        city = gpd.read_file(GEO / "wards_2026.geojson").union_all()
+        sp = gpd.read_file(find(sp_dir, "SP_SA_2011.shp"), bbox=tuple(gpd.GeoSeries([city], crs="EPSG:4326").total_bounds))
+        sp = sp.to_crs("EPSG:4326")
+        sp = sp[sp.intersects(city)]
+        write_geo(gpd.GeoDataFrame({"sp_code": sp["SP_CODE"].astype("int64"), "sp_name": sp["SP_NAME"],
+                                    "mp_name": sp["MP_NAME"]}, geometry=sp.geometry), "subplaces_2011.geojson")
+
         d26 = unzip(SOURCES / "vd_2026.zip", tmp)
         v26 = gpd.read_file(find(d26, "Voting_Districts_2026.shp"))
         v26 = v26[v26["MunicCode"] == "TSH"]

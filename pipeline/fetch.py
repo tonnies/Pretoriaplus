@@ -47,6 +47,8 @@ SOURCES: dict[str, tuple[str, str]] = {
     "vd_2016.zip": (f"{SAMAPS}/Voting%20Districts/2016.zip", "IEC voting districts 2016"),
     "vd_2021.zip": (f"{SAMAPS}/Voting%20Districts/2021.zip", "IEC voting districts 2021"),
     "vd_2026.zip": (f"{SAMAPS}/Voting%20Districts/2026.zip", "IEC voting districts 2026"),
+    # Stats SA Census 2011 sub-places: suburb and township names, used to name wards
+    "subplace_2011.zip": (f"{SAMAPS}/Subplace.zip", "Stats SA Census 2011 sub-places"),
 }
 
 

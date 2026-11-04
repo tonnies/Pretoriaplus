@@ -51,6 +51,22 @@ def test_notional_preserves_votes(baseline):
     assert abs(b["n21_pr_ffp_votes"].sum() - total) < 1
 
 
+def test_ward_names_cover_every_ward():
+    d = pd.read_csv(REPO / "data/tshwane/ward_areas.csv")
+    for b in (2016, 2021, 2026):
+        x = d[d["boundary"] == b]
+        assert len(x) == 107 and x["name"].str.len().min() > 2
+    assert "Waverley" in d.query("boundary==2021 and ward_no==52")["name"].iloc[0]
+
+
+def test_ward_vote_table_groups(baseline):
+    t = pd.read_csv(baseline / "outputs/ward_votes_2021_own.csv")
+    assert t["FF+ votes"].sum() == 52458
+    assert t["tier"].value_counts().to_dict() == {"Negligible": 58, "Solid": 21, "Stronghold": 19, "Marginal": 9}
+    party_cols = [c for c in t.columns if c.endswith(" votes")]
+    assert (t[party_cols].sum(axis=1) == t["valid_votes"]).all()
+
+
 def test_2016_no_candidate_wards(baseline):
     nc = pd.read_csv(baseline / "outputs/ffplus_no_ward_candidate.csv")
     assert set(nc.query("year==2016")["ward_no"]) == {12, 21}
