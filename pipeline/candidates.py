@@ -1,7 +1,7 @@
 """Parse IEC candidate lists (text copied from the IEC candidate-list PDF).
 
 Each candidate line looks like:
-  TSH - City of Tshwane VRYHEIDSFRONT PLUS | FREEDOM FRONT PLUS 3 641005****08* PETER WYNAND WARNAR MEIJER
+  TSH - City of Tshwane VRYHEIDSFRONT PLUS | FREEDOM FRONT PLUS 3 YYMMDD****08* FIRSTNAME SURNAME
 The number before the ID is the party-list (PR) position (1, 2, 3 ...) or, for
 ward candidates, the 8-digit ward ID (79900052 = Tshwane ward 52). Header and
 notice lines are skipped.
