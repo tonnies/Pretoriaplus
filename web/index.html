@@ -129,14 +129,24 @@ table.wards tr.grp td { background: var(--ground); border-top: 2px solid var(--c
 table.wards tr.grp td .num { font-weight: 500; color: var(--ink-2); margin-left: 8px; }
 table.wards tr.sub td { font-weight: 600; background: var(--ground); }
 table.wards tr.tot td { font-weight: 700; border-top: 2px solid var(--ink); }
-.nfmap { position: relative; height: min(520px, 62vh); min-height: 300px; background: var(--map-bg); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
-#nfsvg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.nfgrid { display: grid; grid-template-columns: 1fr minmax(280px, 360px); gap: 14px; align-items: start; }
+.nfmap { position: relative; height: min(560px, 64vh); min-height: 320px; background: var(--map-bg); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; touch-action: none; }
+#nfsvg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
+#nfsvg.drag { cursor: grabbing; }
 #nfsvg path { stroke: var(--edge); stroke-width: 0.7; vector-effect: non-scaling-stroke; }
 #nfsvg path.off { opacity: 0.45; }
-#nfsvg path.on { stroke: var(--ink); stroke-width: 1.4; cursor: pointer; }
-#nfsvg path.on:hover { stroke: var(--accent); stroke-width: 2.5; }
+#nfsvg path.on { stroke: var(--ink); stroke-width: 1.2; cursor: pointer; }
+#nfsvg path.on:hover { stroke: var(--accent); stroke-width: 2.2; }
+#nfsvg path.sel { stroke: var(--accent); stroke-width: 3.2; }
 #nfsvg text { font-family: var(--font-data); font-weight: 500; fill: var(--ink); paint-order: stroke; stroke: var(--panel); stroke-linejoin: round;
   pointer-events: none; text-anchor: middle; dominant-baseline: central; }
+#nfsvg text.off { fill: var(--ink-2); font-weight: 400; }
+.nfside { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.nfside a, #nfnote a { color: var(--ink); text-underline-offset: 2px; }
+.linkbtn { font: inherit; color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer; }
+.linkbtn:hover { color: var(--ink); }
+table.wards tbody tr.w[aria-current="true"] td { background: var(--accent-soft); }
+@media (max-width: 820px) { .nfgrid { grid-template-columns: 1fr; } }
 table.wards th.tick, table.wards td.tick { text-align: center; width: 4.5em; }
 table.wards td.tick input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
 .chip { font: inherit; font-size: var(--step--1); font-weight: 600; color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
@@ -209,7 +219,15 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
 
   <section class="page tablepage" id="page-newff" aria-label="New FF+ wards" hidden>
     <div><h2>New FF+: the wards you are tracking</h2><p class="note" id="nfnote"></p></div>
-    <div class="nfmap"><svg id="nfsvg" role="img" aria-label="Map of Tshwane with the tracked wards highlighted"></svg><div class="legend" id="nflegend"></div></div>
+    <div class="nfgrid">
+      <div class="nfmap" id="nfwrap">
+        <svg id="nfsvg" role="img" aria-label="Map of Tshwane with the tracked wards highlighted"><g id="nfshapes"></g><g id="nflabels"></g></svg>
+        <div class="zoom"><button type="button" id="nfzin" aria-label="Zoom in">+</button><button type="button" id="nfzout" aria-label="Zoom out">−</button><button type="button" id="nfzreset" aria-label="Show all ticked wards" style="font-size:12px">All</button></div>
+        <div class="legend" id="nflegend"></div>
+        <div class="tip" id="nftip" hidden></div>
+      </div>
+      <aside class="nfside" id="nfside" aria-live="polite"></aside>
+    </div>
     <div class="scroll"><table class="wards" id="nftable"></table></div>
   </section>
 </div>
@@ -307,8 +325,8 @@ function zoomAt(f, px, py) { const r = svg.getBoundingClientRect();
   const mx = vb.x + (px / r.width) * vb.w, my = vb.y + (py / r.height) * vb.h;
   vb = { x: mx - (mx - vb.x) * k, y: my - (my - vb.y) * k, w: vb.w * k, h: vb.h * k }; applyVB(); }
 svg.addEventListener("wheel", (e) => { e.preventDefault(); const r = svg.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
-const pointers = new Map(); let pinch = null, moved = 0;
-svg.addEventListener("pointerdown", (e) => { svg.setPointerCapture(e.pointerId); pointers.set(e.pointerId, [e.clientX, e.clientY]); moved = 0;
+const pointers = new Map(); let pinch = null, moved = 0, downTarget = null;
+svg.addEventListener("pointerdown", (e) => { downTarget = e.target; try { svg.setPointerCapture(e.pointerId); } catch (_) {} pointers.set(e.pointerId, [e.clientX, e.clientY]); moved = 0;
   if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); } });
 svg.addEventListener("pointermove", (e) => {
   if (!pointers.has(e.pointerId)) { hover(e); return; }
@@ -320,7 +338,7 @@ svg.addEventListener("pointermove", (e) => {
   if (moved > 4) { svg.classList.add("drag"); $("tip").hidden = true; vb.x -= (dx / r.width) * vb.w; vb.y -= (dy / r.height) * vb.h; applyVB(); } });
 function endPointer(e) { pointers.delete(e.pointerId); if (pointers.size < 2) pinch = null; if (!pointers.size) svg.classList.remove("drag"); }
 svg.addEventListener("pointerup", (e) => { const wasClick = moved <= 4 && pointers.size === 1; endPointer(e);
-  if (wasClick) { const t = e.target.closest && e.target.closest("path"); if (t) select(+t.dataset.id, false); } });
+  if (wasClick) { const t = downTarget && downTarget.closest && downTarget.closest("path"); if (t) select(+t.dataset.id, false); } });
 svg.addEventListener("pointercancel", endPointer);
 svg.addEventListener("pointerleave", () => { $("tip").hidden = true; });
 $("zin").onclick = () => { const r = svg.getBoundingClientRect(); zoomAt(1.6, r.width / 2, r.height / 2); };
@@ -588,69 +606,189 @@ function renderCandidates() {
     tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
 }
 
+// ---------- reusable pan/zoom for an SVG map (wheel, drag, pinch, buttons, tap)
+function panZoom(svgEl, { onChange, onTap, onHover, onLeave }) {
+  const z = { vb: null, home: null };
+  const rect = () => svgEl.getBoundingClientRect();
+  z.fit = (box) => { const r = rect(), pad = 0.04;
+    let [x, y, w, h] = [box[0] - box[2] * pad, box[1] - box[3] * pad, box[2] * (1 + 2 * pad), box[3] * (1 + 2 * pad)];
+    const ar = (r.width || 800) / (r.height || 500);
+    if (w / h > ar) { const nh = w / ar; y -= (nh - h) / 2; h = nh; } else { const nw = h * ar; x -= (nw - w) / 2; w = nw; }
+    return { x, y, w, h }; };
+  z.apply = () => { if (!z.vb) return; svgEl.setAttribute("viewBox", `${z.vb.x} ${z.vb.y} ${z.vb.w} ${z.vb.h}`); if (onChange) onChange(); };
+  z.unitsPerPx = () => (z.vb ? z.vb.w / (rect().width || 1) : 1);
+  z.zoomAt = (f, px, py) => { if (!z.vb) return; const r = rect();
+    const nw = Math.min(z.home.w * 3, Math.max(z.home.w / 60, z.vb.w / f)), k = nw / z.vb.w;
+    const mx = z.vb.x + (px / r.width) * z.vb.w, my = z.vb.y + (py / r.height) * z.vb.h;
+    z.vb = { x: mx - (mx - z.vb.x) * k, y: my - (my - z.vb.y) * k, w: z.vb.w * k, h: z.vb.h * k }; z.apply(); };
+  z.zoomBy = (f) => { const r = rect(); z.zoomAt(f, r.width / 2, r.height / 2); };
+  z.reset = () => { if (z.home) { z.vb = { ...z.home }; z.apply(); } };
+  z.focus = (cx, cy, w) => { const r = rect(); const h = w * ((r.height || 1) / (r.width || 1)); z.vb = { x: cx - w / 2, y: cy - h / 2, w, h }; z.apply(); };
+  svgEl.addEventListener("wheel", (e) => { e.preventDefault(); const r = rect(); z.zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+  // the element pressed is remembered: after pointer capture, pointerup targets the svg itself
+  const pts = new Map(); let pinch = null, moved = 0, downTarget = null;
+  svgEl.addEventListener("pointerdown", (e) => { downTarget = e.target; try { svgEl.setPointerCapture(e.pointerId); } catch (_) {} pts.set(e.pointerId, [e.clientX, e.clientY]); moved = 0;
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); } });
+  svgEl.addEventListener("pointermove", (e) => {
+    if (!pts.has(e.pointerId)) { if (onHover) onHover(e); return; }
+    const prev = pts.get(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]); const r = rect();
+    if (pts.size === 2 && pinch) { const [a, b] = [...pts.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      z.zoomAt(d / pinch, (a[0] + b[0]) / 2 - r.left, (a[1] + b[1]) / 2 - r.top); pinch = d; moved += 10; return; }
+    const dx = e.clientX - prev[0], dy = e.clientY - prev[1]; moved += Math.abs(dx) + Math.abs(dy);
+    if (moved > 4 && z.vb) { svgEl.classList.add("drag"); if (onLeave) onLeave(); z.vb.x -= (dx / r.width) * z.vb.w; z.vb.y -= (dy / r.height) * z.vb.h; z.apply(); } });
+  const end = (e) => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; if (!pts.size) svgEl.classList.remove("drag"); };
+  svgEl.addEventListener("pointerup", (e) => { const tap = moved <= 4 && pts.size === 1; end(e); if (tap && onTap) onTap({ target: downTarget, event: e }); });
+  svgEl.addEventListener("pointercancel", end);
+  svgEl.addEventListener("pointerleave", () => { if (onLeave) onLeave(); });
+  return z;
+}
+
 // ---------- New FF+ page: only the ticked wards
-function renderNewFF() {
-  const geoKey = "wards_2026", base = "2021_on2026", has26 = !!DS["2026_own"];
-  const g = prepGeo(geoKey), ids = TRACK.ids;
-  const rows = g.items.filter((it) => ids.has(it.id)).map((it) => {
+const NF = { sel: null, sort: { key: "ward", dir: 1 }, sig: "", built: false, z: null };
+const NF_BASE = "2021_on2026";
+function nfRows() {
+  const has26 = !!DS["2026_own"], g = prepGeo("wards_2026");
+  return g.items.filter((it) => TRACK.ids.has(it.id)).map((it) => {
     const c = CAND && CAND.ward[it.id];
-    const v21 = votes(base, it.id, FF), s21 = share(base, it.id, FF);
+    const v21 = votes(NF_BASE, it.id, FF), s21 = share(NF_BASE, it.id, FF);
     const v26 = has26 ? votes("2026_own", it.id, FF) : null, s26 = has26 ? share("2026_own", it.id, FF) : null;
     const d = v26 != null && v21 != null ? v26 - v21 : null;
-    return { it, id: it.id, ward: wardNo(it.id), area: it.f.properties.name, cand: c ? c.n : "–", tier: tierOf(s21),
+    return { it, id: it.id, ward: wardNo(it.id), area: it.f.properties.name, c, cand: c ? c.n : "–", tier: tierOf(s21),
       v21, s21, v26, s26, d, dp: d != null && v21 ? (d / v21) * 100 : null };
-  }).sort((a, b) => a.ward - b.ward);
-
+  });
+}
+function nfLabels() {
+  if (!NF.z || !NF.z.vb) return; const px = NF.z.unitsPerPx();
+  const g = prepGeo("wards_2026");
+  // ticked wards always get their number; other wards once zoomed in far enough
+  $("nflabels").innerHTML = g.items.filter((it) => TRACK.ids.has(it.id) || it.size / px >= 40).map((it) =>
+    `<text class="${TRACK.ids.has(it.id) ? "" : "off"}" x="${it.c[0].toFixed(1)}" y="${it.c[1].toFixed(1)}" font-size="${(12 * px).toFixed(2)}" style="stroke-width:${(3 * px).toFixed(2)}">${wardNo(it.id)}</text>`).join("");
+}
+function nfInit() {
+  if (NF.built) return; NF.built = true;
+  const g = prepGeo("wards_2026"), svgEl = $("nfsvg");
+  $("nfshapes").innerHTML = g.items.map((it) => `<path data-id="${it.id}" d="${it.d}"></path>`).join("");
+  NF.z = panZoom(svgEl, {
+    onChange: nfLabels,
+    onTap: ({ target }) => { const p = target && target.closest && target.closest("path"); if (p && TRACK.ids.has(+p.dataset.id)) nfSelect(+p.dataset.id, false); },
+    onHover: (e) => {
+      const p = e.target.closest && e.target.closest("path"), tip = $("nftip");
+      if (!p || e.pointerType === "touch") { tip.hidden = true; return; }
+      const id = +p.dataset.id, f = featById({ geo: "wards_2026" }, id), on = TRACK.ids.has(id), c = CAND && CAND.ward[id];
+      let h = `<b>Ward ${wardNo(id)}</b><br>${esc(f.properties.name)}`;
+      if (on) { h += `<br>${c ? "FF+ candidate: " + esc(c.n) + "<br>" : ""}FF+ 2021: <span class="num">${fmtInt(votes(NF_BASE, id, FF))}</span> votes (${fmt(share(NF_BASE, id, FF))}%)`;
+        if (DS["2026_own"]) h += `<br>FF+ 2026: <span class="num">${fmtInt(votes("2026_own", id, FF))}</span> votes (${fmt(share("2026_own", id, FF))}%)`; }
+      else h += `<br><span class="note">Not ticked</span>`;
+      tip.innerHTML = h; tip.hidden = false;
+      const r = $("nfwrap").getBoundingClientRect();
+      tip.style.left = Math.min(e.clientX - r.left + 14, r.width - tip.offsetWidth - 6) + "px";
+      tip.style.top = Math.min(e.clientY - r.top + 14, r.height - tip.offsetHeight - 6) + "px"; },
+    onLeave: () => { $("nftip").hidden = true; },
+  });
+  $("nfzin").onclick = () => NF.z.zoomBy(1.6);
+  $("nfzout").onclick = () => NF.z.zoomBy(1 / 1.6);
+  $("nfzreset").onclick = () => NF.z.reset();
+}
+function nfSelect(id, zoom) {
+  NF.sel = id; renderNewFF();
+  if (zoom && id != null) { const it = prepGeo("wards_2026").items.find((x) => x.id === id);
+    if (it) NF.z.focus(it.c[0], it.c[1], Math.max(it.size * 3, NF.z.home.w / 10));
+    const wrap = $("nfwrap"), r = wrap.getBoundingClientRect();
+    if (r.top < 0 || r.bottom > window.innerHeight) wrap.scrollIntoView({ block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+}
+function renderNewFF() {
+  nfInit();
+  const has26 = !!DS["2026_own"], rows = nfRows(), byId = new Map(rows.map((x) => [x.id, x]));
+  if (NF.sel != null && !byId.has(NF.sel)) NF.sel = null;
   const loading = TRACK.mode === "loading";
   $("nfnote").innerHTML = loading ? "Loading your ticked wards…" : rows.length
     ? `${rows.length} ${rows.length === 1 ? "ward" : "wards"} ticked as New FF+ on the <a href="#candidates">Candidates</a> page. 2021 figures are estimates on the 2026 wards.${has26 ? "" : " 2026 columns fill in once the results are loaded."}${TRACK.note ? " " + esc(TRACK.note) : ""}`
     : `No wards ticked yet. Tick candidates in the "New FF+" column on the <a href="#candidates">Candidates</a> page and they appear here.`;
 
-  // map: ticked wards in colour, the rest greyed out; zoom to the ticked wards
-  const svgEl = $("nfsvg"), r = svgEl.getBoundingClientRect(), baseCol = css("--map-base"), col = partyColor(FF), loss = css("--loss");
+  // map colours: ticked wards in colour, the rest greyed out
+  const baseCol = css("--map-base"), col = partyColor(FF), loss = css("--loss");
   const maxD = Math.max(1, ...rows.map((x) => Math.abs(x.dp ?? 0)));
-  // a ticked ward in the lowest group still needs to stand out from the greyed-out wards
   const tierOn = (t) => !t || t === "Negligible" ? mix(baseCol, col, 0.3) : tierColor(t);
   const fillOn = (x) => has26 && x.dp != null ? mix(baseCol, x.dp >= 0 ? col : loss, Math.max(0.3, Math.min(1, Math.abs(x.dp) / maxD) ** 0.7)) : tierOn(x.tier);
-  const byId = new Map(rows.map((x) => [x.id, x]));
-  let box = g.box;
+  for (const p of $("nfshapes").children) { const x = byId.get(+p.dataset.id);
+    p.setAttribute("class", x ? (x.id === NF.sel ? "on sel" : "on") : "off"); p.setAttribute("fill", x ? fillOn(x) : baseCol); }
+  const sel = $("nfshapes").querySelector("path.sel"); if (sel) $("nfshapes").appendChild(sel);
+  // frame the ticked wards; keep the viewer's own zoom until the ticked set changes
+  const g = prepGeo("wards_2026"); let box = g.box;
   if (rows.length) { const b = [Infinity, Infinity, -Infinity, -Infinity];
     for (const x of rows) { b[0] = Math.min(b[0], x.it.bb[0]); b[1] = Math.min(b[1], x.it.bb[1]); b[2] = Math.max(b[2], x.it.bb[2]); b[3] = Math.max(b[3], x.it.bb[3]); }
-    const w = b[2] - b[0], h = b[3] - b[1], m = Math.max(w, h) * 0.25 + g.box[2] * 0.02;
-    box = [b[0] - m, b[1] - m, w + 2 * m, h + 2 * m]; }
-  const ar = (r.width || 800) / (r.height || 500); let [bx, by, bw, bh] = box;
-  if (bw / bh > ar) { const nh = bw / ar; by -= (nh - bh) / 2; bh = nh; } else { const nw = bh * ar; bx -= (nw - bw) / 2; bw = nw; }
-  svgEl.setAttribute("viewBox", `${bx} ${by} ${bw} ${bh}`);
-  const px = bw / (r.width || 800);
-  svgEl.innerHTML = g.items.map((it) => { const x = byId.get(it.id);
-    return x ? `<path class="on" data-id="${it.id}" d="${it.d}" fill="${fillOn(x)}"><title>Ward ${x.ward} · ${esc(x.area)} · ${esc(x.cand)}</title></path>`
-             : `<path class="off" d="${it.d}" fill="${baseCol}"></path>`; }).join("") +
-    rows.map((x) => `<text x="${x.it.c[0].toFixed(1)}" y="${x.it.c[1].toFixed(1)}" font-size="${(12 * px).toFixed(2)}" style="stroke-width:${(3 * px).toFixed(2)}">${x.ward}</text>`).join("");
-  for (const p of svgEl.querySelectorAll("path.on")) p.onclick = () => { state.view = has26 ? "2026_own" : "2021_on2026"; state.selected = +p.dataset.id; location.hash = "map"; };
+    const w = b[2] - b[0], h = b[3] - b[1], m = Math.max(w, h) * 0.15 + g.box[2] * 0.02; box = [b[0] - m, b[1] - m, w + 2 * m, h + 2 * m]; }
+  const sig = rows.map((x) => x.id).join(",") + "|" + $("nfsvg").getBoundingClientRect().width;
+  NF.z.home = NF.z.fit(box);
+  if (sig !== NF.sig || !NF.z.vb) { NF.sig = sig; NF.z.vb = { ...NF.z.home }; }
+  NF.z.apply();
   $("nflegend").innerHTML = has26
     ? `<b>FF+ change in votes, 2021 → 2026</b><div class="ramp" style="background:linear-gradient(90deg,${loss},${baseCol},${col})"></div><div class="ends num"><span>−${fmt(maxD, 0)}%</span><span>0</span><span>+${fmt(maxD, 0)}%</span></div>`
     : `<b>FF+ support in 2021</b><div class="sw">${DATA.tiers.map((t) => `<span style="--c:${tierOn(t.label)}">${t.label}</span>`).join("")}<span style="--c:${baseCol};opacity:.6">Not ticked</span></div>`;
 
-  // table
+  renderNfSide(rows, has26);
+
+  // table, sortable
   const pct = (v) => v == null || !isFinite(v) ? "–" : signed(v) + "%";
   const cls = (v) => v == null ? "" : v > 0 ? "up" : v < 0 ? "down" : "";
-  const head = `<thead><tr><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th><th class="ff">FF+ votes 2021</th><th class="ff">FF+ % 2021</th><th class="ff">FF+ votes 2026</th><th class="ff">FF+ % 2026</th><th>Increase / decrease</th><th>% increase / decrease</th></tr></thead>`;
-  const line = (x) => `<tr class="w" data-id="${x.id}" tabindex="0"><td class="l num">${x.ward}</td><td class="l area">${esc(x.area)}</td><td class="l"><b>${esc(x.cand)}</b></td>
+  const cols = [["ward", "Ward", "l"], ["area", "Area", "l"], ["cand", "FF+ candidate", "l"], ["v21", "FF+ votes 2021", "ff"], ["s21", "FF+ % 2021", "ff"],
+    ["v26", "FF+ votes 2026", "ff"], ["s26", "FF+ % 2026", "ff"], ["d", "Increase / decrease"], ["dp", "% increase / decrease"]];
+  const { key, dir } = NF.sort;
+  const val = (x) => (["area", "cand"].includes(key) ? (x[key] || "") : x[key] ?? -Infinity);
+  rows.sort((a, b) => { const p = val(a), q = val(b); return (typeof p === "string" ? p.localeCompare(q) : p - q) * dir || a.ward - b.ward; });
+  const line = (x) => `<tr class="w" data-id="${x.id}" tabindex="0" aria-current="${x.id === NF.sel}"><td class="l num">${x.ward}</td><td class="l area">${esc(x.area)}</td><td class="l"><b>${esc(x.cand)}</b></td>
     <td class="num ff">${fmtInt(x.v21)}</td><td class="num ff">${fmt(x.s21)}</td><td class="num ff">${has26 ? fmtInt(x.v26) : "–"}</td><td class="num ff">${has26 ? fmt(x.s26) : "–"}</td>
     <td class="num ${cls(x.d)}">${signedInt(x.d)}</td><td class="num ${cls(x.dp)}">${pct(x.dp)}</td></tr>`;
   let body = rows.map(line).join("");
   if (rows.length > 1) {
-    const sum = (k) => rows.reduce((a, x) => a + (x[k] || 0), 0);
-    const valid = (ds) => rows.reduce((a, x) => a + total((unit(ds, x.id) || {}).p), 0);
-    const v21 = sum("v21"), v26 = has26 ? sum("v26") : null, d = has26 ? v26 - v21 : null;
-    body += `<tr class="tot"><td></td><td class="l">All ticked wards</td><td></td><td class="num ff">${fmtInt(v21)}</td><td class="num ff">${fmt(v21 / valid(base) * 100)}</td>
-      <td class="num ff">${has26 ? fmtInt(v26) : "–"}</td><td class="num ff">${has26 ? fmt(v26 / valid("2026_own") * 100) : "–"}</td>
-      <td class="num ${cls(d)}">${signedInt(d)}</td><td class="num ${cls(d)}">${d == null || !v21 ? "–" : pct(d / v21 * 100)}</td></tr>`;
+    const t = nfTotals(rows, has26);
+    body += `<tr class="tot"><td></td><td class="l">All ticked wards</td><td></td><td class="num ff">${fmtInt(t.v21)}</td><td class="num ff">${fmt(t.s21)}</td>
+      <td class="num ff">${has26 ? fmtInt(t.v26) : "–"}</td><td class="num ff">${has26 ? fmt(t.s26) : "–"}</td>
+      <td class="num ${cls(t.d)}">${signedInt(t.d)}</td><td class="num ${cls(t.d)}">${pct(t.dp)}</td></tr>`;
   }
-  $("nftable").innerHTML = rows.length ? head + `<tbody>${body}</tbody>` : "";
-  $("nftable").parentElement.hidden = !rows.length;
-  for (const tr of $("nftable").querySelectorAll("tr.w")) { const go = () => { state.view = has26 ? "2026_own" : "2021_on2026"; state.selected = +tr.dataset.id; location.hash = "map"; };
+  const tbl = $("nftable");
+  tbl.innerHTML = rows.length ? `<thead><tr>${cols.map(([k, lab, c]) => `<th class="${c || ""}" data-k="${k}" aria-sort="${key === k ? (dir < 0 ? "descending" : "ascending") : "none"}">${lab}</th>`).join("")}</tr></thead><tbody>${body}</tbody>` : "";
+  tbl.parentElement.hidden = !rows.length;
+  for (const th of tbl.querySelectorAll("th")) th.onclick = () => { const k = th.dataset.k;
+    NF.sort = { key: k, dir: NF.sort.key === k ? -NF.sort.dir : (["ward", "area", "cand"].includes(k) ? 1 : -1) }; renderNewFF(); };
+  for (const tr of tbl.querySelectorAll("tr.w")) { const go = () => nfSelect(+tr.dataset.id, true);
     tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
+}
+function nfTotals(rows, has26) {
+  const sum = (k) => rows.reduce((a, x) => a + (x[k] || 0), 0);
+  const valid = (ds) => rows.reduce((a, x) => a + total((unit(ds, x.id) || {}).p), 0);
+  const v21 = sum("v21"), v26 = has26 ? sum("v26") : null, d = has26 ? v26 - v21 : null;
+  const val21 = valid(NF_BASE), val26 = has26 ? valid("2026_own") : 0;
+  return { v21, s21: val21 ? (v21 / val21) * 100 : null, v26, s26: has26 && val26 ? (v26 / val26) * 100 : null, d, dp: d != null && v21 ? (d / v21) * 100 : null };
+}
+function renderNfSide(rows, has26) {
+  const el = $("nfside");
+  const x = NF.sel != null ? rows.find((r) => r.id === NF.sel) : null;
+  if (!x) {
+    if (!rows.length) { el.innerHTML = `<h2>No wards ticked</h2><p class="note">Tick candidates on the <a href="#candidates">Candidates</a> page.</p>`; return; }
+    const t = nfTotals(rows, has26);
+    let h = `<h2>All ticked wards</h2><div class="stats"><div class="stat"><b>${fmtInt(t.v21)}</b><span>FF+ votes 2021 (${fmt(t.s21, 2)}%)</span></div>`;
+    h += has26 ? `<div class="stat"><b>${fmtInt(t.v26)}</b><span>FF+ votes 2026 (${fmt(t.s26, 2)}%)</span></div></div><dl class="kv"><dt>Increase / decrease</dt><dd class="num">${signedInt(t.d)} (${t.dp == null ? "–" : signed(t.dp) + "%"})</dd></dl>`
+               : `<div class="stat"><b>–</b><span>FF+ votes 2026 (after results)</span></div></div>`;
+    const counts = {}; for (const r of rows) counts[r.tier] = (counts[r.tier] || 0) + 1;
+    h += `<p class="note">2021 support: ${DATA.tiers.filter((tt) => counts[tt.label]).map((tt) => `<span class="pill" style="--c:${tierColor(tt.label)}">${tt.label} ${counts[tt.label]}</span>`).join(" ")}</p>`;
+    h += `<p class="note">Tap a coloured ward on the map, or a row in the table, for its details. Scroll or pinch to zoom, drag to move.</p>`;
+    el.innerHTML = h; return;
+  }
+  const c = x.c, u26 = has26 ? unit("2026_own", x.id) : null, u21 = unit(NF_BASE, x.id);
+  let h = `<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><h2>Ward ${x.ward}</h2><button type="button" id="nfclear" class="linkbtn">All ticked wards ✕</button></div>`;
+  h += `<p style="margin:0;font-weight:600">${esc(x.area)}</p>`;
+  if (x.it.f.properties.areas) h += `<p class="note">Suburbs by share of voters: ${esc(x.it.f.properties.areas.replace(/;/g, ","))}</p>`;
+  h += `<div class="stats"><div class="stat"><b>${fmtInt(x.v21)}</b><span>FF+ votes 2021 (${fmt(x.s21)}%)</span></div><div class="stat"><b>${has26 ? fmtInt(x.v26) : "–"}</b><span>FF+ votes 2026${has26 ? ` (${fmt(x.s26)}%)` : " (after results)"}</span></div></div>`;
+  h += `<dl class="kv">`;
+  if (c) h += `<dt>FF+ candidate</dt><dd><b>${esc(c.n)}</b></dd><dt>On the party list</dt><dd>${c.pr ? "#" + c.pr : "No"}</dd>${c.k > 1 ? `<dt>Also stands in</dt><dd>wards ${esc(c.o)}</dd>` : ""}`;
+  if (x.tier) h += `<dt>FF+ support 2021</dt><dd><span class="pill" style="--c:${tierColor(x.tier)}">${x.tier}</span></dd>`;
+  if (has26) h += `<dt>Increase / decrease</dt><dd class="num">${signedInt(x.d)} (${x.dp == null ? "–" : signed(x.dp) + "%"})</dd>`;
+  const u = u26 || u21;
+  if (u) h += `<dt>Registered voters${u26 ? "" : " (2021 est.)"}</dt><dd class="num">${fmtInt(u.reg)}</dd><dt>Turnout${u26 ? "" : " 2021"}</dt><dd class="num">${fmt(u.to)}%</dd><dt>Winner${u26 ? " 2026" : " 2021"}</dt><dd>${esc(winner(u.p) || "–")}</dd>`;
+  h += `</dl><p class="label" style="margin:4px 0 0">${u26 ? "2026 results" : "2021 results (estimate on the 2026 ward)"}</p>` + resultsTable(u);
+  el.innerHTML = h;
+  $("nfclear").onclick = () => nfSelect(null, false);
 }
 
 // ---------- controls + routing
@@ -691,7 +829,7 @@ function rethemed() { update(); }
 
 buildControls();
 window.addEventListener("hashchange", route);
-window.addEventListener("resize", () => { if (state.page === "newff") renderNewFF(); if (!home) return; const keep = vb; home = fitBox(prepGeo(VIEW[state.view].geo).box); vb = keep; applyVB(); });
+window.addEventListener("resize", () => { if (state.page === "newff") { NF.sig = ""; renderNewFF(); } if (!home) return; const keep = vb; home = fitBox(prepGeo(VIEW[state.view].geo).box); vb = keep; applyVB(); });
 const mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", rethemed);
 new MutationObserver(rethemed).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 route();
