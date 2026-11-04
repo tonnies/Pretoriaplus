@@ -47,7 +47,7 @@ python pipeline/analyse.py && python pipeline/build_web.py
 ```
 
 Party-list rows carry the list position (1, 2, 3 ...); ward rows carry the 8-digit ward ID
-(79900052 = ward 52). The FF+ list is loaded: `outputs/ffplus_candidates_2026_by_ward.csv`,
+(79900052 = ward 52). The FF+ and DA lists are loaded (DA candidates show on the ward details, Battleground and Candidates pages). FF+ outputs: `outputs/ffplus_candidates_2026_by_ward.csv`,
 `outputs/ffplus_pr_list_2026.csv`, a Candidates page on the web page, and a section in the report.
 
 ## Election night / after 4 November 2026

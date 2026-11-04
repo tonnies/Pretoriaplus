@@ -461,7 +461,7 @@ function renderSide() {
     (c.k > 1 ? `<dt>Also stands in</dt><dd>wards ${esc(c.o)}</dd>` : "");
   else if (CAND && v.geo !== "wards_2026") h += `<dt>FF+ candidates 2026</dt><dd>see the 2026 ward map</dd>`;
   const dc = otherFor("DA", v, id);
-  if (dc) h += `<dt>DA ward candidate 2026</dt><dd><b>${esc(dc.n)}</b></dd>`;
+  if (dc) h += `<dt>DA ward candidate 2026</dt><dd><b>${esc(dc.n)}</b>${dc.pr ? ` (DA list #${dc.pr})` : ""}</dd>`;
   if (v.change) h += `<dt>FF+ 2021 (estimate)</dt><dd class="num">${fmtInt(votes(v.prev, id, FF))} · ${fmt(share(v.prev, id, FF))}%</dd><dt>Change</dt><dd class="num">${signedInt(n - votes(v.prev, id, FF))} votes · ${signed(s - share(v.prev, id, FF))} pts</dd>`;
   if (u) { h += `<dt>Registered voters</dt><dd class="num">${fmtInt(u.reg)}</dd><dt>Turnout</dt><dd class="num">${fmt(u.to)}%</dd><dt>Winner (PR)</dt><dd>${esc(winner(u.p) || "–")}</dd>`;
     if (!v.est && u.st != null) h += `<dt>FF+ ward candidate</dt><dd>${u.st ? "Yes" : "No"}</dd>`; }
@@ -923,7 +923,7 @@ function renderBgSide(v, rows) {
   if (x.f.properties.areas) h += `<p class="note">Suburbs by share of voters: ${esc(x.f.properties.areas.replace(/;/g, ","))}</p>`;
   h += `<div class="stats"><div class="stat"><b>${fmtInt(x.gap)}</b><span>votes between DA and FF+</span></div><div class="stat"><b>${fmt(x.gp)}</b><span>points gap</span></div></div>`;
   h += `<dl class="kv"><dt>DA</dt><dd class="num">${fmtInt(x.da)} · ${fmt(x.das)}%</dd><dt>FF+</dt><dd class="num">${fmtInt(x.ff)} · ${fmt(x.ffs)}%</dd>`;
-  if (x.dc) h += `<dt>DA candidate 2026</dt><dd><b>${esc(x.dc.n)}</b></dd>`;
+  if (x.dc) h += `<dt>DA candidate 2026</dt><dd><b>${esc(x.dc.n)}</b></dd><dt>DA party list</dt><dd>${x.dc.pr ? "#" + x.dc.pr : "No"}</dd>`;
   if (x.c) h += `<dt>FF+ candidate 2026</dt><dd><b>${esc(x.c.n)}</b></dd><dt>FF+ party list</dt><dd>${x.c.pr ? "#" + x.c.pr : "No"}</dd>`;
   else if (CAND && v.geo !== "wards_2026") h += `<dt>Candidates 2026</dt><dd>pick a 2026 election to see them</dd>`;
   if (x.u) h += `<dt>Registered voters${v.est ? " (est.)" : ""}</dt><dd class="num">${fmtInt(x.u.reg)}</dd><dt>Turnout</dt><dd class="num">${fmt(x.u.to)}%</dd>`;
