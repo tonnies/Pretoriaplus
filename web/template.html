@@ -120,6 +120,14 @@ table.wards tr.grp td { background: var(--ground); border-top: 2px solid var(--c
 table.wards tr.grp td .num { font-weight: 500; color: var(--ink-2); margin-left: 8px; }
 table.wards tr.sub td { font-weight: 600; background: var(--ground); }
 table.wards tr.tot td { font-weight: 700; border-top: 2px solid var(--ink); }
+.nfmap { position: relative; height: min(520px, 62vh); min-height: 300px; background: var(--map-bg); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+#nfsvg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#nfsvg path { stroke: var(--edge); stroke-width: 0.7; vector-effect: non-scaling-stroke; }
+#nfsvg path.off { opacity: 0.45; }
+#nfsvg path.on { stroke: var(--ink); stroke-width: 1.4; cursor: pointer; }
+#nfsvg path.on:hover { stroke: var(--accent); stroke-width: 2.5; }
+#nfsvg text { font-family: var(--font-data); font-weight: 500; fill: var(--ink); paint-order: stroke; stroke: var(--panel); stroke-linejoin: round;
+  pointer-events: none; text-anchor: middle; dominant-baseline: central; }
 table.wards th.tick, table.wards td.tick { text-align: center; width: 4.5em; }
 table.wards td.tick input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
 .chip { font: inherit; font-size: var(--step--1); font-weight: 600; color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
@@ -147,6 +155,7 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
       <a href="#map" id="tab-map">Map</a>
       <a href="#wards" id="tab-wards">Ward table</a>
       <a href="#candidates" id="tab-candidates">Candidates</a>
+      <a href="#newff" id="tab-newff">New FF+</a>
     </nav>
     <div class="controls">
       <label class="ctl" id="viewctl"><span class="label">Election</span><select id="view"></select></label>
@@ -188,6 +197,12 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
   </section>
 
   <section class="page tablepage" id="page-candidates" aria-label="FF+ candidates 2026" hidden></section>
+
+  <section class="page tablepage" id="page-newff" aria-label="New FF+ wards" hidden>
+    <div><h2>New FF+: the wards you are tracking</h2><p class="note" id="nfnote"></p></div>
+    <div class="nfmap"><svg id="nfsvg" role="img" aria-label="Map of Tshwane with the tracked wards highlighted"></svg><div class="legend" id="nflegend"></div></div>
+    <div class="scroll"><table class="wards" id="nftable"></table></div>
+  </section>
 </div>
 
 <script id="tshwane-data" type="application/json">/*__DATA__*/</script>
@@ -266,7 +281,7 @@ function prepGeo(key) {
         for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) { const k = pts[j][0] * pts[i][1] - pts[i][0] * pts[j][1]; a += k; cx += (pts[j][0] + pts[i][0]) * k; cy += (pts[j][1] + pts[i][1]) * k; }
         if (Math.abs(a) > bestA) { bestA = Math.abs(a); best = a ? [cx / (3 * a), cy / (3 * a)] : pts[0]; } }
     }
-    return { f, id: f.properties.id, d, c: best, size: Math.max(bx1 - bx0, by1 - by0) };
+    return { f, id: f.properties.id, d, c: best, size: Math.max(bx1 - bx0, by1 - by0), bb: [bx0, by0, bx1, by1] };
   });
   return (geoCache[key] = { items, box: [minx, miny, maxx - minx, maxy - miny] });
 }
@@ -483,7 +498,7 @@ function renderTable() {
 // ---------- "New FF+" ticks: candidates to track as 2026 results come in.
 // Kept in the page's shared database on claude.ai; in a plain browser file, in this browser only.
 const TRACK = { mode: "loading", ids: new Set(), db: null, busy: new Set(), note: "", onlyTicked: false };
-const rerenderCands = () => { if (state.page === "candidates") renderCandidates(); };
+const rerenderCands = () => { if (state.page === "candidates") renderCandidates(); else if (state.page === "newff") renderNewFF(); };
 async function initTracking() {
   let db = null, user = null;
   try { if (window.claude && window.claude.use) [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]); } catch (e) { db = null; }
@@ -564,6 +579,71 @@ function renderCandidates() {
     tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
 }
 
+// ---------- New FF+ page: only the ticked wards
+function renderNewFF() {
+  const geoKey = "wards_2026", base = "2021_on2026", has26 = !!DS["2026_own"];
+  const g = prepGeo(geoKey), ids = TRACK.ids;
+  const rows = g.items.filter((it) => ids.has(it.id)).map((it) => {
+    const c = CAND && CAND.ward[it.id];
+    const v21 = votes(base, it.id, FF), s21 = share(base, it.id, FF);
+    const v26 = has26 ? votes("2026_own", it.id, FF) : null, s26 = has26 ? share("2026_own", it.id, FF) : null;
+    const d = v26 != null && v21 != null ? v26 - v21 : null;
+    return { it, id: it.id, ward: wardNo(it.id), area: it.f.properties.name, cand: c ? c.n : "–", tier: tierOf(s21),
+      v21, s21, v26, s26, d, dp: d != null && v21 ? (d / v21) * 100 : null };
+  }).sort((a, b) => a.ward - b.ward);
+
+  const loading = TRACK.mode === "loading";
+  $("nfnote").innerHTML = loading ? "Loading your ticked wards…" : rows.length
+    ? `${rows.length} ${rows.length === 1 ? "ward" : "wards"} ticked as New FF+ on the <a href="#candidates">Candidates</a> page. 2021 figures are estimates on the 2026 wards.${has26 ? "" : " 2026 columns fill in once the results are loaded."}${TRACK.note ? " " + esc(TRACK.note) : ""}`
+    : `No wards ticked yet. Tick candidates in the "New FF+" column on the <a href="#candidates">Candidates</a> page and they appear here.`;
+
+  // map: ticked wards in colour, the rest greyed out; zoom to the ticked wards
+  const svgEl = $("nfsvg"), r = svgEl.getBoundingClientRect(), baseCol = css("--map-base"), col = partyColor(FF), loss = css("--loss");
+  const maxD = Math.max(1, ...rows.map((x) => Math.abs(x.dp ?? 0)));
+  // a ticked ward in the lowest group still needs to stand out from the greyed-out wards
+  const tierOn = (t) => !t || t === "Negligible" ? mix(baseCol, col, 0.3) : tierColor(t);
+  const fillOn = (x) => has26 && x.dp != null ? mix(baseCol, x.dp >= 0 ? col : loss, Math.max(0.3, Math.min(1, Math.abs(x.dp) / maxD) ** 0.7)) : tierOn(x.tier);
+  const byId = new Map(rows.map((x) => [x.id, x]));
+  let box = g.box;
+  if (rows.length) { const b = [Infinity, Infinity, -Infinity, -Infinity];
+    for (const x of rows) { b[0] = Math.min(b[0], x.it.bb[0]); b[1] = Math.min(b[1], x.it.bb[1]); b[2] = Math.max(b[2], x.it.bb[2]); b[3] = Math.max(b[3], x.it.bb[3]); }
+    const w = b[2] - b[0], h = b[3] - b[1], m = Math.max(w, h) * 0.25 + g.box[2] * 0.02;
+    box = [b[0] - m, b[1] - m, w + 2 * m, h + 2 * m]; }
+  const ar = (r.width || 800) / (r.height || 500); let [bx, by, bw, bh] = box;
+  if (bw / bh > ar) { const nh = bw / ar; by -= (nh - bh) / 2; bh = nh; } else { const nw = bh * ar; bx -= (nw - bw) / 2; bw = nw; }
+  svgEl.setAttribute("viewBox", `${bx} ${by} ${bw} ${bh}`);
+  const px = bw / (r.width || 800);
+  svgEl.innerHTML = g.items.map((it) => { const x = byId.get(it.id);
+    return x ? `<path class="on" data-id="${it.id}" d="${it.d}" fill="${fillOn(x)}"><title>Ward ${x.ward} · ${esc(x.area)} · ${esc(x.cand)}</title></path>`
+             : `<path class="off" d="${it.d}" fill="${baseCol}"></path>`; }).join("") +
+    rows.map((x) => `<text x="${x.it.c[0].toFixed(1)}" y="${x.it.c[1].toFixed(1)}" font-size="${(12 * px).toFixed(2)}" style="stroke-width:${(3 * px).toFixed(2)}">${x.ward}</text>`).join("");
+  for (const p of svgEl.querySelectorAll("path.on")) p.onclick = () => { state.view = has26 ? "2026_own" : "2021_on2026"; state.selected = +p.dataset.id; location.hash = "map"; };
+  $("nflegend").innerHTML = has26
+    ? `<b>FF+ change in votes, 2021 → 2026</b><div class="ramp" style="background:linear-gradient(90deg,${loss},${baseCol},${col})"></div><div class="ends num"><span>−${fmt(maxD, 0)}%</span><span>0</span><span>+${fmt(maxD, 0)}%</span></div>`
+    : `<b>FF+ support in 2021</b><div class="sw">${DATA.tiers.map((t) => `<span style="--c:${tierOn(t.label)}">${t.label}</span>`).join("")}<span style="--c:${baseCol};opacity:.6">Not ticked</span></div>`;
+
+  // table
+  const pct = (v) => v == null || !isFinite(v) ? "–" : signed(v) + "%";
+  const cls = (v) => v == null ? "" : v > 0 ? "up" : v < 0 ? "down" : "";
+  const head = `<thead><tr><th class="l">Ward</th><th class="l">Area</th><th class="l">FF+ candidate</th><th class="ff">FF+ votes 2021</th><th class="ff">FF+ % 2021</th><th class="ff">FF+ votes 2026</th><th class="ff">FF+ % 2026</th><th>Increase / decrease</th><th>% increase / decrease</th></tr></thead>`;
+  const line = (x) => `<tr class="w" data-id="${x.id}" tabindex="0"><td class="l num">${x.ward}</td><td class="l area">${esc(x.area)}</td><td class="l"><b>${esc(x.cand)}</b></td>
+    <td class="num ff">${fmtInt(x.v21)}</td><td class="num ff">${fmt(x.s21)}</td><td class="num ff">${has26 ? fmtInt(x.v26) : "–"}</td><td class="num ff">${has26 ? fmt(x.s26) : "–"}</td>
+    <td class="num ${cls(x.d)}">${signedInt(x.d)}</td><td class="num ${cls(x.dp)}">${pct(x.dp)}</td></tr>`;
+  let body = rows.map(line).join("");
+  if (rows.length > 1) {
+    const sum = (k) => rows.reduce((a, x) => a + (x[k] || 0), 0);
+    const valid = (ds) => rows.reduce((a, x) => a + total((unit(ds, x.id) || {}).p), 0);
+    const v21 = sum("v21"), v26 = has26 ? sum("v26") : null, d = has26 ? v26 - v21 : null;
+    body += `<tr class="tot"><td></td><td class="l">All ticked wards</td><td></td><td class="num ff">${fmtInt(v21)}</td><td class="num ff">${fmt(v21 / valid(base) * 100)}</td>
+      <td class="num ff">${has26 ? fmtInt(v26) : "–"}</td><td class="num ff">${has26 ? fmt(v26 / valid("2026_own") * 100) : "–"}</td>
+      <td class="num ${cls(d)}">${signedInt(d)}</td><td class="num ${cls(d)}">${d == null || !v21 ? "–" : pct(d / v21 * 100)}</td></tr>`;
+  }
+  $("nftable").innerHTML = rows.length ? head + `<tbody>${body}</tbody>` : "";
+  $("nftable").parentElement.hidden = !rows.length;
+  for (const tr of $("nftable").querySelectorAll("tr.w")) { const go = () => { state.view = has26 ? "2026_own" : "2021_on2026"; state.selected = +tr.dataset.id; location.hash = "map"; };
+    tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); }; }
+}
+
 // ---------- controls + routing
 function buildControls() {
   const sel = $("view");
@@ -578,19 +658,19 @@ function buildControls() {
   if (cw && cw["2021"] != null) $("cwnote").textContent = `${cw["2021"]}% of 2021 votes come from voting districts that lie almost entirely inside one 2026 ward, so most of the estimate is exact.`;
 }
 function route() {
-  state.page = location.hash === "#wards" ? "wards" : location.hash === "#candidates" ? "candidates" : "map";
-  for (const pg of ["map", "wards", "candidates"]) {
+  state.page = { "#wards": "wards", "#candidates": "candidates", "#newff": "newff" }[location.hash] || "map";
+  for (const pg of ["map", "wards", "candidates", "newff"]) {
     $("page-" + pg).hidden = state.page !== pg;
     $("tab-" + pg).setAttribute("aria-current", state.page === pg ? "page" : "false"); }
   $("partyctl").hidden = state.page !== "map";
-  $("viewctl").hidden = state.page === "candidates";
+  $("viewctl").hidden = state.page === "candidates" || state.page === "newff";
   update();
 }
 function update() {
   save();
   $("view").value = state.view;
   for (const b of $("parties").querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.party));
-  if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else if (state.page === "wards") renderTable(); else renderCandidates();
+  if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else if (state.page === "wards") renderTable(); else if (state.page === "candidates") renderCandidates(); else renderNewFF();
 }
 function select(id, zoom) {
   state.selected = id; drawShapes(); renderSide();
@@ -602,7 +682,7 @@ function rethemed() { update(); }
 
 buildControls();
 window.addEventListener("hashchange", route);
-window.addEventListener("resize", () => { if (!home) return; const keep = vb; home = fitBox(prepGeo(VIEW[state.view].geo).box); vb = keep; applyVB(); });
+window.addEventListener("resize", () => { if (state.page === "newff") renderNewFF(); if (!home) return; const keep = vb; home = fitBox(prepGeo(VIEW[state.view].geo).box); vb = keep; applyVB(); });
 const mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", rethemed);
 new MutationObserver(rethemed).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 route();
