@@ -1,0 +1,108 @@
+tier,ward_no,area,registered,turnout_pct,valid_votes,FF+ votes,DA votes,ANC votes,EFF votes,ActionSA votes,ACDP votes,MK votes,PA votes,BOSA votes,Rise Mzansi votes,COPE votes,Other votes,FF+ %,winner
+Stronghold,52,"Waverley, Villieria, East Lynne",14198,71.8,10099,2794,6794,104,35,187,77,11,21,6,10,0,60,27.67,DA
+Stronghold,84,"Queenswood, Rietondale, Kilner Park",16035,68.1,10854,2517,7188,210,91,572,82,17,23,11,59,0,84,23.19,DA
+Stronghold,50,"Annlin, Sinoville, Wonderboom",17318,67.3,11576,2293,7036,362,199,1431,69,42,11,11,38,11,73,19.81,DA
+Stronghold,79,"Pierre van Ryneveld, Waterkloof Air Force Base, Centurion",18834,68.2,12773,2281,8816,339,144,872,42,34,19,27,84,3,112,17.86,DA
+Stronghold,47,"Elarduspark, Wingate Park, Moreleta Park",19759,71.1,14018,2277,10407,322,91,639,63,33,4,18,62,2,100,16.24,DA
+Stronghold,1,"Mountain View, Claremont, Daspoort",19663,58.7,11498,2213,7218,450,177,1165,55,40,32,4,27,1,116,19.25,DA
+Stronghold,54,"Wonderboom South, Rietfontein, Mayville",14489,64.8,9199,2154,5871,200,136,645,45,13,12,6,25,1,91,23.42,DA
+Stronghold,5,"Montana, Magalieskruin, Montana Park",18273,69.9,12636,2129,7844,547,221,1598,73,41,14,15,44,2,108,16.85,DA
+Stronghold,96,"Doornpoort, Rural Tshwane, Sinoville",19633,64.6,12567,2086,6002,997,404,2513,30,90,44,16,75,15,295,16.6,DA
+Stronghold,57,"Die Hoewes, Lyttelton, Zwartkop SANDF",15048,62.3,9343,1905,4643,474,254,1695,46,73,21,25,63,3,141,20.39,DA
+Stronghold,100,"Rayton, Rural Tshwane, Cullinan",11772,60.6,7081,1791,2746,938,269,941,51,95,14,9,17,2,208,25.29,DA
+Stronghold,53,"Rietfontein, Gezina, Villieria",14684,59.5,8634,1758,5007,266,267,1064,48,42,15,17,32,3,115,20.36,DA
+Stronghold,2,"Pretoria North, Dorandia, Wolmer",18686,58.5,10830,1685,6360,468,292,1680,43,72,33,12,31,2,152,15.56,DA
+Stronghold,87,"Kameeldrift, Derdepoort, Koedoespoort",18972,58.3,10974,1602,5105,1211,408,1649,137,156,198,30,22,4,452,14.6,DA
+Stronghold,45,"Garsfontein, Pretoriuspark, Woodhill",18587,71.1,13162,1584,9826,417,167,843,52,48,14,17,77,3,114,12.03,DA
+Stronghold,55,"Andeon, Krauseville, Kameeldrift",17100,55.6,9391,1555,3707,944,399,2422,28,92,21,8,24,5,186,16.56,DA
+Stronghold,102,"Rural Tshwane, Bronkhorstspruit, Riamar Park",15346,57.6,8650,1516,3727,1430,296,1186,42,169,14,11,13,4,242,17.53,DA
+Stronghold,91,"Rietfontein, Reitvlei, Rural Tshwane",18465,67.9,12500,1505,7726,795,255,1732,75,80,10,35,100,1,186,12.04,DA
+Stronghold,83,"Moreleta Park, Erasmuskloof, Constantia Park",15027,69.1,10336,1489,7685,279,107,568,50,34,6,12,50,1,55,14.41,DA
+Stronghold,46,"Lynnwood Glen, Garsfontein, Lynnwood Ridge",16491,69.1,11307,1461,8590,227,137,600,72,16,9,21,78,0,96,12.92,DA
+Stronghold,41,"Silverton, Meyerspark, Murrayfield",16904,62.7,10548,1324,6149,557,319,1734,91,50,61,17,72,1,173,12.55,DA
+Solid,66,"Valhalla, Hennopspark, Clubview",16808,66.9,11176,1967,7841,337,121,602,70,28,23,17,59,2,109,17.6,DA
+Solid,69,"Eldoraigne, Rooihuiskraal Noord, Wierda Park",17482,70.3,12269,1864,9360,243,88,504,22,14,9,15,66,2,82,15.19,DA
+Solid,70,"Wierda Park, Centurion, Raslou",19653,61.3,11640,1536,7081,1045,289,1144,40,72,10,2,90,2,329,13.2,DA
+Solid,42,"Monument Park, Waterkloof Ridge, Waterkloof",16534,68.9,11217,1452,8348,395,108,629,37,18,4,8,92,3,123,12.94,DA
+Solid,101,"Silver Lakes Golf Estate, Shere, Zwavelpoort",20962,71.0,14831,1422,10221,763,271,1745,58,82,24,36,102,1,106,9.59,DA
+Solid,44,"Faerie Glen, Boadwalk",14496,70.0,10100,1257,7784,238,112,512,26,23,5,16,60,3,64,12.45,DA
+Solid,78,"Zwartkop, Doringkloof, Die Hoewes",13418,60.1,8036,1215,4858,301,166,1212,48,47,12,14,62,1,100,15.12,DA
+Solid,85,"Equestria, Die Wilgers, Wapadrand",17845,72.8,12858,1127,8967,541,246,1574,64,76,13,28,81,3,138,8.76,DA
+Solid,65,"Louwlardia, Irene Research Institute, Rooihuiskraal",15145,70.0,10563,1087,6204,595,274,1941,44,34,19,23,133,0,209,10.29,DA
+Solid,48,"Centurion, Rooihuiskraal Noord, Monavoni",23094,67.7,15535,1050,6532,1601,850,4711,107,130,24,51,154,3,322,6.76,DA
+Solid,64,"The Reeds, Rooihuiskraal, Thatchfield",18872,67.2,12623,1012,5383,1029,534,3973,73,151,62,48,115,9,234,8.02,DA
+Solid,82,"Menlo Park, Lynnwood, University of Pretoria",14812,64.9,9596,971,7399,350,137,486,32,25,2,17,103,0,74,10.12,DA
+Solid,98,"Theresapark, Klerksoord, Ninapark",17666,60.5,10560,840,3967,1018,420,3834,30,126,13,22,81,3,206,7.95,DA
+Solid,58,"Pretoria Central, Capital Park, Pretoria West",20259,37.8,7563,501,1659,1291,701,2871,17,192,11,4,36,5,275,6.62,ActionSA
+Solid,56,"Hatfield, Brooklyn, Hillcrest",16097,52.4,8387,496,3788,420,936,2065,45,89,10,33,249,1,255,5.91,DA
+Solid,60,"Danville, Elandspoort, Philip Nel Park",15835,57.7,9072,468,1900,1332,631,4165,52,129,25,22,40,1,307,5.16,ActionSA
+Solid,95,"Stinkwater D, New Eersterus, Stinkwater C",13892,52.5,6970,448,1393,2564,325,959,29,78,10,5,15,46,1098,6.43,ANC
+Solid,4,"The Orchards, Karenpark, Fundus",21967,58.3,12744,389,1814,1929,932,6741,77,226,28,37,96,15,460,3.05,ActionSA
+Solid,59,"Sunnyside, Muckleneuk, Groenkloof Pine Plantation",12240,45.3,5495,334,2049,500,494,1719,19,113,9,13,61,1,183,6.08,DA
+Solid,92,"Arcadia, Sunnyside, Eastwood",16529,40.4,6520,233,1499,683,794,2704,24,158,14,18,100,3,290,3.57,ActionSA
+Marginal,43,"Eersterust, Despatch, Waltloo",16853,58.4,9716,997,3905,490,178,1347,79,110,2063,39,86,4,418,10.26,DA
+Marginal,99,"Refilwe, Rural Tshwane, Premier Diamond Mine",13502,46.4,6101,414,948,2328,551,1142,24,115,11,15,10,5,538,6.79,ANC
+Marginal,3,"Philip Nel Park, Pretoria West, West Park",17988,39.2,7018,321,1276,1176,762,2769,53,199,55,22,43,1,341,4.57,ActionSA
+Marginal,61,"Laudium, Schurwe Plaas Mine, Centurion",16866,51.7,8481,275,2338,3460,359,1128,50,30,7,3,97,2,732,3.24,ANC
+Marginal,86,"Nellmapius, Willow Park Manor, Samcor Park",15913,49.8,7841,253,1511,2044,493,2807,26,181,37,23,29,5,432,3.23,ActionSA
+Marginal,31,"Ga-Rankuwa, Wildebeesthoek, Kameeldrift",15018,48.6,7130,249,1163,1870,544,2109,9,180,20,20,34,3,929,3.49,ActionSA
+Marginal,105,"Rural Tshwane, Zithobeni, Roodepoort",16615,49.7,8116,230,876,4084,524,1102,15,612,6,6,11,4,646,2.83,ANC
+Marginal,49,"Bultfontein, Kanana, Mandela Village",14991,47.6,6969,141,1272,2460,577,1735,18,123,28,7,28,35,545,2.02,ANC
+Marginal,81,"Sunnyside, Arcadia, Trevenna",12873,29.0,3708,39,284,655,642,1736,9,185,5,12,15,1,125,1.05,ActionSA
+Negligible,7,"Lotus Gardens, Krauseville, Pretoria",20171,54.2,10824,216,999,2833,1160,4473,65,349,17,21,45,6,640,2.0,ActionSA
+Negligible,30,"Ga-Rankuwa, Ga-Rankuwa View, Ga-Rankuwa Industrial",17188,51.7,8704,187,1082,2052,1012,2900,33,180,58,29,69,8,1094,2.15,ActionSA
+Negligible,16,"Mamelodi, Mamelodi Fourteens",17113,53.2,8992,152,645,3233,491,3433,20,228,20,22,31,10,707,1.69,ActionSA
+Negligible,18,"Mamelodi, Mamelodi Seventeens, Mamelodi Fourteens",14903,51.7,7600,140,587,2519,430,2755,12,286,31,31,45,9,755,1.84,ActionSA
+Negligible,23,"Mamelodi S&S, Eastwood, Khalambazo",12446,48.5,5898,138,460,2288,242,1804,9,307,93,11,15,8,523,2.34,ANC
+Negligible,73,"Ramotse, Marokolong, Rural Tshwane",18994,50.0,9118,137,1658,3117,1063,1942,13,111,7,6,17,15,1032,1.5,ANC
+Negligible,32,"Ga-Rankuwa, Medunsa",19941,49.8,9802,126,1111,2344,1209,3738,27,155,55,30,70,13,924,1.29,ActionSA
+Negligible,74,"Temba, Marokolong, Babelegi Industrial",10455,50.9,5167,126,656,1548,291,1811,22,140,10,14,16,3,530,2.44,ActionSA
+Negligible,77,"Olievenhoutbos, Rua Vista, Centurion",16255,56.1,9040,125,1423,1898,1206,3579,45,164,51,34,155,2,358,1.38,ActionSA
+Negligible,37,"Soshanguve South, Klipfontein, Soshanguve",17611,48.1,8372,122,1068,2577,886,2846,101,213,31,16,28,7,477,1.46,ActionSA
+Negligible,51,"Atteridgeville, Thaba Tshwane, Pretoria",14197,45.8,6400,121,548,1751,447,2734,20,255,42,15,25,4,438,1.89,ActionSA
+Negligible,75,"Kudube, Temba, Leboneng",14187,49.8,6982,121,1039,2012,400,2403,38,108,15,14,16,6,810,1.73,ActionSA
+Negligible,15,"Nellmapius, Rayton, Mamelodi",22852,49.7,11097,119,1034,4253,1052,2994,25,217,58,39,35,2,1269,1.07,ANC
+Negligible,90,"Soshanguve East, Soshanguve A, Klipfontein",18724,48.9,9002,118,903,3681,755,2976,16,129,20,10,26,6,362,1.31,ANC
+Negligible,103,"Ekangala, Rural Tshwane, Rethabiseng",13975,52.9,7203,114,722,2960,396,1348,15,278,7,9,56,4,1294,1.58,ANC
+Negligible,36,"Soshanguve M, Soshanguve UU, Soshanguve East",17211,51.1,8697,112,781,1986,691,4473,30,142,24,21,38,10,389,1.29,ActionSA
+Negligible,21,"Mabopane, Mabopane X, Mabopane A",15060,52.9,7751,110,859,2101,470,3450,19,117,65,38,35,8,479,1.42,ActionSA
+Negligible,106,"Olievenhoutbos, Knoppieslaagte",21919,38.2,8266,110,973,2622,964,2735,7,336,21,8,42,5,443,1.33,ActionSA
+Negligible,38,"Mamelodi FB3, Mamelodi Sun Valley, Naledi",11063,41.6,4425,94,653,1129,347,1591,13,219,10,13,14,2,340,2.12,ActionSA
+Negligible,93,"Mamelodi, Leeuwfontein, Stanza Bopape",15935,48.8,7576,93,764,2684,722,2170,18,161,91,6,41,3,823,1.23,ANC
+Negligible,20,"Itsoseng, Mabopane, Mabopane M",14780,53.2,7744,90,799,2058,492,2877,22,87,559,18,38,7,697,1.16,ActionSA
+Negligible,28,"Nellmapius, Phumulamcashi Buffer Zone, Tsakane",11772,46.9,5434,90,516,1777,412,1828,11,299,4,13,18,4,462,1.66,ActionSA
+Negligible,104,"Ekangala Section A, Section B",17392,56.8,9652,90,1681,3301,407,1709,13,378,10,3,16,6,2038,0.93,ANC
+Negligible,17,"Mamelodi, Mahube Valley",15198,45.4,6712,87,582,2368,507,2111,16,109,11,29,21,5,866,1.3,ANC
+Negligible,62,"Atteridgeville, Pretoria",12077,52.9,6319,87,471,2072,327,2639,24,113,19,18,34,1,514,1.38,ActionSA
+Negligible,89,"Soshanguve South, Soshanguve TT",15205,45.3,6733,87,796,2155,479,2080,56,201,61,117,14,5,682,1.29,ANC
+Negligible,72,"Saulsville, Atteridgeville, Jeffersville",12912,47.2,5985,86,537,1994,747,2016,26,120,8,5,15,4,427,1.44,ActionSA
+Negligible,80,"Pretoria Central, Salvokop, Muckleneuk",16696,32.3,5335,85,501,1030,1024,2042,15,222,20,3,26,2,365,1.59,ActionSA
+Negligible,40,"Mamelodi Ext 6, 12",14660,38.5,5455,81,824,1887,588,1521,6,72,9,12,10,6,439,1.48,ANC
+Negligible,68,"Saulsville, Atteridgeville",12835,50.4,6390,81,432,2277,579,2392,34,137,18,8,20,5,407,1.27,ActionSA
+Negligible,6,"Mamelodi QD4, Mamelodi PD3, Mamelodi RD5",13899,53.0,7117,76,571,2256,427,2550,17,220,23,12,23,5,937,1.07,ActionSA
+Negligible,33,"Soshanguve G, Soshanguve AA, Soshanguve BB",14780,50.6,7347,76,846,2358,426,2699,24,210,8,7,40,5,648,1.03,ActionSA
+Negligible,76,"Mashemong, Majaneng, Bosplaas Mathabe",11909,46.8,5463,75,1040,2011,324,1089,16,35,96,13,9,13,742,1.37,ANC
+Negligible,11,"Soshanguve JJ, Soshanguve NN, Soshanguve HH",12555,48.5,5971,71,571,2231,418,1769,16,505,13,6,23,4,344,1.19,ANC
+Negligible,22,"Mabopane U, Botshabelo, Tsebe",12932,51.3,6516,70,687,2281,472,2103,16,117,65,19,38,6,642,1.07,ANC
+Negligible,63,"Saulsville, Atteridgeville",13176,47.0,6103,70,481,1733,385,2715,26,249,34,8,4,5,393,1.15,ActionSA
+Negligible,29,"Soshanguve F, Winterveld, Soshanguve IA",13035,48.6,6109,69,508,2210,783,1669,11,168,37,9,27,5,613,1.13,ANC
+Negligible,67,"Baviaanspoort, Mamelodi DB1, Mamelodi FB3",12569,47.5,5879,69,545,2277,246,1768,11,313,9,5,15,2,619,1.17,ANC
+Negligible,12,"Mabopane A, Winterveld, Lebanon",11996,46.8,5477,68,483,2572,263,1437,9,202,36,9,23,7,368,1.24,ANC
+Negligible,25,"Soshanguve V, Soshanguve PP 2, Soutpan",19314,42.7,7776,65,941,2847,589,2629,22,118,16,12,26,8,503,0.84,ANC
+Negligible,34,"Soshanguve H, Soshanguve K, Soshanguve M",13247,44.3,5803,62,399,1852,411,2303,18,173,4,14,34,4,529,1.07,ActionSA
+Negligible,94,"Soshanguve GG, Soshanguve FF, Soshanguve HH",11866,51.9,6104,62,575,2414,333,2185,3,155,10,8,26,3,330,1.02,ANC
+Negligible,10,"Mamelodi Ext 22, 6, 11",16637,43.8,7199,60,1161,2105,893,1603,9,556,19,16,12,7,758,0.83,ANC
+Negligible,88,"Soshanguve P, Soshanguve DD, Soshanguve SS",14002,47.2,6513,60,898,2394,454,2068,16,113,7,5,18,2,478,0.92,ANC
+Negligible,39,"Soshanguve South, Ga-Rankuwa",14108,48.2,6528,56,786,2696,606,1367,18,64,15,15,18,10,877,0.86,ANC
+Negligible,8,"Suurman, Sekampaneng, Kudube",15819,45.9,7055,54,1166,2364,485,1603,5,72,68,8,39,16,1175,0.77,ANC
+Negligible,26,"Soshanguve KK, Soshanguve R, Soshanguve FF",12336,48.3,5822,48,674,2262,329,1816,9,333,9,8,18,3,313,0.82,ANC
+Negligible,107,"Vergenoeg, Siahlala, Atteridgeville",17872,39.8,6833,48,669,2792,1145,1607,6,149,5,7,5,5,395,0.7,ANC
+Negligible,19,"Winterveld, Mabopane, Slovo",13444,47.9,6318,45,635,3103,352,1446,17,176,59,5,39,3,438,0.71,ANC
+Negligible,35,"Soshanguve L, Soshanguve K, Soshanguve M",15381,42.5,6455,43,561,1982,522,2629,11,174,30,9,20,3,471,0.67,ActionSA
+Negligible,9,"Winterveld Ext 1, 3",12090,43.8,5037,40,707,2248,452,843,4,308,16,2,12,7,398,0.79,ANC
+Negligible,27,"Soshanguve X, Soshanguve W, Soshanguve R",12581,48.9,6017,39,722,2307,298,1486,12,681,5,8,67,3,389,0.65,ANC
+Negligible,71,"Phumolong, Jeffersville, Vergenoeg",12779,35.3,4410,37,580,1971,475,975,3,50,2,3,3,6,305,0.84,ANC
+Negligible,13,"Stinkwater B, Stinkwater, Stinkwater C",10473,53.0,5431,34,697,2359,294,1261,5,144,39,9,29,62,498,0.63,ANC
+Negligible,14,New Eersterus,12372,47.4,5562,34,860,2097,252,1092,9,90,14,4,27,8,1075,0.61,ANC
+Negligible,24,Winterveld Ext 1,15916,43.5,6804,29,959,3183,415,1046,13,87,14,20,9,7,1022,0.43,ANC
+Negligible,97,"Mamelodi Ext 18, 11, 12",14139,41.6,5665,28,626,2172,516,1613,3,84,5,5,23,5,585,0.49,ANC
