@@ -366,3 +366,21 @@ Biggest FF+ gains (pp):
 
 Same-VD check: 759 voting districts reported in both years; median FF+ swing +0.84 pp.
 
+## Voting shifts: did ANC voters move to ActionSA?
+
+Based on the 759 voting districts that exist in both elections (party-list ballot). These are area results: they show where votes moved together, not what individual voters did.
+
+- City-wide: ANC -53,658 votes; ActionSA +147,941; all valid votes +221,635.
+- District by district, the change in ANC share correlates -0.69 with the change in ActionSA share (strongest of any party; next: DA -0.42).
+- Allowing for turnout, each ANC vote lost goes with 0.85 extra ActionSA votes in the same district.
+
+Change in votes by ANC share in 2021:
+
+| ANC share 2021 | districts | change in valid votes | ANC | ActionSA | DA | EFF | MK | FF+ |
+|---|---|---|---|---|---|---|---|---|
+| 0-20% | 212 | 85401 | -1734 | 22247 | 52780 | 33 | 1737 | 9242 |
+| 20-40% | 88 | 33964 | -1599 | 25553 | 5649 | -1222 | 2076 | 1241 |
+| 40-60% | 181 | 44273 | -15703 | 42617 | 12225 | -8330 | 4589 | 2192 |
+| 60-80% | 269 | 46292 | -34789 | 51487 | 17216 | -11323 | 7267 | 2372 |
+| 80%+ | 9 | 1322 | -1187 | 999 | 815 | -76 | 214 | 25 |
+

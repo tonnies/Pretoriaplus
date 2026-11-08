@@ -463,7 +463,46 @@ def write_report(res, summaries, ward_view, b, no_cand, stood, cw_stats, vd_cmp,
         if vd_cmp is not None and len(vd_cmp):
             L.append(f"\nSame-VD check: {len(vd_cmp)} voting districts reported in both years; median FF+ swing "
                      f"{vd_cmp['swing_pp'].median():+.2f} pp.\n")
+    if 2021 in res and 2026 in res:
+        L.extend(shift_section(res, "ANC", "ActionSA"))
     (OUTPUTS / "REPORT.md").write_text("\n".join(L) + "\n")
+
+
+def shift_section(res, frm: str, to: str) -> list[str]:
+    """Did `frm` voters move to `to`? Area-level evidence from voting districts in both elections."""
+    piv = {}
+    for y in (2021, 2026):
+        pr = res[y][res[y]["ballot"] == "PR"]
+        piv[y] = pr.pivot_table(index="vd", columns="party", values="votes", aggfunc="sum", fill_value=0)
+    both = piv[2021].index.intersection(piv[2026].index)
+    a, b = piv[2021].loc[both], piv[2026].loc[both]
+    cols = sorted(set(a.columns) | set(b.columns))
+    a, b = a.reindex(columns=cols, fill_value=0), b.reindex(columns=cols, fill_value=0)
+    sa, sb = a.div(a.sum(axis=1), axis=0) * 100, b.div(b.sum(axis=1), axis=0) * 100
+    ds = sb - sa
+    corr = ds.corr()[frm].drop(frm).sort_values()
+    dv, dt = b - a, b.sum(axis=1) - a.sum(axis=1)
+    X = np.column_stack([dv[frm], dt, np.ones(len(dv))])
+    k = np.linalg.lstsq(X, dv[to], rcond=None)[0][0]
+    band = pd.cut(sa[frm], [-0.1, 20, 40, 60, 80, 100.1], labels=["0-20%", "20-40%", "40-60%", "60-80%", "80%+"]).rename("band")
+    keep = [p for p in [frm, to, "DA", "EFF", "MK", FFP] if p in cols]
+    t = dv[keep].groupby(band, observed=True).sum()
+    t.insert(0, "change in valid votes", dt.groupby(band, observed=True).sum())
+    t.insert(0, "districts", band.value_counts().reindex(t.index))
+    city = {y: res[y][res[y]["ballot"] == "PR"].groupby("party")["votes"].sum() for y in (2021, 2026)}
+    L = [f"## Voting shifts: did {frm} voters move to {to}?\n",
+         f"Based on the {len(both)} voting districts that exist in both elections (party-list ballot). "
+         "These are area results: they show where votes moved together, not what individual voters did.\n",
+         f"- City-wide: {frm} {int(city[2026].get(frm, 0) - city[2021].get(frm, 0)):+,} votes; "
+         f"{to} {int(city[2026].get(to, 0) - city[2021].get(to, 0)):+,}; all valid votes "
+         f"{int(city[2026].sum() - city[2021].sum()):+,}.",
+         f"- District by district, the change in {frm} share correlates {corr[to]:+.2f} with the change in {to} share "
+         f"(strongest of any party; next: {corr.drop(to).index[0]} {corr.drop(to).iloc[0]:+.2f}).",
+         f"- Allowing for turnout, each {frm} vote lost goes with {abs(k):.2f} extra {to} votes in the same district.\n",
+         f"Change in votes by {frm} share in 2021:\n",
+         md_table(t.reset_index().rename(columns={"band": f"{frm} share 2021"}).astype({c: int for c in t.columns})),
+         ""]
+    return L
 
 
 # ---------------------------------------------------------------- web data
@@ -543,6 +582,28 @@ def write_web(res, summaries, all_long, cw_stats, cands=None) -> None:
                      for r in cw.itertuples() if isinstance(r.ffp_candidate, str)},
             "pr": [[int(r.pr_position), r.name, r.ward_numbers] for r in plist.itertuples()],
         }
+    # voting-district results for the Voting shifts page: districts with the same number in both years
+    if 2021 in res and 2026 in res:
+        def vd_pr(df):
+            pr = df[df["ballot"] == "PR"]
+            piv = pr.pivot_table(index="vd", columns="party", values="votes", aggfunc="sum", fill_value=0)
+            keep = [p for p in parties if p in piv.columns]
+            out = piv[keep].copy()
+            out["Other"] = piv.drop(columns=keep).sum(axis=1)
+            meta = pr.groupby("vd").agg(reg=("registered", "max"), sp=("spoilt", "max"), ward=("ward_id", "first"), name=("station", "first"))
+            return out, meta
+        a, ma = vd_pr(res[2021])
+        b, mb = vd_pr(res[2026])
+        both = a.index.intersection(b.index)
+        compact = lambda row: {k: int(v) for k, v in row.items() if v > 0}
+        data["shifts"] = {
+            "vd": {str(int(vd)): {"w": int(mb.at[vd, "ward"]), "n": str(mb.at[vd, "name"]).title(),
+                                  "a": compact(a.loc[vd]), "b": compact(b.loc[vd]),
+                                  "ra": int(ma.at[vd, "reg"]), "rb": int(mb.at[vd, "reg"])} for vd in both},
+            "n2026": int(len(b)),
+        }
+        g = load_geo("vd_2026")[["vd", "geometry"]].rename(columns={"vd": "id"})
+        data["geos"]["vd_2026"] = simplify(g, tol=0.0001)
     # other parties' 2026 ward candidates (e.g. the DA), keyed by party then 2026 ward ID
     cp = TSH / "candidates_2026.csv"
     if cp.exists():

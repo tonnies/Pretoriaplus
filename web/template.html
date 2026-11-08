@@ -122,6 +122,23 @@ table.wards tr.grp td { background: var(--ground); border-top: 2px solid var(--c
 table.wards tr.grp td .num { font-weight: 500; color: var(--ink-2); margin-left: 8px; }
 table.wards tr.sub td { font-weight: 600; background: var(--ground); }
 table.wards tr.tot td { font-weight: 700; border-top: 2px solid var(--ink); }
+#sfsvg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
+#sfsvg.drag { cursor: grabbing; }
+#sfsvg path { stroke: var(--edge); stroke-width: 0.4; vector-effect: non-scaling-stroke; }
+#sfsvg path.off { opacity: 0.45; }
+#sfsvg path.on { cursor: pointer; }
+#sfsvg path.on:hover { stroke: var(--ink); stroke-width: 1.5; }
+#sfsvg path.sel { stroke: var(--accent); stroke-width: 3; }
+.stats4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.verdict { margin: 10px 0 0; max-width: 75ch; }
+.sfchart { position: relative; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 8px; }
+#sfscatter { display: block; width: 100%; height: auto; max-height: 520px; }
+#sfscatter circle.dot { cursor: pointer; }
+#sfscatter circle.dot:hover { stroke: var(--ink); stroke-width: 1.5; }
+#sfscatter circle.sel { stroke: var(--accent); stroke-width: 3; }
+.sfkey { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: var(--step--1); color: var(--ink-2); }
+.sfkey .ramp { display: inline-block; width: 60px; height: 8px; border-radius: 2px; vertical-align: 0; }
+@media (max-width: 820px) { .stats4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .nfgrid { display: grid; grid-template-columns: 1fr minmax(280px, 360px); gap: 14px; align-items: start; }
 .nfmap { position: relative; height: min(560px, 64vh); min-height: 320px; background: var(--map-bg); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; touch-action: none; }
 #nfsvg, #bgsvg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
@@ -170,6 +187,7 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
       <a href="#candidates" id="tab-candidates">Candidates</a>
       <a href="#newff" id="tab-newff">New FF+</a>
       <a href="#battleground" id="tab-battleground">Battleground</a>
+      <a href="#shifts" id="tab-shifts">Voting shifts</a>
     </nav>
     <div class="controls">
       <label class="ctl" id="viewctl"><span class="label">Election</span><select id="view"></select></label>
@@ -238,6 +256,35 @@ details li { color: var(--ink-2); font-size: var(--step--1); }
       <aside class="nfside" id="bgside" aria-live="polite"></aside>
     </div>
     <div class="scroll"><table class="wards" id="bgtable"></table></div>
+  </section>
+
+  <section class="page tablepage" id="page-shifts" aria-label="Voting shifts" hidden>
+    <div><h2 id="sftitle">Voting shifts</h2><p class="note" id="sfnote"></p></div>
+    <div class="sfbody">
+      <div class="tablebar">
+        <label class="ctl"><span class="label">From</span><select id="sffrom"></select></label>
+        <label class="ctl"><span class="label">To</span><select id="sfto"></select></label>
+      </div>
+      <div id="sfverdict"></div>
+      <div class="tablebar"><span class="label">Map shows</span><div class="seg" id="sfshow" role="group" aria-label="Map shows"><button type="button" data-v="from"></button><button type="button" data-v="to"></button></div></div>
+      <div class="nfgrid">
+        <div class="nfmap" id="sfwrap">
+          <svg id="sfsvg" role="img" aria-label="Map of voting districts coloured by the change in party share"><g id="sfshapes"></g></svg>
+          <div class="zoom"><button type="button" id="sfzin" aria-label="Zoom in">+</button><button type="button" id="sfzout" aria-label="Zoom out">−</button><button type="button" id="sfzreset" aria-label="Show the whole city" style="font-size:12px">All</button></div>
+          <div class="legend" id="sflegend"></div>
+          <div class="tip" id="sftip" hidden></div>
+        </div>
+        <aside class="nfside" id="sfside" aria-live="polite"></aside>
+      </div>
+      <h2>Every voting district</h2>
+      <div class="sfchart" id="sfchart"><svg id="sfscatter" role="img"></svg><div class="tip" id="sfctip" hidden></div></div>
+      <div class="sfkey" id="sfkey"></div>
+      <h2 id="sfbandtitle">By 2021 strength</h2>
+      <p class="note" id="sfbandnote"></p>
+      <div class="scroll"><table class="wards" id="sfbands"></table></div>
+      <h2>All parties, Tshwane</h2>
+      <div class="scroll"><table class="wards" id="sfcity"></table></div>
+    </div>
   </section>
 </div>
 
@@ -935,6 +982,188 @@ function renderBgSide(v, rows) {
   $("bgclear").onclick = () => bgSelect(null, false);
 }
 
+// ---------- Voting shifts page: did one party's voters move to another? (voting districts in both elections)
+const SF = { from: "ANC", to: "ActionSA", show: "to", sel: null, z: null, built: false, sig: "" };
+const SFD = DATA.shifts || null;
+function sfShare(v, p) { const t = total(v); return t ? ((v[p] || 0) / t) * 100 : 0; }
+function sfRows() {
+  if (!SFD) return [];
+  return Object.entries(SFD.vd).map(([id, x]) => {
+    const ta = total(x.a), tb = total(x.b);
+    return { id: +id, x, ta, tb, fa: sfShare(x.a, SF.from), fb: sfShare(x.b, SF.from), ta2: sfShare(x.a, SF.to), tb2: sfShare(x.b, SF.to),
+      dfv: (x.b[SF.from] || 0) - (x.a[SF.from] || 0), dtv: (x.b[SF.to] || 0) - (x.a[SF.to] || 0), dtot: tb - ta };
+  }).map((r) => ({ ...r, dfs: r.fb - r.fa, dts: r.tb2 - r.ta2 }));
+}
+function sfStats(rows) {
+  const n = rows.length; if (n < 3) return null;
+  // correlation of the share changes
+  const mx = rows.reduce((a, r) => a + r.dfs, 0) / n, my = rows.reduce((a, r) => a + r.dts, 0) / n;
+  let sxy = 0, sxx = 0, syy = 0; for (const r of rows) { sxy += (r.dfs - mx) * (r.dts - my); sxx += (r.dfs - mx) ** 2; syy += (r.dts - my) ** 2; }
+  const corr = sxx && syy ? sxy / Math.sqrt(sxx * syy) : 0, slopeS = sxx ? sxy / sxx : 0, icS = my - slopeS * mx;
+  // votes: ΔTo = b1·ΔFrom + b2·ΔTotal + c (least squares), so turnout changes are allowed for
+  const X = rows.map((r) => [r.dfv, r.dtot, 1]), y = rows.map((r) => r.dtv);
+  const A = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], bb = [0, 0, 0];
+  X.forEach((xi, i) => { for (let j = 0; j < 3; j++) { bb[j] += xi[j] * y[i]; for (let k = 0; k < 3; k++) A[j][k] += xi[j] * xi[k]; } });
+  const solve = (M, v) => { M = M.map((r, i) => [...r, v[i]]);
+    for (let c = 0; c < 3; c++) { let p = c; for (let r = c + 1; r < 3; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r; [M[c], M[p]] = [M[p], M[c]];
+      if (Math.abs(M[c][c]) < 1e-9) return null; for (let r = 0; r < 3; r++) if (r !== c) { const f = M[r][c] / M[c][c]; for (let k = c; k < 4; k++) M[r][k] -= f * M[c][k]; } }
+    return M.map((r, i) => r[3] / r[i]); };
+  const coef = solve(A, bb);
+  return { corr, slopeS, icS, perVote: coef ? coef[0] : null };
+}
+function sfCity() {
+  const a = cityTotals("2021_own"), b = cityTotals("2026_own");
+  const ps = [...new Set([...Object.keys(a.p), ...Object.keys(b.p)])].filter((p) => p !== "Other");
+  return { a, b, rows: ps.map((p) => ({ p, va: a.p[p] || 0, vb: b.p[p] || 0, sa: ((a.p[p] || 0) / a.t) * 100, sb: ((b.p[p] || 0) / b.t) * 100 })) };
+}
+function sfInit() {
+  if (SF.built) return; SF.built = true;
+  const parties = DATA.parties.filter((p) => p !== "Other");
+  for (const [id, key] of [["sffrom", "from"], ["sfto", "to"]]) {
+    const el = $(id); el.innerHTML = parties.map((p) => `<option value="${esc(p)}">${esc(p)}</option>`).join(""); el.value = SF[key];
+    el.onchange = () => { SF[key] = el.value; renderShifts(); }; }
+  for (const b of $("sfshow").querySelectorAll("button")) b.onclick = () => { SF.show = b.dataset.v; renderShifts(); };
+  const g = prepGeo("vd_2026");
+  $("sfshapes").innerHTML = g.items.map((it) => `<path data-id="${it.id}" d="${it.d}"></path>`).join("");
+  SF.z = panZoom($("sfsvg"), {
+    onTap: ({ target }) => { const p = target && target.closest && target.closest("path"); if (p && SFD.vd[p.dataset.id]) sfSelect(+p.dataset.id, false); },
+    onHover: (e) => { const p = e.target.closest && e.target.closest("path"), tip = $("sftip");
+      if (!p || e.pointerType === "touch") { tip.hidden = true; return; }
+      tip.innerHTML = sfTip(+p.dataset.id); tip.hidden = false; const r = $("sfwrap").getBoundingClientRect();
+      tip.style.left = Math.min(e.clientX - r.left + 14, r.width - tip.offsetWidth - 6) + "px"; tip.style.top = Math.min(e.clientY - r.top + 14, r.height - tip.offsetHeight - 6) + "px"; },
+    onLeave: () => { $("sftip").hidden = true; },
+  });
+  $("sfzin").onclick = () => SF.z.zoomBy(1.6); $("sfzout").onclick = () => SF.z.zoomBy(1 / 1.6); $("sfzreset").onclick = () => SF.z.reset();
+}
+function sfTip(id) {
+  const x = SFD.vd[id];
+  if (!x) return `<b>Voting district ${id}</b><br><span class="note">New or renumbered in 2026: no 2021 result to compare</span>`;
+  const sa = (p) => sfShare(x.a, p), sb = (p) => sfShare(x.b, p);
+  return `<b>${esc(x.n)}</b><br>VD ${id} · ward ${x.w % 1000}<br>${esc(SF.from)}: ${fmt(sa(SF.from))}% → ${fmt(sb(SF.from))}% (${signed(sb(SF.from) - sa(SF.from))} pts)<br>${esc(SF.to)}: ${fmt(sa(SF.to))}% → ${fmt(sb(SF.to))}% (${signed(sb(SF.to) - sa(SF.to))} pts)`;
+}
+function sfSelect(id, zoom) {
+  SF.sel = id; renderShifts();
+  if (zoom && id != null) { const it = prepGeo("vd_2026").items.find((x) => x.id === id);
+    if (it) SF.z.focus(it.c[0], it.c[1], Math.max(it.size * 6, SF.z.home.w / 25));
+    const wrap = $("sfwrap"), r = wrap.getBoundingClientRect();
+    if (r.top < 0 || r.bottom > window.innerHeight) wrap.scrollIntoView({ block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+}
+function renderShifts() {
+  const el = $("page-shifts");
+  if (!SFD) { el.querySelector(".sfbody").hidden = true; $("sfnote").textContent = "Voting shifts need both the 2021 and the 2026 results."; return; }
+  sfInit();
+  const F = SF.from, T = SF.to, rows = sfRows(), st = sfStats(rows), city = sfCity();
+  $("sffrom").value = F; $("sfto").value = T;
+  for (const b of $("sfshow").querySelectorAll("button")) { b.setAttribute("aria-pressed", String(b.dataset.v === SF.show)); b.textContent = `Change in ${b.dataset.v === "from" ? F : T}`; }
+  $("sftitle").textContent = `Where did the ${F} vote go? Testing ${F} → ${T}`;
+  $("sfnote").textContent = `Compares the ${rows.length} voting districts that exist in both elections (of ${SFD.n2026} in 2026), party-list ballot. These are area results: they show where votes moved together, not what any one voter did.`;
+
+  // headline
+  const cf = city.rows.find((r) => r.p === F) || { va: 0, vb: 0, sa: 0, sb: 0 }, ct = city.rows.find((r) => r.p === T) || { va: 0, vb: 0, sa: 0, sb: 0 };
+  const strength = !st ? "" : Math.abs(st.corr) >= 0.6 ? "strong" : Math.abs(st.corr) >= 0.35 ? "moderate" : "weak";
+  const others = city.rows.filter((r) => r.p !== F).map((r) => ({ p: r.p, c: 0 }));
+  if (st) { // which party's share change tracks F's most closely (most negative correlation)?
+    for (const o of others) { let sxy = 0, sxx = 0, syy = 0, mx = 0, my = 0; const pts = rows.map((r) => [r.dfs, sfShare(r.x.b, o.p) - sfShare(r.x.a, o.p)]);
+      mx = pts.reduce((a, q) => a + q[0], 0) / pts.length; my = pts.reduce((a, q) => a + q[1], 0) / pts.length;
+      for (const [x, y] of pts) { sxy += (x - mx) * (y - my); sxx += (x - mx) ** 2; syy += (y - my) ** 2; } o.c = sxx && syy ? sxy / Math.sqrt(sxx * syy) : 0; }
+    others.sort((a, b) => a.c - b.c); }
+  const best = others[0];
+  let v = `<div class="stats4">
+    <div class="stat"><b>${signedInt(cf.vb - cf.va)}</b><span>${esc(F)} votes, 2021 → 2026 (${fmt(cf.sa)}% → ${fmt(cf.sb)}%)</span></div>
+    <div class="stat"><b>${signedInt(ct.vb - ct.va)}</b><span>${esc(T)} votes (${fmt(ct.sa)}% → ${fmt(ct.sb)}%)</span></div>
+    <div class="stat"><b>${st ? (st.corr < 0 ? "−" : "") + fmt(Math.abs(st.corr), 2) : "–"}</b><span>how closely the two moved together, district by district (−1 = mirror images)</span></div>
+    <div class="stat"><b>${st && st.perVote != null ? fmt(Math.abs(st.perVote) * 100, 0) : "–"}</b><span>${esc(T)} votes ${st && st.perVote < 0 ? "gained" : "lost"} per 100 ${esc(F)} votes lost, allowing for turnout</span></div></div>`;
+  if (st) {
+    const support = st.corr <= -0.35;
+    v += `<p class="verdict"><b>${support ? "Supported" : "Not supported"}:</b> ${support
+      ? `where the ${esc(F)} share fell, the ${esc(T)} share rose (a ${strength} link). `
+      : `the ${esc(F)} and ${esc(T)} shares did not move as mirror images (${strength} link). `}`;
+    v += best && best.p !== T ? `The party whose share moved most opposite to the ${esc(F)} was <b>${esc(best.p)}</b> (${signed(best.c, 2)}), not ${esc(T)} (${signed(st.corr, 2)}). ` : best ? `No other party tracked the ${esc(F)} drop as closely. ` : "";
+    const dvt = city.b.t - city.a.t;
+    if (ct.vb - ct.va > Math.abs(cf.vb - cf.va) && cf.vb < cf.va) v += `But ${esc(T)} gained ${fmtInt(ct.vb - ct.va)} votes, far more than the ${fmtInt(cf.va - cf.vb)} the ${esc(F)} lost: the rest came from other parties and from ${fmtInt(dvt)} more valid votes than in 2021.`;
+    v += `</p>`;
+  }
+  $("sfverdict").innerHTML = v;
+
+  // map
+  const showP = SF.show === "from" ? F : T, byId = new Map(rows.map((r) => [r.id, r])), base = css("--map-base"), mid = css("--mid"), loss = css("--loss"), col = partyColor(showP);
+  const dv = (r) => (SF.show === "from" ? r.dfs : r.dts);
+  const cap = Math.min(40, Math.max(5, ...rows.map((r) => Math.abs(dv(r)))));
+  for (const p of $("sfshapes").children) { const r = byId.get(+p.dataset.id);
+    p.setAttribute("class", r ? (r.id === SF.sel ? "on sel" : "on") : "off");
+    p.setAttribute("fill", r ? mix(mid, dv(r) >= 0 ? col : loss, Math.min(1, Math.abs(dv(r)) / cap) ** 0.8) : base); }
+  const sel = $("sfshapes").querySelector("path.sel"); if (sel) $("sfshapes").appendChild(sel);
+  const g = prepGeo("vd_2026"), sig = String($("sfsvg").getBoundingClientRect().width);
+  SF.z.home = SF.z.fit(g.box); if (sig !== SF.sig || !SF.z.vb) { SF.sig = sig; SF.z.vb = { ...SF.z.home }; } SF.z.apply();
+  $("sflegend").innerHTML = `<b>Change in ${esc(showP)} share, 2021 → 2026</b><div class="ramp" style="background:linear-gradient(90deg,${loss},${mid},${col})"></div><div class="ends num"><span>−${fmt(cap, 0)} pts</span><span>0</span><span>+${fmt(cap, 0)} pts</span></div><div class="sw"><span class="dim" style="--c:${base}">No 2021 result (new district)</span></div>`;
+
+  sfScatter(rows, st);
+  sfSide(rows);
+  sfTables(rows, city);
+}
+function sfScatter(rows, st) {
+  const W = 640, H = 420, m = { l: 52, r: 16, t: 14, b: 44 }, F = SF.from, T = SF.to;
+  const xs = rows.map((r) => r.dfs), ys = rows.map((r) => r.dts);
+  const pad = (a, b) => [Math.floor(Math.min(0, a) / 10) * 10, Math.ceil(Math.max(0, b) / 10) * 10];
+  const [x0, x1] = pad(Math.min(...xs), Math.max(...xs)), [y0, y1] = pad(Math.min(...ys), Math.max(...ys));
+  const sx = (v) => m.l + ((v - x0) / (x1 - x0 || 1)) * (W - m.l - m.r), sy = (v) => H - m.b - ((v - y0) / (y1 - y0 || 1)) * (H - m.t - m.b);
+  // dot colour is a neutral light-to-dark scale (not a party colour), so party colours keep meaning parties
+  const ink2 = css("--ink-2"), rule = css("--rule"), ink = css("--ink"), surf = css("--panel"), fcol = ink2, base = css("--map-base");
+  const maxT = Math.max(...rows.map((r) => r.tb), 1);
+  let s = "";
+  for (let v = x0; v <= x1; v += 10) s += `<line x1="${sx(v)}" x2="${sx(v)}" y1="${m.t}" y2="${H - m.b}" stroke="${v === 0 ? ink2 : rule}" stroke-width="${v === 0 ? 1.2 : 1}"/><text x="${sx(v)}" y="${H - m.b + 16}" text-anchor="middle" fill="${ink2}" font-size="11" font-family="IBM Plex Mono, monospace">${v > 0 ? "+" : ""}${v}</text>`;
+  for (let v = y0; v <= y1; v += 10) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(v)}" y2="${sy(v)}" stroke="${v === 0 ? ink2 : rule}" stroke-width="${v === 0 ? 1.2 : 1}"/><text x="${m.l - 8}" y="${sy(v) + 4}" text-anchor="end" fill="${ink2}" font-size="11" font-family="IBM Plex Mono, monospace">${v > 0 ? "+" : ""}${v}</text>`;
+  s += `<text x="${(m.l + W - m.r) / 2}" y="${H - 8}" text-anchor="middle" fill="${ink}" font-size="12">Change in ${esc(F)} share (points)</text>`;
+  s += `<text transform="translate(14 ${(m.t + H - m.b) / 2}) rotate(-90)" text-anchor="middle" fill="${ink}" font-size="12">Change in ${esc(T)} share (points)</text>`;
+  const ordered = [...rows].sort((a, b) => b.tb - a.tb); // big districts underneath
+  s += ordered.map((r) => { const rad = 2.5 + 4.5 * Math.sqrt(r.tb / maxT), c = mix(base, fcol, Math.min(1, r.fa / 80));
+    return `<circle class="dot${r.id === SF.sel ? " sel" : ""}" data-id="${r.id}" cx="${sx(r.dfs).toFixed(1)}" cy="${sy(r.dts).toFixed(1)}" r="${rad.toFixed(1)}" fill="${c}" stroke="${surf}" stroke-width="1"/>`; }).join("");
+  if (st) { const a = Math.max(x0, Math.min(...xs)), b = Math.min(x1, Math.max(...xs));
+    s += `<line x1="${sx(a)}" y1="${sy(st.icS + st.slopeS * a)}" x2="${sx(b)}" y2="${sy(st.icS + st.slopeS * b)}" stroke="${ink}" stroke-width="2" stroke-dasharray="6 4"/>`; }
+  const svgEl = $("sfscatter");
+  svgEl.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svgEl.setAttribute("aria-label", `Scatter plot: each dot is a voting district; change in ${F} share against change in ${T} share. Correlation ${st ? st.corr.toFixed(2) : "n/a"}.`);
+  svgEl.innerHTML = s;
+  $("sfkey").innerHTML = `<span><span class="ramp" style="background:linear-gradient(90deg,${base},${fcol})"></span> dot colour: ${esc(F)} share in 2021 (0% → 80%+)</span><span>dot size: votes cast in 2026</span><span>dashed line: trend</span>`;
+  const tip = $("sfctip");
+  for (const c of svgEl.querySelectorAll("circle.dot")) {
+    c.onmouseenter = (e) => { tip.innerHTML = sfTip(+c.dataset.id); tip.hidden = false; const r = $("sfchart").getBoundingClientRect(), cr = c.getBoundingClientRect();
+      tip.style.left = Math.min(cr.left - r.left + 12, r.width - tip.offsetWidth - 6) + "px"; tip.style.top = Math.max(0, cr.top - r.top - tip.offsetHeight - 6) + "px"; };
+    c.onmouseleave = () => { tip.hidden = true; };
+    c.onclick = () => sfSelect(+c.dataset.id, true); }
+}
+function sfSide(rows) {
+  const el = $("sfside"), r = SF.sel != null ? rows.find((x) => x.id === SF.sel) : null;
+  if (!r) { el.innerHTML = `<h2>Read the map with the chart</h2><p class="note">Each voting district is coloured by the change in one party's share: blue where it lost share, the party's colour where it gained. Switch between the two parties above the map. Where the first party lost and the second gained in the same districts, votes likely moved between them.</p><p class="note">Tap a district on the map or a dot in the chart to see its full results.</p>`; return; }
+  const wf = featById({ geo: "wards_2026" }, r.x.w);
+  const ps = [...new Set([...Object.keys(r.x.a), ...Object.keys(r.x.b)])].sort((p, q) => (p === "Other") - (q === "Other") || ((r.x.b[q] || 0) - (r.x.a[q] || 0)) - ((r.x.b[p] || 0) - (r.x.a[p] || 0)));
+  let h = `<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><h2>${esc(r.x.n)}</h2><button type="button" id="sfclear" class="linkbtn">✕</button></div>`;
+  h += `<p class="note">Voting district ${r.id} · ward ${r.x.w % 1000}${wf ? " · " + esc(wf.properties.name) : ""}</p>`;
+  h += `<dl class="kv"><dt>Registered voters</dt><dd class="num">${fmtInt(r.x.ra)} → ${fmtInt(r.x.rb)}</dd><dt>Valid votes</dt><dd class="num">${fmtInt(r.ta)} → ${fmtInt(r.tb)}</dd></dl>`;
+  h += `<table class="res"><thead><tr><th>Party</th><th>2021</th><th>2026</th><th>Change</th></tr></thead><tbody>${ps.map((p) => { const a = r.x.a[p] || 0, b = r.x.b[p] || 0;
+    return `<tr class="${p === SF.from || p === SF.to ? "ff" : ""}"><td><span class="dot" style="background:${partyColor(p)}"></span>${esc(p)}</td><td class="num">${fmtInt(a)}</td><td class="num">${fmtInt(b)}</td><td class="num ${b > a ? "up" : b < a ? "down" : ""}">${signedInt(b - a)}</td></tr>`; }).join("")}</tbody></table>`;
+  el.innerHTML = h; $("sfclear").onclick = () => sfSelect(null, false);
+}
+function sfTables(rows, city) {
+  const F = SF.from, T = SF.to;
+  const main = [...new Set([F, T, "DA", "ANC", "ActionSA", "EFF", "MK", FF])].filter((p) => DATA.parties.includes(p));
+  const bands = [[-1, 20], [20, 40], [40, 60], [60, 80], [80, 101]]; // (lo, hi], same as the report
+  let h = `<thead><tr><th class="l">${esc(F)} share in 2021</th><th>Districts</th><th>Valid votes 2021</th><th>Valid votes 2026</th>${main.map((p) => `<th>${esc(p)}</th>`).join("")}</tr></thead><tbody>`;
+  for (const [lo, hi] of bands) {
+    const list = rows.filter((r) => r.fa > lo && r.fa <= hi); if (!list.length) continue;
+    const sum = (f) => list.reduce((a, r) => a + f(r), 0);
+    h += `<tr><td class="l">${hi > 100 ? lo + "% or more" : Math.max(0, lo) + "–" + hi + "%"}</td><td class="num">${list.length}</td><td class="num">${fmtInt(sum((r) => r.ta))}</td><td class="num">${fmtInt(sum((r) => r.tb))}</td>${main.map((p) => { const d = sum((r) => (r.x.b[p] || 0) - (r.x.a[p] || 0));
+      return `<td class="num ${d > 0 ? "up" : d < 0 ? "down" : ""}${p === F || p === T ? " ff" : ""}">${signedInt(d)}</td>`; }).join("")}</tr>`;
+  }
+  $("sfbands").innerHTML = h + `</tbody>`;
+  $("sfbandtitle").textContent = `By ${F} strength in 2021`;
+  $("sfbandnote").textContent = `Change in votes per party, 2021 → 2026, for voting districts grouped by how strong the ${F} was there in 2021.`;
+  const cr = [...city.rows].filter((r) => r.va + r.vb > 0).sort((a, b) => (b.vb - b.va) - (a.vb - a.va));
+  $("sfcity").innerHTML = `<thead><tr><th class="l">Party</th><th>Votes 2021</th><th>Votes 2026</th><th>Change</th><th>Share 2021</th><th>Share 2026</th><th>Change (pts)</th></tr></thead><tbody>${cr.map((r) =>
+    `<tr><td class="l"><span class="dot" style="background:${partyColor(r.p)}"></span>${esc(r.p)}</td><td class="num">${fmtInt(r.va)}</td><td class="num">${fmtInt(r.vb)}</td><td class="num ${r.vb > r.va ? "up" : r.vb < r.va ? "down" : ""}">${signedInt(r.vb - r.va)}</td><td class="num">${fmt(r.sa)}</td><td class="num">${fmt(r.sb)}</td><td class="num">${signed(r.sb - r.sa)}</td></tr>`).join("")}
+    <tr class="tot"><td class="l">All valid votes</td><td class="num">${fmtInt(city.a.t)}</td><td class="num">${fmtInt(city.b.t)}</td><td class="num up">${signedInt(city.b.t - city.a.t)}</td><td></td><td></td><td></td></tr></tbody>`;
+}
+
 // ---------- controls + routing
 function buildControls() {
   const sel = $("view");
@@ -949,19 +1178,19 @@ function buildControls() {
   if (cw && cw["2021"] != null) $("cwnote").textContent = `${cw["2021"]}% of 2021 votes come from voting districts that lie almost entirely inside one 2026 ward, so most of the estimate is exact.`;
 }
 function route() {
-  state.page = { "#wards": "wards", "#candidates": "candidates", "#newff": "newff", "#battleground": "battleground" }[location.hash] || "map";
-  for (const pg of ["map", "wards", "candidates", "newff", "battleground"]) {
+  state.page = { "#wards": "wards", "#candidates": "candidates", "#newff": "newff", "#battleground": "battleground", "#shifts": "shifts" }[location.hash] || "map";
+  for (const pg of ["map", "wards", "candidates", "newff", "battleground", "shifts"]) {
     $("page-" + pg).hidden = state.page !== pg;
     $("tab-" + pg).setAttribute("aria-current", state.page === pg ? "page" : "false"); }
   $("partyctl").hidden = state.page !== "map";
-  $("viewctl").hidden = state.page === "candidates" || state.page === "newff";
+  $("viewctl").hidden = ["candidates", "newff", "shifts"].includes(state.page);
   update();
 }
 function update() {
   save();
   $("view").value = state.view;
   for (const b of $("parties").querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.v === state.party));
-  if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else if (state.page === "wards") renderTable(); else if (state.page === "candidates") renderCandidates(); else if (state.page === "newff") renderNewFF(); else renderBG();
+  if (state.page === "map") { drawShapes(); renderLegend(); renderSide(); } else if (state.page === "wards") renderTable(); else if (state.page === "candidates") renderCandidates(); else if (state.page === "newff") renderNewFF(); else if (state.page === "battleground") renderBG(); else renderShifts();
 }
 function select(id, zoom) {
   state.selected = id; drawShapes(); renderSide();
@@ -973,7 +1202,7 @@ function rethemed() { update(); }
 
 buildControls();
 window.addEventListener("hashchange", route);
-window.addEventListener("resize", () => { if (state.page === "newff") { NF.sig = ""; renderNewFF(); } if (state.page === "battleground") { BG.sig = ""; renderBG(); } if (!home) return; const keep = vb; home = fitBox(prepGeo(VIEW[state.view].geo).box); vb = keep; applyVB(); });
+window.addEventListener("resize", () => { if (state.page === "newff") { NF.sig = ""; renderNewFF(); } if (state.page === "battleground") { BG.sig = ""; renderBG(); } if (state.page === "shifts") { SF.sig = ""; renderShifts(); } if (!home) return; const keep = vb; home = fitBox(prepGeo(VIEW[state.view].geo).box); vb = keep; applyVB(); });
 const mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", rethemed);
 new MutationObserver(rethemed).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 route();
