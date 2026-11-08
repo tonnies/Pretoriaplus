@@ -282,11 +282,11 @@ const HAS_DA = !!OTHER_CAND.DA;
 
 const state = { page: "map", view: DATA.has2026 ? "2026_own" : "2021_on2026", party: FF, colour: "tier", selected: null,
   sort: { key: "ff", dir: -1 }, filter: "" };
-try { const s = JSON.parse(localStorage.getItem("tsh-tracker-2") || "{}");
+try { const s = JSON.parse(localStorage.getItem("tsh-tracker-3") || "{}");
   if (s.view && VIEW[s.view] && !VIEW[s.view].disabled) state.view = s.view;
   if (s.party && DATA.parties.includes(s.party)) state.party = s.party;
   if (s.colour === "share" || s.colour === "tier") state.colour = s.colour; } catch (e) {}
-const save = () => { try { localStorage.setItem("tsh-tracker-2", JSON.stringify({ view: state.view, party: state.party, colour: state.colour })); } catch (e) {} };
+const save = () => { try { localStorage.setItem("tsh-tracker-3", JSON.stringify({ view: state.view, party: state.party, colour: state.colour })); } catch (e) {} };
 
 // ---------- numbers
 const unit = (ds, id) => (DS[ds] && DS[ds].units[id]) || null;
@@ -721,7 +721,8 @@ function renderNewFF() {
 
   // map colours: ticked wards in colour, the rest greyed out
   const baseCol = css("--map-base"), col = partyColor(FF), loss = css("--loss");
-  const maxD = Math.max(1, ...rows.map((x) => Math.abs(x.dp ?? 0)));
+  // fixed scale: FF+ votes doubled (+100%) or more = full colour, so a few huge jumps from tiny bases don't wash out the rest
+  const maxD = 100;
   const tierOn = (t) => !t || t === "Negligible" ? mix(baseCol, col, 0.3) : tierColor(t);
   const fillOn = (x) => has26 && x.dp != null ? mix(baseCol, x.dp >= 0 ? col : loss, Math.max(0.3, Math.min(1, Math.abs(x.dp) / maxD) ** 0.7)) : tierOn(x.tier);
   for (const p of $("nfshapes").children) { const x = byId.get(+p.dataset.id);
@@ -737,7 +738,7 @@ function renderNewFF() {
   if (sig !== NF.sig || !NF.z.vb) { NF.sig = sig; NF.z.vb = { ...NF.z.home }; }
   NF.z.apply();
   $("nflegend").innerHTML = has26
-    ? `<b>FF+ change in votes, 2021 → 2026</b><div class="ramp" style="background:linear-gradient(90deg,${loss},${baseCol},${col})"></div><div class="ends num"><span>−${fmt(maxD, 0)}%</span><span>0</span><span>+${fmt(maxD, 0)}%</span></div>`
+    ? `<b>FF+ change in votes, 2021 → 2026</b><div class="ramp" style="background:linear-gradient(90deg,${loss},${baseCol},${col})"></div><div class="ends num"><span>−100%</span><span>0</span><span>+100% or more</span></div>`
     : `<b>FF+ support in 2021</b><div class="sw">${DATA.tiers.map((t) => `<span style="--c:${tierOn(t.label)}">${t.label}</span>`).join("")}<span style="--c:${baseCol};opacity:.6">Not ticked</span></div>`;
 
   renderNfSide(rows, has26);

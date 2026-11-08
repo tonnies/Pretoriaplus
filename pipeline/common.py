@@ -40,6 +40,7 @@ PARTY_SHORT = {
     "UNITED DEMOCRATIC MOVEMENT": "UDM",
     "PAN AFRICANIST CONGRESS OF AZANIA": "PAC",
     "AFRICAN TRANSFORMATION MOVEMENT": "ATM",
+    "SOUTH AFRICAN COMMUNIST PARTY": "SACP",
     "GOOD": "GOOD",
     "INDEPENDENT": "Independent",
     "UMKHONTO WESIZWE": "MK",
@@ -59,7 +60,12 @@ PARTY_SHORT = {
 
 
 def short_party(name: str) -> str:
-    key = re.sub(r"\s+", " ", str(name)).strip().upper()
+    # 2026 files give both names: "VRYHEIDSFRONT PLUS | FREEDOM FRONT PLUS"
+    names = [re.sub(r"\s+", " ", n).strip().upper() for n in str(name).split("|")]
+    for n in names:
+        if n in PARTY_SHORT:
+            return PARTY_SHORT[n]
+    key = names[0]
     if key in PARTY_SHORT:
         return PARTY_SHORT[key]
     if key.startswith("UMKHONTO"):
